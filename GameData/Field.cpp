@@ -3,21 +3,40 @@
 
 #include <memory>
 
-Cell& Field::generate(int depth) {
-    std::shared_ptr<Cell> a = std::make_shared<Cell>();
-    return *a; //placeholder
+std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
+    Cell root;
+    std::vector<std::vector<Cell>> v(1, std::vector<Cell>(1, root));
+    return std::make_pair(v, std::make_pair(0, 0)); //placeholder
     //TODO: implement
 }
 
-Field::Field(int current_depth) : depth(current_depth), root(generate(depth)), current(root) {}
+Field::Field(int current_depth) {
+    depth = current_depth;
+    std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> new_field = generate(current_depth);
+    cells = new_field.first;
+    current = new_field.second;
+}
 
 Field& Field::operator=(const Field &field) {
-    root = field.root;
+    cells = field.cells;
     current = field.current;
     depth = field.depth;
     return *this;
 }
 
-int Field::get_depth() const {
+const int& Field::get_depth() const {
     return depth;
+}
+
+const std::pair<int, int>& Field::get_current() const {
+    return current;
+}
+
+const std::vector<std::vector<Cell>>& Field::get_cells() const {
+    return cells;
+}
+
+void Field::set_current(const std::pair<int, int>& new_current, Drawer& drawer) {
+    drawer.change_current(*this, current, new_current);
+    current = new_current;
 }

@@ -2,14 +2,18 @@
 
 #include <string>
 #include <vector>
+#include "Drawer.h"
 
 class Cell {
 public:
-    enum class direction {UP, DOWN, LEFT, RIGHT};
-    Cell() = default;
+    Cell();
+    Cell& operator=(const Cell &cell);
+
+    const std::string& get_event_type() const;
+    const std::string& get_room_type() const;
+
+    void set_event_type(const std::string& new_event_type, Drawer& drawer);
 private:
-    int x,y;
     std::string event_type;
-    std::string room_type;
-    std::vector<std::pair<direction, Cell&>> neighbors;
+    std::string room_type; // "room center", "room border", "hallway", "void"
 };

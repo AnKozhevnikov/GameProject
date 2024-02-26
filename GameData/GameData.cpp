@@ -1,6 +1,10 @@
 #include "GameData.h"
 #include "Field.h"
 
-GameData::GameData(){
+GameData::GameData() {
     field = Field();
+}
+
+const Field& GameData::get_field() const {
+    return field;
 }

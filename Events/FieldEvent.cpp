@@ -1,6 +1,5 @@
 #include "FieldEvent.h"
 
-GameData FieldEvent::run_event(GameData data) {
-    return data; //placeholder
+void FieldEvent::run_event(GameData &data) {
     //TODO: implement
 }

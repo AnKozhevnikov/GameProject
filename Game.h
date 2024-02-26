@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameData.h"
-#include "FieldEvent.h"
 
 class Game {
 public:
@@ -9,5 +8,6 @@ public:
 
     void run();
 private:
+    std::string event;
     GameData data;
 };

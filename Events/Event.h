@@ -5,5 +5,5 @@
 
 class Event {
 private:
-    virtual GameData run_event(GameData data) {return data;}
+    virtual void run_event(GameData &data) {}
 };
