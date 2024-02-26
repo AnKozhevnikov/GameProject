@@ -1,5 +1,5 @@
 #include "EmptyEvent.h"
 
-void EmptyEvent::run_event(GameData &data) {
-
+std::shared_ptr<void> EmptyEvent::run_event() {
+    return nullptr;
 }

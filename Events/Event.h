@@ -1,9 +1,13 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "GameData.h"
 
 class Event {
+public:
+    Event(GameData &data) : data(data) {};
 private:
-    virtual void run_event(GameData &data) {}
+    GameData &data;
+    virtual std::shared_ptr<void> run_event() = 0;
 };

@@ -1,8 +1,9 @@
 #include <iostream>
-#include "Game.h"
+#include "Monitor.h"
 
 int main() {
-    Game game;
-    game.run();
+    Monitor monitor;
+    monitor.run();
+
     return 0;
 }

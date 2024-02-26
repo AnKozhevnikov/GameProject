@@ -4,5 +4,6 @@
 
 class EmptyEvent : public Event {
 public:
-    void run_event(GameData &data);
+    EmptyEvent(GameData &data) : Event(data) {};
+    std::shared_ptr<void> run_event() override;
 };

@@ -4,10 +4,17 @@
 
 class Game {
 public:
+    enum Status {
+        RUNNING,
+        FAILURE
+    } status;
+
     Game();
 
-    void run();
+    const GameData& get_data() const;
+    const Status get_status() const;
+    std::string on_event(const std::string& eventID);
 private:
-    std::string event;
     GameData data;
+    Drawer drawer;
 };

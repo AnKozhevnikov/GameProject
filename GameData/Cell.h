@@ -14,6 +14,6 @@ public:
 
     void set_event_type(const std::string& new_event_type, Drawer& drawer);
 private:
-    std::string event_type;
+    std::string event_type; // "void" or any other type
     std::string room_type; // "room center", "room border", "hallway", "void"
 };
