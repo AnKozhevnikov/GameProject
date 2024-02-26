@@ -19,7 +19,6 @@ const std::string& Cell::get_room_type() const {
     return room_type;
 }
 
-void Cell::set_event_type(const std::string& new_event_type, Drawer& drawer) {
-    drawer.change_cell_event(*this, event_type, new_event_type);
+void Cell::set_event_type(const std::string& new_event_type) {
     event_type=new_event_type;
 }

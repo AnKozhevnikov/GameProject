@@ -1,5 +1,4 @@
 #include "Field.h"
-#include "EventGetter.h"
 
 #include <memory>
 
@@ -36,7 +35,6 @@ const std::vector<std::vector<Cell>>& Field::get_cells() const {
     return cells;
 }
 
-void Field::set_current(const std::pair<int, int>& new_current, Drawer& drawer) {
-    drawer.change_current(*this, current, new_current);
+void Field::set_current(const std::pair<int, int>& new_current) {
     current = new_current;
 }

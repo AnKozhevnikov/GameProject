@@ -4,5 +4,8 @@
 
 class FieldEvent : public Event {
 public:
-    void run_event(GameData &data);
+    FieldEvent(GameData &data, char button) : Event(data), button(button) {};
+    std::shared_ptr<void> run_event() override;
+private:
+    char button;
 };

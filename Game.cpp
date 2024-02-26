@@ -1,7 +1,7 @@
 #include <memory>
 #include "Game.h"
 #include "FieldEvent.h"
-#include "EmptyEvent.h"
+#include "FieldEventDrawer.h"
 
 Game::Game() {
     data = GameData();
@@ -16,15 +16,14 @@ const Game::Status Game::get_status() const {
     return status;
 }
 
-std::string Game::on_event(const std::string& eventID) {
+std::string Game::on_event(const std::string& eventID, char button) {
     //TODO: implement
     if (eventID == "FieldEvent") {
-        FieldEvent fieldEvent(data);
+        FieldEventDrawer drawer;
+        FieldEvent fieldEvent(data, button);
         std::pair<int, int> newCurrent = *(std::static_pointer_cast<std::pair<int, int>>(fieldEvent.run_event()));
-        const_cast<Field&>(data.get_field()).set_current(newCurrent, drawer);
-    } else if (eventID == "EmptyEvent") {
-        EmptyEvent emptyEvent(data);
-        emptyEvent.run_event();
+        drawer.change_current(data.get_field(), data.get_field().get_current(), newCurrent);
+        const_cast<Field&>(data.get_field()).set_current(newCurrent);
     }
-    return "EmptyEvent";
+    return "";
 }

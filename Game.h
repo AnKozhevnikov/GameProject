@@ -13,7 +13,7 @@ public:
 
     const GameData& get_data() const;
     const Status get_status() const;
-    std::string on_event(const std::string& eventID);
+    std::string on_event(const std::string& eventID, char button);
 private:
     GameData data;
     Drawer drawer;
