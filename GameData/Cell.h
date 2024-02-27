@@ -2,11 +2,11 @@
 
 #include <string>
 #include <vector>
-#include "Drawer.h"
 
 class Cell {
 public:
     Cell();
+    Cell(const std::string& event_type, const std::string& room_type);
     Cell& operator=(const Cell &cell);
 
     const std::string& get_event_type() const;

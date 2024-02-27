@@ -3,7 +3,7 @@
 
 int main() {
     Monitor monitor;
-    monitor.run();
+    monitor.start_game();
 
     return 0;
 }

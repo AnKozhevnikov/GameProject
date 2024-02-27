@@ -5,9 +5,7 @@
 class Monitor {
 public:
     Monitor();
-    void run();
-    char get_last_pressed();
+    void start_game();
 private:
-    std::string current_event;
     Game game;
 };

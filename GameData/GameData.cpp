@@ -8,3 +8,7 @@ GameData::GameData() {
 const Field& GameData::get_field() const {
     return field;
 }
+
+void GameData::update(const Delta& delta) {
+    //TODO: implement
+}

@@ -5,6 +5,11 @@ Cell::Cell() {
     room_type="";
 }
 
+Cell::Cell(const std::string& event_type, const std::string& room_type) {
+    this->event_type=event_type;
+    this->room_type=room_type;
+}
+
 Cell& Cell::operator=(const Cell &cell) {
     event_type=cell.event_type;
     room_type=cell.room_type;

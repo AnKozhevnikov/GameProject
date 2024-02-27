@@ -3,10 +3,10 @@
 #include <memory>
 
 std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
+    //TODO: implement
     Cell root;
     std::vector<std::vector<Cell>> v(1, std::vector<Cell>(1, root));
     return std::make_pair(v, std::make_pair(0, 0)); //placeholder
-    //TODO: implement
 }
 
 Field::Field(int current_depth) {
