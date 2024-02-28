@@ -1,25 +1,22 @@
 #include <iostream>
 #include "Display.h"
 #include "constants.h"
-#include <ncurses.h>
+#include "Keyboard.h"
+//#include <ncurses.h>
+#include <curses.h>
 #include <string>
 
-
+using std::vector;
 
 int main() {
     Display display;
-    WindowEvent event(WindowEvent::INFO, "TEST INFOOOOOOOOOOOOOOOOO ");
+    ColorManager manager;
+    const short green = manager.init_color(COLOR_GREEN, COLOR_RED);
+    const unsigned green_line = COLOR_PAIR(green) | A_BLINK | A_ALTCHARSET;
+    vector<vector<unsigned>> line = {{178u | green_line, 178u | green_line, 'C' | green_line, 'D' | green_line, 'E' | green_line}};
+    display.DrawSprite(line, 10, 10);
+    WindowEvent event(WindowEvent::INFO, "Hello, World!");
     display.SendEvent(event);
-    WindowEvent event2(WindowEvent::ACTION, "Test ACTION event longlonglonglongnlgonglnogol");
-    display.SendEvent(event2);
-    //getch();
-    WindowEvent event3(WindowEvent::REPLY, "Test REPLY event", "b4cksl4sh:");
-    display.SendEvent(event3);
-    display.SendEvent(event3);
-//    display.SendEvent(event3);
-//    display.SendEvent(event3);
-//    display.SendEvent(event3);
-
     getch();
     return 0;
 }

@@ -2,6 +2,15 @@
 #include <ncurses.h>
 #include <iostream>
 #include <map>
+
+namespace ColorPairs{
+    int NONE, //Send without any color
+    INFO_COLOR, //Blue on black
+    ACTION_COLOR, //Red on black
+    REPLY_COLOR, //Orange on black
+    BIND_COLOR; //Green on black
+};
+
 //Do not pass strings with '\n';
 //Attr = 0 is default
 void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bool endl = true) {
@@ -12,6 +21,7 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
     if(pos[win].second == 0) {
         pos[win].second = 1;
     }
+    wclrtoeol(win); //Clear line before printing
     for(auto el : s) {
         //Note that in ncurses first coord is Y
         mvwaddch(win, pos[win].first, pos[win].second, el | attr);
@@ -22,7 +32,6 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
         }
         if(pos[win].first == constants::LinesInEventWindow - 1) {
             pos[win].first = 1;
-            clrtoeol(); //Clear line before printing
         }
     }
     if(endl) {
@@ -30,7 +39,6 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
         pos[win].second = 1;
         if(pos[win].first == constants::LinesInEventWindow - 1) {
             pos[win].first = 1;
-            clrtoeol(); //Clear line before printing
         }
     }
 }
@@ -48,21 +56,23 @@ Display::Display() {
         }
         start_color();
         //Initialise color pairs
-        init_pair(WindowEvent::EventType::INFO, COLOR_BLUE, COLOR_BLACK);
-        init_pair(WindowEvent::EventType::ACTION, COLOR_RED, COLOR_BLACK);
-        init_pair(WindowEvent::EventType::REPLY, COLOR_YELLOW, COLOR_BLACK);
-        init_pair(BIND, COLOR_GREEN, COLOR_BLACK);
+        ColorManager x;
+        ColorPairs::INFO_COLOR = x.init_color(COLOR_BLUE, COLOR_BLACK);
+        ColorPairs::ACTION_COLOR = x.init_color(COLOR_RED, COLOR_BLACK);
+        ColorPairs::REPLY_COLOR = x.init_color(COLOR_YELLOW, COLOR_BLACK);
+        ColorPairs::BIND_COLOR = x.init_color(COLOR_GREEN, COLOR_BLACK);
         // Get screen size in rows and columns
         int row, col;
         getmaxyx(stdscr, row, col);
         if(row <= constants::LinesInScreen || col <= constants::ColumnsInScreen) {
-            //TODO resize screen
             std::cerr << "DISPLAY IS TOO SMALL\n";
             std::cout << "DISPLAY IS TOO SMALL\n";
+            std::cout << row << " " << col << std::endl;
             endwin();
             exit(0);
         }
-
+        noecho();
+        keypad(stdscr, true);
         eventWindow = subwin(stdscr, constants::LinesInEventWindow, constants::ColumnsInEventWindow, constants::LinesInGraphixWindow, 0);
         graphixWindow = subwin(stdscr, constants::LinesInGraphixWindow, constants::ColumnsInGraphixWindow, 0, 0);
         bindsWindow = subwin(stdscr, constants::LinesInBindsWindow, constants::ColumnsInBindsWindow, 0, constants::ColumnsInGraphixWindow);
@@ -79,16 +89,16 @@ Display::Display() {
 
 void Display::SendEvent(const WindowEvent &event) {
     if(event.type == WindowEvent::INFO) {
-        mywprintw(eventWindow, "[INFO]", COLOR_PAIR(WindowEvent::INFO), false);
+        mywprintw(eventWindow, "[INFO]", COLOR_PAIR(ColorPairs::INFO_COLOR), false);
         mywprintw(eventWindow, event.WindowEventString, 0, true);
     }
     else if(event.type == WindowEvent::ACTION) {
-        mywprintw(eventWindow, "[ACTION]", COLOR_PAIR(WindowEvent::ACTION), false);
+        mywprintw(eventWindow, "[ACTION]", COLOR_PAIR(ColorPairs::ACTION_COLOR), false);
         mywprintw(eventWindow, event.WindowEventString, 0, true);
     }
     else if(event.type == WindowEvent::REPLY) {
-        mywprintw(eventWindow, "[REPLY]", COLOR_PAIR(WindowEvent::REPLY), false);
-        mywprintw(eventWindow, event.Author, COLOR_PAIR(WindowEvent::REPLY), false);
+        mywprintw(eventWindow, "[REPLY]", COLOR_PAIR(ColorPairs::REPLY_COLOR), false);
+        mywprintw(eventWindow, event.Author, COLOR_PAIR(ColorPairs::REPLY_COLOR), false);
         mywprintw(eventWindow, event.WindowEventString, 0, true);
     }
     wrefresh(eventWindow);
@@ -104,9 +114,25 @@ Display::~Display() {
     }
 }
 
-void Display::AddBinds(const std::vector<std::pair<std::string, std::string>> &binds) {
-    for(auto &bind : binds) {
-        mywprintw(bindsWindow, bind.first + ": ", COLOR_PAIR(BIND), false);
-        mywprintw(bindsWindow, bind.second, 0, true);
+WINDOW* Display::getWindow() {
+    return stdscr;
+}
+
+void Display::DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y) {
+    for(int i = 0; i < sprite.size(); ++i) {
+        for(int j = 0; j < sprite[i].size(); ++j) {
+            if(i >= constants::LinesInGraphixWindow || j >= constants::ColumnsInGraphixWindow) {
+                wprintw(graphixWindow, "Sprite doesn't fit in window");
+                throw std::runtime_error("Sprite doesn't fit in window");
+            }
+            if(sprite[i][j] != 0)
+                mvwaddch(graphixWindow, i + y, j + x, sprite[i][j]);
+        }
     }
+    wrefresh(graphixWindow);
+}
+
+short ColorManager::init_color(short foreground, short background) {
+    init_pair(ColorPairNum, foreground, background);
+    return ColorPairNum++;
 }
