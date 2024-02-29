@@ -1,8 +1,8 @@
 #include "Message.h"
 
 Message::Message() {
-    delta=Delta();
-    newEventListener="void";
+    delta = GameData();
+    newEventListenerInfo = NewEventListenerInfo();
     kill=false;
     listenerId=0;
 }

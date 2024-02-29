@@ -27,8 +27,8 @@ private:
 
     Binder binder;
     KeyboardListener listener;
-    std::vector<EventListener> eventListeners;
+    std::map<int, EventListener> eventListeners;
 
     void kill(int id);
-    void addEventListener(const std::string& newEventListener);
+    void addEventListener(NewEventListenerInfo info);
 };

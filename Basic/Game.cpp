@@ -19,25 +19,27 @@ void Game::run() {
     while (status == RUNNING) {
         char pressed = KeyboardListener::get_pressed();
         Message message = binder.getFunc(pressed)();
-        data.update(message.delta);
+        if (eventListeners[message.listenerId].parent == 0) {
+            data.update(message.delta);
+        } else {
+            eventListeners[eventListeners[message.listenerId].parent].update(message.delta);
+        }
         if (message.kill) {
+            if (eventListeners[message.listenerId].parent != 0) {
+                eventListeners[eventListeners[message.listenerId].parent].unfreeze();
+            }
             kill(message.listenerId);
         }
-        if (message.newEventListener != "void") {
-            addEventListener(message.newEventListener);
+        if (message.newEventListenerInfo.eventType != "void") {
+            addEventListener(message.newEventListenerInfo);
         }
     }
 }
 
 void Game::kill(int id) {
-    for (int i = 0; i < eventListeners.size(); i++) {
-        if (eventListeners[i].getId() == id) {
-            eventListeners.erase(eventListeners.begin() + i);
-            return;
-        }
-    }
+    eventListeners.erase(id);
 }
 
-void Game::addEventListener(const std::string& newEventListener) {
+void Game::addEventListener(NewEventListenerInfo info) {
     //TODO: implement
 }

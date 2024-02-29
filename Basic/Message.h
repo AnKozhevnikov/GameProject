@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Delta.h"
+#include "GameData.h"
+#include "NewEventListenerInfo.h"
 #include <string>
 
 class Message {
 public:
     Message();
-    Delta delta;
-    std::string newEventListener;
+    GameData delta;
+    NewEventListenerInfo newEventListenerInfo;
     bool kill;
     int listenerId;
 };

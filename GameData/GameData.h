@@ -1,15 +1,19 @@
 #pragma once
 
 #include "Field.h"
-#include "Delta.h"
+#include <memory>
 
 class GameData {
 public:
     GameData();
-    GameData& operator=(const GameData& other) = default;
-    void update(const Delta& delta);
+    GameData(const GameData& other);
+    GameData& operator=(const GameData& other);
+    
+    void update(const GameData& delta);
 
-    const Field& get_field() const;
+    Field get_field() const;
+    const std::unique_ptr<Field> &get_field_ptr() const;
+    void set_field(const Field& newField);
 private:
-    Field field;
+    std::unique_ptr<Field> field;
 };

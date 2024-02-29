@@ -1,29 +1,59 @@
 #include "Cell.h"
 
 Cell::Cell() {
-    event_type="";
-    room_type="";
+    eventType = nullptr;
+    roomType = nullptr;
 }
 
-Cell::Cell(const std::string& event_type, const std::string& room_type) {
-    this->event_type=event_type;
-    this->room_type=room_type;
+Cell::Cell(const std::string &newEventType, const std::string &newRoomType) {
+    eventType = std::make_unique<std::string>(newEventType);
+    roomType = std::make_unique<std::string>(newRoomType);
+}
+
+Cell::Cell(const Cell &cell) {
+    eventType = std::make_unique<std::string>(*cell.eventType);
+    roomType = std::make_unique<std::string>(*cell.roomType);
 }
 
 Cell& Cell::operator=(const Cell &cell) {
-    event_type=cell.event_type;
-    room_type=cell.room_type;
+    if (cell.eventType != nullptr) eventType = std::make_unique<std::string>(*cell.eventType);
+    else eventType = nullptr;
+
+    if (cell.roomType != nullptr) roomType = std::make_unique<std::string>(*cell.roomType);
+    else roomType = nullptr;
+    
     return *this;
 }
 
-const std::string& Cell::get_event_type() const {
-    return event_type;
+void Cell::update(const Cell &delta) {
+    if (delta.eventType != nullptr) {
+        eventType = std::make_unique<std::string>(*delta.eventType);
+    }
+    if (delta.roomType != nullptr) {
+        roomType = std::make_unique<std::string>(*delta.roomType);
+    }
 }
 
-const std::string& Cell::get_room_type() const {
-    return room_type;
+std::string Cell::get_event_type() const {
+    return *eventType;
 }
 
-void Cell::set_event_type(const std::string& new_event_type) {
-    event_type=new_event_type;
+const std::unique_ptr<std::string> &Cell::get_event_type_ptr() const {
+    return eventType;
+}
+
+void Cell::set_room_type(const std::string& newRoomType) {
+    roomType = std::make_unique<std::string>(newRoomType);
+}
+
+std::string Cell::get_room_type() const {
+    return *roomType;
+}
+
+const std::unique_ptr<std::string> &Cell::get_room_type_ptr() const {
+    return roomType;
+}
+
+void Cell::set_event_type(const std::string& newEventType) {
+    eventType = std::make_unique<std::string>(newEventType);
 }
