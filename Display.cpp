@@ -71,8 +71,9 @@ Display::Display() {
             endwin();
             exit(0);
         }
-        noecho();
-        keypad(stdscr, true);
+        noecho(); //Blocking writing caracters to screen
+        keypad(stdscr, true); //Allowing to use arrows
+        nodelay(stdscr, TRUE); //Non-blocking getch
         eventWindow = subwin(stdscr, constants::LinesInEventWindow, constants::ColumnsInEventWindow, constants::LinesInGraphixWindow, 0);
         graphixWindow = subwin(stdscr, constants::LinesInGraphixWindow, constants::ColumnsInGraphixWindow, 0, 0);
         bindsWindow = subwin(stdscr, constants::LinesInBindsWindow, constants::ColumnsInBindsWindow, 0, constants::ColumnsInGraphixWindow);
@@ -114,7 +115,7 @@ Display::~Display() {
     }
 }
 
-WINDOW* Display::getWindow() {
+WINDOW* Display::getMainWindow() {
     return stdscr;
 }
 

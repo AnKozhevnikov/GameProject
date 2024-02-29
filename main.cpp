@@ -5,18 +5,29 @@
 //#include <ncurses.h>
 #include <curses.h>
 #include <string>
-
+#include <thread>
 using std::vector;
 
 int main() {
     Display display;
-    ColorManager manager;
-    const short green = manager.init_color(COLOR_GREEN, COLOR_RED);
-    const unsigned green_line = COLOR_PAIR(green) | A_BLINK | A_ALTCHARSET;
-    vector<vector<unsigned>> line = {{178u | green_line, 178u | green_line, 'C' | green_line, 'D' | green_line, 'E' | green_line}};
-    display.DrawSprite(line, 10, 10);
-    WindowEvent event(WindowEvent::INFO, "Hello, World!");
+    Keyboard::getKeyPressed(display);
+    WindowEvent event(WindowEvent::INFO, "ABA");
     display.SendEvent(event);
-    getch();
+    WindowEvent event2(WindowEvent::INFO, std::to_string(5));
+    display.SendEvent(event2);
+    WindowEvent event3(WindowEvent::INFO, "CABA");
+    display.SendEvent(event3);
+
+    while(true) {
+        int key = Keyboard::getKeyPressed(display);
+        if(key == -1) continue;
+        if(key == 27) { //esc
+            break;
+        }
+        WindowEvent event5(WindowEvent::INFO, std::to_string(key));
+        display.SendEvent(event5);
+    }
+
+    std::cin.get();
     return 0;
 }

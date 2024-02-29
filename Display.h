@@ -28,7 +28,7 @@ struct WindowEvent{
 
 class Display {
 private:
-    WINDOW* bindsWindow, *graphixWindow, *eventWindow;
+    inline static WINDOW* bindsWindow, *graphixWindow, *eventWindow;
     inline static int initialised_cnt = 0;
     void mywprintw(WINDOW* win, const std::string &s, unsigned attr, bool endl);
 public:
@@ -36,6 +36,6 @@ public:
     ~Display();
     void SendEvent(const WindowEvent &event);
     void DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y);
-    WINDOW* getWindow();
+    WINDOW* getMainWindow();
 };
 #endif //DISPLAY_DISPLAY_H
