@@ -14,20 +14,20 @@ public:
     void update(const Field &delta);
 
     std::pair<int, int> get_current() const;
-    const std::unique_ptr<std::pair<int, int>> &get_current_ptr() const;
+    std::weak_ptr<std::pair<int, int>> get_current_ptr() const;
     void set_current(std::pair<int, int> new_current);
 
     int get_depth() const;
-    const std::unique_ptr<int> &get_depth_ptr() const;
+    std::weak_ptr<int> get_depth_ptr() const;
     void set_depth(int new_depth);
 
     std::vector<std::vector<Cell>> get_cells() const;
-    const std::unique_ptr<std::vector<std::vector<Cell>>> &get_cells_ptr() const;
+    std::weak_ptr<std::vector<std::vector<Cell>>> get_cells_ptr() const;
     void set_cells(const std::vector<std::vector<Cell>> &new_cells);
 private:
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> generate(int depth);
 
-    std::unique_ptr<std::vector<std::vector<Cell>>> cells;
-    std::unique_ptr<std::pair<int, int>> current;
-    std::unique_ptr<int> depth;
+    std::shared_ptr<std::vector<std::vector<Cell>>> cells;
+    std::shared_ptr<std::pair<int, int>> current;
+    std::shared_ptr<int> depth;
 };

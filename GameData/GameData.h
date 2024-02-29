@@ -12,8 +12,8 @@ public:
     void update(const GameData& delta);
 
     Field get_field() const;
-    const std::unique_ptr<Field> &get_field_ptr() const;
+    std::weak_ptr<Field> get_field_ptr() const;
     void set_field(const Field& newField);
 private:
-    std::unique_ptr<Field> field;
+    std::shared_ptr<Field> field;
 };
