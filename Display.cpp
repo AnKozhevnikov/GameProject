@@ -183,7 +183,6 @@ void Display::SendBind(const Bind &bind) const {
 
 
 unsigned ColorManager::CreateColorPair(short foreground, short background) {
-    Display tmp_display_obj; //To ensure that display is initialised
     if(colorPairs.count({foreground, background})) {
         return colorPairs[{foreground, background}];
     }
