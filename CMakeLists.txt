@@ -14,7 +14,7 @@ target_link_libraries(Display ${CURSES_LIBRARIES})
 target_link_libraries(Keyboard ${CURSES_LIBRARIES})
 
 
-add_executable(DisplayTest main.cpp Display Keyboard)
+add_executable(DisplayTest main.cpp Display Keyboard bitmap_image.hpp)
 target_link_libraries(DisplayTest ${CURSES_LIBRARIES})
 
 
