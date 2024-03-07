@@ -2,9 +2,10 @@
 
 #include "GameData.h"
 #include "EventListener.h"
+#include "Message.h"
 #include "Binder.h"
 #include "KeyboardListener.h"
-#include "Message.h"
+#include "Display.h"
 
 #include <vector>
 
@@ -15,20 +16,21 @@ public:
         FAILURE
     };
 
-    Game();
+    Game(const Display *display);
 
     const GameData& get_data() const;
     const Status get_status() const;
 
     void run();
 private:
+    const Display *display;
     GameData data;
     Status status;
 
     Binder binder;
-    KeyboardListener listener;
-    std::map<int, EventListener> eventListeners;
+    std::map<int, std::unique_ptr<EventListener>> eventListeners;
 
+    void handle_message(const Message &message);
     void kill(int id);
     void addEventListener(NewEventListenerInfo info);
 };

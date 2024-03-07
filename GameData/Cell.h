@@ -14,11 +14,11 @@ public:
     void update(const Cell &delta);
 
     std::string get_event_type() const;
-    std::weak_ptr<std::string> get_event_type_ptr() const;
+    std::shared_ptr<std::string> get_event_type_ptr() const;
     void set_event_type(const std::string &new_event_type);
 
     std::string get_room_type() const;
-    std::weak_ptr<std::string> get_room_type_ptr() const;
+    std::shared_ptr<std::string> get_room_type_ptr() const;
     void set_room_type(const std::string &new_room_type);
 private:
     std::shared_ptr<std::string> eventType; // "void" or any other type

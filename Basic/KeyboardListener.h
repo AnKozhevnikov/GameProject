@@ -1,6 +1,9 @@
 #pragma once
 
-class KeyboardListener {
-public:
-    static char get_pressed();
-};
+#include "Display.h"
+#include <ncurses.h>
+
+namespace KeyboardListener {
+    //Returns -1 if no key was pressed
+    int getKeyPressed(const Display &x);
+}

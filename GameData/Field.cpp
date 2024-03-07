@@ -55,7 +55,7 @@ int Field::get_depth() const {
     return *depth;
 }
 
-std::weak_ptr<int> Field::get_depth_ptr() const {
+std::shared_ptr<int> Field::get_depth_ptr() const {
     return depth;
 }
 
@@ -67,7 +67,7 @@ std::pair<int, int> Field::get_current() const {
     return *current;
 }
 
-std::weak_ptr<std::pair<int, int>> Field::get_current_ptr() const {
+std::shared_ptr<std::pair<int, int>> Field::get_current_ptr() const {
     return current;
 }
 
@@ -79,7 +79,7 @@ std::vector<std::vector<Cell>> Field::get_cells() const {
     return *cells;
 }
 
-std::weak_ptr<std::vector<std::vector<Cell>>> Field::get_cells_ptr() const {
+std::shared_ptr<std::vector<std::vector<Cell>>> Field::get_cells_ptr() const {
     return cells;
 }
 
@@ -89,7 +89,7 @@ void Field::set_cells(const std::vector<std::vector<Cell>> &new_cells) {
 
 std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
     //TODO: implement
-    Cell root;
+    Cell root("","");
     std::vector<std::vector<Cell>> v(1, std::vector<Cell>(1, root));
     return std::make_pair(v, std::make_pair(0, 0)); //placeholder
 }

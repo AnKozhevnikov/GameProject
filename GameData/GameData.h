@@ -12,7 +12,7 @@ public:
     void update(const GameData& delta);
 
     Field get_field() const;
-    std::weak_ptr<Field> get_field_ptr() const;
+    std::shared_ptr<Field> get_field_ptr() const;
     void set_field(const Field& newField);
 private:
     std::shared_ptr<Field> field;

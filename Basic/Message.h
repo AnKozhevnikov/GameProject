@@ -7,8 +7,10 @@
 class Message {
 public:
     Message();
+    Message(GameData delta, NewEventListenerInfo newEventListenerInfo, bool kill, int listenerId);
     GameData delta;
     NewEventListenerInfo newEventListenerInfo;
     bool kill;
     int listenerId;
+    bool empty;
 };

@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Monitor.h"
+#include "Manager.h"
 
 int main() {
-    Monitor monitor;
-    monitor.start_game();
+    Manager manager;
+    manager.start_game();
 
     return 0;
 }

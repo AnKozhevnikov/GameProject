@@ -38,7 +38,7 @@ std::string Cell::get_event_type() const {
     return *eventType;
 }
 
-std::weak_ptr<std::string> Cell::get_event_type_ptr() const {
+std::shared_ptr<std::string> Cell::get_event_type_ptr() const {
     return eventType;
 }
 
@@ -50,7 +50,7 @@ std::string Cell::get_room_type() const {
     return *roomType;
 }
 
-std::weak_ptr<std::string> Cell::get_room_type_ptr() const {
+std::shared_ptr<std::string> Cell::get_room_type_ptr() const {
     return roomType;
 }
 

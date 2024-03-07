@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Game.h"
+#include "Display.h"
 
-class Monitor {
+class Manager {
 public:
-    Monitor();
+    Manager();
     void start_game();
 private:
+    Display display;
     Game game;
 };

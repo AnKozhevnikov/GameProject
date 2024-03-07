@@ -1,5 +1,7 @@
 #include "KeyboardListener.h"
+#include <ncurses.h>
 
-char KeyboardListener::get_pressed() {
-    return 'a'; //TODO: implement
+//Returns -1 if no key was pressed
+int KeyboardListener::getKeyPressed(const Display &x) {
+    return wgetch(x.getMainWindow());
 }
