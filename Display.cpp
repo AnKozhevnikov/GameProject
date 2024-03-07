@@ -4,6 +4,12 @@
 #include <map>
 #include "Keyboard.h"
 
+int Display::initialised_cnt = 0;
+std::vector<int> Display::BindsKeyList(constants::LinesInBindsWindow);
+int Display::lastBindLineIdx = 0;
+std::map<WINDOW*, std::pair<int, int>> Display::pos;
+WINDOW *Display::bindsWindow, *Display::graphixWindow, *Display::eventWindow;
+
 namespace ColorPairs{
     unsigned NONE, //Send without any color
     INFO_COLOR, //Blue on black
@@ -15,7 +21,6 @@ namespace ColorPairs{
 //Do not pass strings with '\n';
 //Attr = 0 is default
 void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bool endl = true) const{
-    static std::map<WINDOW*, std::pair<int, int>> pos;
     if(pos[win].first == 0) {
         pos[win].first = 1;
     }
@@ -45,7 +50,7 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
 }
 
 Display::Display() {
-    if(!Display::initialised_cnt) {
+    if(Display::initialised_cnt == 0) {
         WINDOW* mainwindow = initscr();
         if ( mainwindow == nullptr ) {
             fputs("Could not initialize screen.", stderr);
@@ -86,8 +91,8 @@ Display::Display() {
         box(eventWindow, 0, 0);
         box(graphixWindow, 0, 0);
         box(bindsWindow, 0, 0);
-        ++Display::initialised_cnt;
     }
+    ++Display::initialised_cnt;
 }
 
 void Display::SendEvent(const WindowEvent &event) const{
@@ -109,7 +114,7 @@ void Display::SendEvent(const WindowEvent &event) const{
 
 Display::~Display() {
     --initialised_cnt;
-    if(!initialised_cnt) {
+    if(initialised_cnt == 0) {
         delwin(eventWindow);
         delwin(graphixWindow);
         delwin(bindsWindow);
@@ -142,8 +147,6 @@ void Display::ClearGraphixWindow() const {
 }
 
 void Display::SendBind(const Bind &bind) const {
-    static int lastLineIdx = 0;
-    static std::vector<int> BindsKeyList(constants::LinesInBindsWindow);
     if(bind.BindOrUnbind) { //Needs to bind
         for(auto &key: BindsKeyList) {
             if(key == bind.key) {
@@ -153,11 +156,11 @@ void Display::SendBind(const Bind &bind) const {
                                             + bind.hint);
             }
         }
-        lastLineIdx += 1;
-        lastLineIdx %= constants::LinesInBindsWindow;
-        move(lastLineIdx, 0);
+        lastBindLineIdx += 1;
+        lastBindLineIdx %= constants::LinesInBindsWindow;
+        move(lastBindLineIdx, 0);
         wclrtoeol(bindsWindow);
-        BindsKeyList[lastLineIdx] = bind.key;
+        BindsKeyList[lastBindLineIdx] = bind.key;
 
         mywprintw(bindsWindow, Keyboard::getKeyName(bind.key) + " : ", ColorPairs::BIND_COLOR, false);
         mywprintw(bindsWindow, bind.hint, 0, true);

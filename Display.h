@@ -39,10 +39,13 @@ struct Bind{
 
 class Display {
 private:
-    inline static WINDOW* bindsWindow, *graphixWindow, *eventWindow;
-    inline static int initialised_cnt = 0;
+    static WINDOW* bindsWindow, *graphixWindow, *eventWindow;
+    static int initialised_cnt;
+    static std::map<WINDOW*, std::pair<int, int>> pos;
+    static std::vector<int> BindsKeyList;
     void mywprintw(WINDOW* win, const std::string &s, unsigned attr, bool endl) const;
 public:
+    static int lastBindLineIdx;
     Display();
     ~Display();
     void SendEvent(const WindowEvent &event) const;
@@ -52,4 +55,5 @@ public:
     void ClearGraphixWindow() const;
     //void DrawField(const std::vector<std::vector<Cell>> &field) const;
 };
+
 #endif //DISPLAY_DISPLAY_H
