@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
-add_library(Display Display.cpp Display.h constants.h)
+add_library(Display Display.cpp Display.h constants.h xtermColors.h)
 add_library(Keyboard Keyboard.cpp Keyboard.h)
 target_link_libraries(Display ${CURSES_LIBRARIES})
 target_link_libraries(Keyboard ${CURSES_LIBRARIES})
