@@ -13,6 +13,10 @@ public:
 
     void update(const Field &delta);
 
+    std::pair<int, int> get_dimensions() const;
+    std::shared_ptr<std::pair<int, int>> get_dimensions_ptr() const;
+    void set_dimensions(std::pair<int, int> new_current);
+
     std::pair<int, int> get_current() const;
     std::shared_ptr<std::pair<int, int>> get_current_ptr() const;
     void set_current(std::pair<int, int> new_current);
@@ -27,6 +31,7 @@ public:
 private:
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> generate(int depth);
 
+    std::shared_ptr<std::pair<int, int>> dimensions;
     std::shared_ptr<std::vector<std::vector<Cell>>> cells;
     std::shared_ptr<std::pair<int, int>> current;
     std::shared_ptr<int> depth;

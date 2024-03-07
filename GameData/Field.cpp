@@ -10,6 +10,7 @@ Field::Field() {
 }
 
 Field::Field(int current_depth) {
+    dimensions = std::make_shared<std::pair<int, int>>(std::make_pair(50, 50));
     depth = std::make_shared<int>(current_depth);
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> new_field = generate(current_depth);
     cells = std::make_shared<std::vector<std::vector<Cell>>>(new_field.first);
@@ -17,12 +18,16 @@ Field::Field(int current_depth) {
 }
 
 Field::Field(const Field &other) {
+    dimensions = std::make_shared<std::pair<int, int>>(*other.dimensions);
     cells = std::make_shared<std::vector<std::vector<Cell>>>(*other.cells);
     current = std::make_shared<std::pair<int, int>>(*other.current);
     depth = std::make_shared<int>(*other.depth);
 }
 
 Field& Field::operator=(const Field &field) {
+    if (field.dimensions != nullptr) dimensions = std::make_shared<std::pair<int, int>>(*field.dimensions);
+    else dimensions = nullptr;
+
     if (field.cells != nullptr) cells = std::make_shared<std::vector<std::vector<Cell>>>(*field.cells);
     else cells = nullptr;
 
@@ -36,6 +41,10 @@ Field& Field::operator=(const Field &field) {
 }
 
 void Field::update(const Field &delta) {
+    if (delta.dimensions != nullptr) {
+        dimensions = std::make_shared<std::pair<int, int>>(*delta.dimensions);
+    }
+
     if (delta.cells != nullptr) {
         for (int i=0; i<(*delta.cells).size(); i++) {
             for (int j=0; j<(*delta.cells)[i].size(); j++) {
@@ -49,6 +58,18 @@ void Field::update(const Field &delta) {
     if (delta.depth != nullptr) {
         depth = std::make_shared<int>(*delta.depth);
     }
+}
+
+std::pair<int, int> Field::get_dimensions() const {
+    return *dimensions;
+}
+
+std::shared_ptr<std::pair<int, int>> Field::get_dimensions_ptr() const {
+    return dimensions;
+}
+
+void Field::set_dimensions(std::pair<int, int> new_dimensions) {
+    dimensions = std::make_shared<std::pair<int, int>>(new_dimensions);
 }
 
 int Field::get_depth() const {
