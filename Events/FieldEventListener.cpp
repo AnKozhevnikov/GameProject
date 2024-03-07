@@ -1,4 +1,5 @@
 #include "FieldEventListener.h"
+#include "Display.h"
 
 FieldEventListener::FieldEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder){
     data.set_field(parentData->get_field());
@@ -24,7 +25,9 @@ Message FieldEventListener::move(int direction) {
     } else if (direction == 4) {
         data.get_field_ptr()->set_current(std::make_pair(oldCurrent.first + 1, oldCurrent.second));
     }
-    return Message(data, NewEventListenerInfo(), true, id);
+    Display display;
+    display.SendEvent(WindowEvent(WindowEvent::INFO, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
+    return Message(data, NewEventListenerInfo(), false, id);
 }
 
 void FieldEventListener::redraw() {

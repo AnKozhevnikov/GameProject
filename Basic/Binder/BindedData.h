@@ -36,11 +36,9 @@ public:
 
     template<class C, typename Callable, typename... Args>
     static BindedData wrap(C *listener, Callable func, std::string label, Args &&... args) {
-        int i = 0;
         std::vector<size_t> hashes;
         ([&]
         {
-            ++i;
             hashes.push_back(std::hash<typename std::decay<Args>::type>{}(args));
         } (), ...);
         std::function<Message()> wrapped = std::bind(func, listener, args...);
