@@ -12,6 +12,7 @@ void FieldEventListener::init() {
     bind('a', &FieldEventListener::move, this, "move left", 2);
     bind('s', &FieldEventListener::move, this, "move right", 3);
     bind('d', &FieldEventListener::move, this, "move down", 4);
+    bind('q', &FieldEventListener::quit, this, "quit");
 }
 
 Message FieldEventListener::move(int direction) {
@@ -27,7 +28,11 @@ Message FieldEventListener::move(int direction) {
     }
     Display display;
     display.SendEvent(WindowEvent(WindowEvent::INFO, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
-    return Message(data, NewEventListenerInfo(), false, id);
+    return Message(GameData(), NewEventListenerInfo(), false, id);
+}
+
+Message FieldEventListener::quit() {
+    return Message(GameData(), NewEventListenerInfo(), true, id);
 }
 
 void FieldEventListener::redraw() {

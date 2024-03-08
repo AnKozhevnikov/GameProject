@@ -10,4 +10,5 @@ private:
     void redraw();
     void draw_cell(int x, int y, std::string state);
     Message move(int direction);
+    Message quit();
 };

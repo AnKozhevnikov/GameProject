@@ -1,23 +1,23 @@
 #include "Cell.h"
 
 Cell::Cell() {
-    eventType = nullptr;
+    event = nullptr;
     roomType = nullptr;
 }
 
-Cell::Cell(const std::string &newEventType, const std::string &newRoomType) {
-    eventType = std::make_shared<std::string>(newEventType);
+Cell::Cell(const NewEventListenerInfo &newEvent, const std::string &newRoomType) {
+    event = std::make_shared<NewEventListenerInfo>(newEvent);
     roomType = std::make_shared<std::string>(newRoomType);
 }
 
 Cell::Cell(const Cell &cell) {
-    eventType = std::make_shared<std::string>(*cell.eventType);
+    event = std::make_shared<NewEventListenerInfo>(*cell.event);
     roomType = std::make_shared<std::string>(*cell.roomType);
 }
 
 Cell& Cell::operator=(const Cell &cell) {
-    if (cell.eventType != nullptr) eventType = std::make_shared<std::string>(*cell.eventType);
-    else eventType = nullptr;
+    if (cell.event != nullptr) event = std::make_shared<NewEventListenerInfo>(*cell.event);
+    else event = nullptr;
 
     if (cell.roomType != nullptr) roomType = std::make_shared<std::string>(*cell.roomType);
     else roomType = nullptr;
@@ -26,20 +26,24 @@ Cell& Cell::operator=(const Cell &cell) {
 }
 
 void Cell::update(const Cell &delta) {
-    if (delta.eventType != nullptr) {
-        eventType = std::make_shared<std::string>(*delta.eventType);
+    if (delta.event != nullptr) {
+        event = std::make_shared<NewEventListenerInfo>(*delta.event);
     }
     if (delta.roomType != nullptr) {
         roomType = std::make_shared<std::string>(*delta.roomType);
     }
 }
 
-std::string Cell::get_event_type() const {
-    return *eventType;
+void Cell::set_event(const NewEventListenerInfo& newEventType) {
+    event = std::make_shared<NewEventListenerInfo>(newEventType);
 }
 
-std::shared_ptr<std::string> Cell::get_event_type_ptr() const {
-    return eventType;
+NewEventListenerInfo Cell::get_event() const {
+    return *event;
+}
+
+std::shared_ptr<NewEventListenerInfo> Cell::get_event_ptr() const {
+    return event;
 }
 
 void Cell::set_room_type(const std::string& newRoomType) {
@@ -52,8 +56,4 @@ std::string Cell::get_room_type() const {
 
 std::shared_ptr<std::string> Cell::get_room_type_ptr() const {
     return roomType;
-}
-
-void Cell::set_event_type(const std::string& newEventType) {
-    eventType = std::make_shared<std::string>(newEventType);
 }

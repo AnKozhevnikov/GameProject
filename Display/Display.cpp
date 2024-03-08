@@ -170,7 +170,7 @@ void Display::SendBind(const Bind &bind) const {
         for(int i = 0; i < constants::LinesInBindsWindow; ++i) {
             if(BindsKeyList[i] == bind.key) {
                 BindsKeyList[i] = 0;
-                move(i, 0);
+                wmove(bindsWindow, i, 0);
                 wclrtoeol(bindsWindow);
                 wrefresh(bindsWindow);
                 return;

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 
 Field::Field() {
     depth=nullptr;
@@ -110,7 +111,7 @@ void Field::set_cells(const std::vector<std::vector<Cell>> &new_cells) {
 
 std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
     //TODO: implement
-    Cell root("","");
+    Cell root(NewEventListenerInfo(), "room");
     std::vector<std::vector<Cell>> v(1, std::vector<Cell>(1, root));
     return std::make_pair(v, std::make_pair(0, 0)); //placeholder
 }
