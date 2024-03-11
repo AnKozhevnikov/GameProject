@@ -28,9 +28,9 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
 //    if(endl) {
 //        curseStr[s.size()] = '\n';
 //    }
-////    for(int i = s.size() - 1 + endl; i >= 0; --i) {
-////        mvwinsch(win, 1, 1, curseStr[i]);
-////    }
+//    for(int i = s.size() - 1 + endl; i >= 0; --i) {
+//        mvwinsch(win, 1, 1, curseStr[i]);
+//    }
 //    mvwinchnstr(win, 1, 1, curseStr, s.size() + endl);
 //    free(curseStr);
 //    wrefresh(win);

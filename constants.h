@@ -10,6 +10,7 @@ namespace constants{
     const int LinesInGraphixWindow = 52;
     const int ColumnsInGraphixWindow = 102;
 
+
     //Окно для вывода подсказок/биндов
     const int LinesInBindsWindow = LinesInGraphixWindow / 2;
     const int ColumnsInBindsWindow = 30;

@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 
+
 //Must be created ONLY after Display is created
 class ColorManager {
     inline static short ColorPairNum = 8; //colors 0-7 are reserved by ncurces
