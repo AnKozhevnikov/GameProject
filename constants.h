@@ -7,15 +7,16 @@
 
 namespace constants{
     //Основное окно для графики
-    const int LinesInGraphixWindow = 50;
-    const int ColumnsInGraphixWindow = 100;
+    const int LinesInGraphixWindow = 52;
+    const int ColumnsInGraphixWindow = 102;
 
     //Окно для вывода подсказок/биндов
     const int LinesInBindsWindow = LinesInGraphixWindow / 2;
     const int ColumnsInBindsWindow = 30;
 
     //Нижнее окно для вывода событий
-    const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
+    //const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
+    const int LinesInEventWindow = LinesInBindsWindow;
     const int ColumnsInEventWindow = ColumnsInBindsWindow;
 
     constexpr int LinesInScreen = LinesInGraphixWindow;

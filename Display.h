@@ -6,7 +6,6 @@
 #include <ncurses.h>
 #include <vector>
 #include <map>
-#include "Cell.h"
 
 //Must be created ONLY after Display is created
 class ColorManager {
@@ -51,7 +50,7 @@ public:
     void SendEvent(const WindowEvent &event) const;
     void SendBind(const Bind &bind) const;
     void DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y) const;
-    [[nodiscard]] WINDOW* getMainWindow() const;
+    [[nodiscard]] static WINDOW* getMainWindow();
     void ClearGraphixWindow() const;
     //void DrawField(const std::vector<std::vector<Cell>> &field) const;
 };
