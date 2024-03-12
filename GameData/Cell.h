@@ -23,5 +23,5 @@ public:
     void set_room_type(const std::string &new_room_type);
 private:
     std::shared_ptr<NewEventListenerInfo> event; // "void" or any other type
-    std::shared_ptr<std::string> roomType; // "room", "hallway", "void"
+    std::shared_ptr<std::string> roomType; // "room", "corridor", "void", "roomborder"
 };

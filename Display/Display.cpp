@@ -8,7 +8,7 @@ int Display::initialised_cnt = 0;
 std::vector<int> Display::BindsKeyList(constants::LinesInBindsWindow);
 int Display::lastBindLineIdx = 0;
 std::map<WINDOW*, std::pair<int, int>> Display::pos;
-WINDOW *Display::bindsWindow, *Display::graphixWindow, *Display::eventWindow;
+WINDOW *Display::bindsWindow = nullptr, *Display::graphixWindow = nullptr, *Display::eventWindow = nullptr;
 
 namespace ColorPairs{
     unsigned NONE, //Send without any color
@@ -21,6 +21,20 @@ namespace ColorPairs{
 //Do not pass strings with '\n';
 //Attr = 0 is default
 void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bool endl = true) const{
+//    auto* curseStr = (chtype*)malloc(s.size() * sizeof(unsigned) + endl);
+//    for(int i = 0; i < s.size(); ++i) {
+//        curseStr[i] = s[i] | attr;
+//    }
+//    if(endl) {
+//        curseStr[s.size()] = '\n';
+//    }
+//    for(int i = s.size() - 1 + endl; i >= 0; --i) {
+//        mvwinsch(win, 1, 1, curseStr[i]);
+//    }
+//    mvwinchnstr(win, 1, 1, curseStr, s.size() + endl);
+//    free(curseStr);
+//    wrefresh(win);
+//    return;
     if(pos[win].first == 0) {
         pos[win].first = 1;
     }
@@ -28,6 +42,7 @@ void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bo
         pos[win].second = 1;
     }
     wclrtoeol(win); //Clear line before printing
+    box(win, 0, 0);
     for(auto el : s) {
         //Note that in ncurses first coord is Y
         mvwaddch(win, pos[win].first, pos[win].second, el | attr);
@@ -60,6 +75,7 @@ Display::Display() {
             fputs("Colors are not available on screen", stderr);
             throw std::runtime_error("Colors are not available on screen");
         }
+        ++Display::initialised_cnt;
         start_color();
         use_default_colors();
         //Initialise color pairs
@@ -81,6 +97,7 @@ Display::Display() {
         noecho(); //Blocking writing caracters to screen
         keypad(stdscr, true); //Allowing to use arrows
         nodelay(stdscr, TRUE); //Non-blocking getch
+        curs_set(0); //Remove the cursor
         eventWindow = subwin(stdscr, constants::LinesInEventWindow, constants::ColumnsInEventWindow, constants::LinesInBindsWindow, constants::ColumnsInGraphixWindow);
         graphixWindow = subwin(stdscr, constants::LinesInGraphixWindow, constants::ColumnsInGraphixWindow, 0, 0);
         bindsWindow = subwin(stdscr, constants::LinesInBindsWindow, constants::ColumnsInBindsWindow, 0, constants::ColumnsInGraphixWindow);
@@ -92,7 +109,9 @@ Display::Display() {
         box(graphixWindow, 0, 0);
         box(bindsWindow, 0, 0);
     }
-    ++Display::initialised_cnt;
+    else{
+        ++Display::initialised_cnt;
+    }
 }
 
 void Display::SendEvent(const WindowEvent &event) const{
@@ -122,14 +141,18 @@ Display::~Display() {
     }
 }
 
-WINDOW* Display::getMainWindow() const{
+WINDOW* Display::getMainWindow() {
+    if(Display::initialised_cnt == 0)
+        return nullptr;
     return stdscr;
 }
 
 void Display::DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y) const {
+    ++x;
+    ++y;
     for(int i = 0; i < sprite.size(); ++i) {
         for(int j = 0; j < sprite[i].size(); ++j) {
-            if(i >= constants::LinesInGraphixWindow || j >= constants::ColumnsInGraphixWindow) {
+            if(i >= constants::LinesInGraphixWindow - 1 || j >= constants::ColumnsInGraphixWindow - 1) {
                 wprintw(graphixWindow, "Sprite doesn't fit in window");
                 throw std::runtime_error("Sprite doesn't fit in window");
             }
@@ -160,6 +183,7 @@ void Display::SendBind(const Bind &bind) const {
         lastBindLineIdx %= constants::LinesInBindsWindow;
         move(lastBindLineIdx, 0);
         wclrtoeol(bindsWindow);
+        box(bindsWindow, 0, 0);
         BindsKeyList[lastBindLineIdx] = bind.key;
 
         mywprintw(bindsWindow, KeyboardListener::getKeyName(bind.key) + " : ", ColorPairs::BIND_COLOR, false);
@@ -172,6 +196,7 @@ void Display::SendBind(const Bind &bind) const {
                 BindsKeyList[i] = 0;
                 wmove(bindsWindow, i, 0);
                 wclrtoeol(bindsWindow);
+                box(bindsWindow, 0, 0);
                 wrefresh(bindsWindow);
                 return;
             }
@@ -183,6 +208,9 @@ void Display::SendBind(const Bind &bind) const {
 
 
 unsigned ColorManager::CreateColorPair(short foreground, short background) {
+    if(Display::getMainWindow() == nullptr) {
+        throw std::runtime_error("Do not use ColorManager before initialising Display");
+    }
     if(colorPairs.count({foreground, background})) {
         return colorPairs[{foreground, background}];
     }

@@ -1,8 +1,8 @@
 #include "Cell.h"
 
 Cell::Cell() {
-    event = nullptr;
-    roomType = nullptr;
+    event = std::make_shared<NewEventListenerInfo>();
+    roomType = std::make_shared<std::string>("void");
 }
 
 Cell::Cell(const NewEventListenerInfo &newEvent, const std::string &newRoomType) {

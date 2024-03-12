@@ -59,6 +59,7 @@ void Game::kill(int id) {
         binder.stop(it->first);
     }
     eventListeners.erase(id);
+    display->ClearGraphixWindow();
 }
 
 void Game::addEventListener(NewEventListenerInfo info) {
