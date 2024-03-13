@@ -8,6 +8,7 @@ Game::Game(const Display *newDisplay) {
     data = GameData();
     binder = Binder();
     status = RUNNING;
+    lastId = 0;
     std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(1, 0, &data, &binder);
     eventListeners[1] = std::move(fieldEventListener);
 }
@@ -63,5 +64,12 @@ void Game::kill(int id) {
 }
 
 void Game::addEventListener(NewEventListenerInfo info) {
-    //TODO: implement
+    if (info.eventType == "field") {
+        std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(++lastId, info.parent, &data, &binder);
+        eventListeners[++lastId] = std::move(fieldEventListener);
+    }
+
+    if (info.eventType == "void") {
+        return;
+    }
 }

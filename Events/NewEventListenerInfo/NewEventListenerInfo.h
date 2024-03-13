@@ -11,3 +11,12 @@ public:
     std::string eventType;
     int parent;
 };
+
+class FieldEventListenerInfo : public NewEventListenerInfo {
+public:
+    FieldEventListenerInfo() {
+        eventType = "field";
+        depth = 0;
+    };
+    int depth;
+};
