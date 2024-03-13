@@ -22,7 +22,8 @@ struct WindowEvent{
         NONE, //Send without any color and [announcment] IDK when should you use, but you can debug with it)
         INFO, //Important info, Blue color
         ACTION, //Very important actions (e.x. in figth), Red color
-        REPLY //For something that someone says, Orange color
+        REPLY, //For something that someone says, Orange color
+        DEBUG //For debug, RED color
     } type;
     std::string WindowEventString;
     std::string Author; //For REPLY only
@@ -39,7 +40,7 @@ struct Bind{
 
 class Display {
 private:
-    static WINDOW* bindsWindow, *graphixWindow, *eventWindow;
+    static WINDOW *bindsWindow, *bindsWindowBox, *graphixWindow, *eventWindow, *eventWindowBox;
     static int initialised_cnt;
     static std::map<WINDOW*, std::pair<int, int>> pos;
     static std::vector<int> BindsKeyList;

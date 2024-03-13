@@ -5,10 +5,10 @@
 #include "Keyboard.h"
 
 int Display::initialised_cnt = 0;
-std::vector<int> Display::BindsKeyList(constants::LinesInBindsWindow);
+std::vector<int> Display::BindsKeyList(constants::LinesInBindsWindow, -1);
 int Display::lastBindLineIdx = 0;
 std::map<WINDOW*, std::pair<int, int>> Display::pos;
-WINDOW *Display::bindsWindow = nullptr, *Display::graphixWindow = nullptr, *Display::eventWindow = nullptr;
+WINDOW *Display::bindsWindow = nullptr, *Display::bindsWindowBox = nullptr, *Display::graphixWindow = nullptr, *Display::eventWindow = nullptr, *Display::eventWindowBox = nullptr;
 
 namespace ColorPairs{
     unsigned NONE, //Send without any color
@@ -21,47 +21,16 @@ namespace ColorPairs{
 //Do not pass strings with '\n';
 //Attr = 0 is default
 void Display::mywprintw(WINDOW* win, const std::string &s, unsigned attr = 0, bool endl = true) const{
-//    auto* curseStr = (chtype*)malloc(s.size() * sizeof(unsigned) + endl);
-//    for(int i = 0; i < s.size(); ++i) {
-//        curseStr[i] = s[i] | attr;
-//    }
-//    if(endl) {
-//        curseStr[s.size()] = '\n';
-//    }
-//    for(int i = s.size() - 1 + endl; i >= 0; --i) {
-//        mvwinsch(win, 1, 1, curseStr[i]);
-//    }
-//    mvwinchnstr(win, 1, 1, curseStr, s.size() + endl);
-//    free(curseStr);
-//    wrefresh(win);
-//    return;
-    if(pos[win].first == 0) {
-        pos[win].first = 1;
-    }
-    if(pos[win].second == 0) {
-        pos[win].second = 1;
-    }
     wclrtoeol(win); //Clear line before printing
-    box(win, 0, 0);
+    //box(win, 0, 0);
     for(auto el : s) {
         //Note that in ncurses first coord is Y
-        mvwaddch(win, pos[win].first, pos[win].second, el | attr);
-        ++pos[win].second;
-        if(pos[win].second == constants::ColumnsInEventWindow - 1) {
-            pos[win].second = 1;
-            ++pos[win].first;
-        }
-        if(pos[win].first == constants::LinesInEventWindow - 1) {
-            pos[win].first = 1;
-        }
+        waddch(win, el | attr);
     }
     if(endl) {
-        ++pos[win].first;
-        pos[win].second = 1;
-        if(pos[win].first == constants::LinesInEventWindow - 1) {
-            pos[win].first = 1;
-        }
+        waddch(win, '\n');
     }
+    wrefresh(win);
 }
 
 Display::Display() {
@@ -98,16 +67,25 @@ Display::Display() {
         keypad(stdscr, true); //Allowing to use arrows
         nodelay(stdscr, TRUE); //Non-blocking getch
         curs_set(0); //Remove the cursor
-        eventWindow = subwin(stdscr, constants::LinesInEventWindow, constants::ColumnsInEventWindow, constants::LinesInBindsWindow, constants::ColumnsInGraphixWindow);
+        eventWindowBox = subwin(stdscr, constants::LinesInEventWindow, constants::ColumnsInEventWindow, constants::LinesInBindsWindow, constants::ColumnsInGraphixWindow);
+        eventWindow = subwin(eventWindowBox, constants::LinesInEventWindow - 2, constants::ColumnsInEventWindow - 2, constants::LinesInBindsWindow + 1, constants::ColumnsInGraphixWindow + 1);
         graphixWindow = subwin(stdscr, constants::LinesInGraphixWindow, constants::ColumnsInGraphixWindow, 0, 0);
-        bindsWindow = subwin(stdscr, constants::LinesInBindsWindow, constants::ColumnsInBindsWindow, 0, constants::ColumnsInGraphixWindow);
+        bindsWindowBox = subwin(stdscr, constants::LinesInBindsWindow, constants::ColumnsInBindsWindow, 0, constants::ColumnsInGraphixWindow);
+        bindsWindow = subwin(bindsWindowBox, constants::LinesInBindsWindow - 2, constants::ColumnsInBindsWindow - 2, 1, constants::ColumnsInGraphixWindow + 1);
+
         scrollok(eventWindow, true);
-        if(eventWindow == nullptr || graphixWindow == nullptr || bindsWindow == nullptr) {
-            throw std::runtime_error("Could't initialise some subwindows, idk");
+        if(graphixWindow == nullptr || eventWindow == nullptr || eventWindowBox == nullptr
+            || bindsWindow == nullptr || bindsWindowBox == nullptr) {
+            throw std::runtime_error("Could't initialise some subwindows, idk" +
+            std::to_string(graphixWindow == nullptr) +
+            std::to_string(eventWindow == nullptr) +
+            std::to_string(eventWindowBox == nullptr) +
+            std::to_string(bindsWindow == nullptr) +
+            std::to_string(bindsWindowBox == nullptr));
         }
-        box(eventWindow, 0, 0);
+        box(eventWindowBox, 0, 0);
         box(graphixWindow, 0, 0);
-        box(bindsWindow, 0, 0);
+        box(bindsWindowBox, 0, 0);
     }
     else{
         ++Display::initialised_cnt;
@@ -126,6 +104,10 @@ void Display::SendEvent(const WindowEvent &event) const{
     else if(event.type == WindowEvent::REPLY) {
         mywprintw(eventWindow, "[REPLY]", ColorPairs::REPLY_COLOR, false);
         mywprintw(eventWindow, event.Author, ColorPairs::REPLY_COLOR, false);
+        mywprintw(eventWindow, event.WindowEventString, 0, true);
+    }
+    else if(event.type == WindowEvent::DEBUG) {
+        mywprintw(eventWindow, "!DEBUG!", ColorPairs::ACTION_COLOR | A_BLINK, false);
         mywprintw(eventWindow, event.WindowEventString, 0, true);
     }
     wrefresh(eventWindow);
@@ -179,24 +161,24 @@ void Display::SendBind(const Bind &bind) const {
                                             + bind.hint);
             }
         }
-        lastBindLineIdx += 1;
-        lastBindLineIdx %= constants::LinesInBindsWindow;
-        move(lastBindLineIdx, 0);
-        wclrtoeol(bindsWindow);
-        box(bindsWindow, 0, 0);
-        BindsKeyList[lastBindLineIdx] = bind.key;
-
-        mywprintw(bindsWindow, Keyboard::getKeyName(bind.key) + " : ", ColorPairs::BIND_COLOR, false);
-        mywprintw(bindsWindow, bind.hint, 0, true);
-        wrefresh(bindsWindow);
+        for(int i = 0; i < constants::LinesInBindsWindow; ++i) {
+            if(BindsKeyList[i] == -1) { //-1 means that this key is free
+                BindsKeyList[i] = bind.key;
+                wmove(bindsWindow, i, 0); //
+                wclrtoeol(bindsWindow); //Clear line before printing
+                mywprintw(bindsWindow, Keyboard::getKeyName(bind.key) + " : ", ColorPairs::BIND_COLOR, false);
+                mywprintw(bindsWindow, bind.hint, 0, true);
+                wrefresh(bindsWindow);
+                return;
+            }
+        }
     }
     else { //Need to unbind
         for(int i = 0; i < constants::LinesInBindsWindow; ++i) {
             if(BindsKeyList[i] == bind.key) {
-                BindsKeyList[i] = 0;
+                BindsKeyList[i] = -1; //-1 means that this key is free
                 wmove(bindsWindow, i, 0);
-                wclrtoeol(bindsWindow);
-                box(bindsWindow, 0, 0);
+                wclrtoeol(bindsWindow); //Clear this bind
                 wrefresh(bindsWindow);
                 return;
             }
