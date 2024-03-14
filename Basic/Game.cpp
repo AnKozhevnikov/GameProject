@@ -2,14 +2,17 @@
 #include "Game.h"
 #include "KeyboardListener.h"
 #include "FieldEventListener.h"
+#include "FieldEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
     data = GameData();
     binder = Binder();
     status = RUNNING;
-    std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(1, 0, &data, &binder);
-    eventListeners[1] = std::move(fieldEventListener);
+    lastId = 0;
+    //std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(1, 0, &data, &binder);
+    //eventListeners[1] = std::move(fieldEventListener);
+    addEventListener(FieldEventListenerInfo(0, false));
 }
 
 const GameData& Game::get_data() const {
@@ -59,9 +62,21 @@ void Game::kill(int id) {
         binder.stop(it->first);
     }
     eventListeners.erase(id);
+    for (auto it=eventListeners.begin(); it!=eventListeners.end(); it++) {
+        if (it->second->parent == id) {
+            kill(it->first);
+        }
+    }
     display->ClearGraphixWindow();
 }
 
 void Game::addEventListener(NewEventListenerInfo info) {
-    //TODO: implement
+    if (info.eventType == "field") {
+        std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(++lastId, info.parent, &data, &binder);
+        eventListeners[lastId] = std::move(fieldEventListener);
+    }
+
+    if (info.eventType == "void") {
+        return;
+    }
 }

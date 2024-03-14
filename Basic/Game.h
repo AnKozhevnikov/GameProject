@@ -26,6 +26,7 @@ private:
     const Display *display;
     GameData data;
     Status status;
+    int lastId;
 
     Binder binder;
     std::map<int, std::unique_ptr<EventListener>> eventListeners;

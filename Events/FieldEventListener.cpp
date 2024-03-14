@@ -52,7 +52,7 @@ Message FieldEventListener::move(int direction) {
 }
 
 Message FieldEventListener::quit() {
-    return Message(GameData(), NewEventListenerInfo(), true, id);
+    return Message(data, NewEventListenerInfo(), true, id);
 }
 
 void FieldEventListener::redraw() {

@@ -12,8 +12,8 @@ public:
     const int id;
     const int parent;
 
-    EventListener() : parentData(nullptr), data(), id(0), parent(0), binder(nullptr) {};
-    EventListener(const int newId, const int parent, const GameData *pData, Binder *binder) : parentData(pData), data(), id(newId), parent(parent), binder(binder) {};
+    EventListener() : parentData(nullptr), data(), id(0), parent(0), binder(nullptr), frozen(false) {};
+    EventListener(const int newId, const int parent, const GameData *pData, Binder *binder) : parentData(pData), data(), id(newId), parent(parent), binder(binder), frozen(false) {};
 
     int getId() const { return id; }
     std::map<BindedData, int> getBinded() const { return binded; }
@@ -23,12 +23,14 @@ public:
     }
 
     void freeze() {
+        frozen = true;
         for (auto it = binded.begin(); it != binded.end(); it++) {
             (*binder).stop(it->first);
         }
     }
 
     void unfreeze() {
+        if (!frozen) return;
         for (auto it = binded.begin(); it != binded.end(); it++) {
             (*binder).bind(it->second, it->first);
         }
@@ -83,4 +85,5 @@ protected:
 private:
     Binder *binder;
     std::map<BindedData, int> binded;
+    bool frozen;
 };

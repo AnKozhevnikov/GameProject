@@ -23,4 +23,8 @@ void Drawer::readAll() {
     readSprite("EmptyRoom");
     readSprite("CurrentRoom");
     readSprite("CurrentCorridor");
+    readSprite("Archer");
+    readSprite("Assassin");
+    readSprite("Mage");
+    readSprite("Warrior");
 }
