@@ -12,12 +12,12 @@ namespace constants{
 
 
     //Окно для вывода подсказок/биндов
-    const int LinesInBindsWindow = LinesInGraphixWindow / 2;
+    const int LinesInBindsWindow = LinesInGraphixWindow / 3;
     const int ColumnsInBindsWindow = 30;
 
     //Нижнее окно для вывода событий
-    //const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
-    const int LinesInEventWindow = LinesInBindsWindow;
+    const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
+    //const int LinesInEventWindow = LinesInBindsWindow;
     const int ColumnsInEventWindow = ColumnsInBindsWindow;
 
     constexpr int LinesInScreen = LinesInGraphixWindow;

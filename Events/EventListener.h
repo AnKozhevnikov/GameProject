@@ -58,18 +58,8 @@ protected:
 
     template<typename Callable, typename... Args>
     void rebind(int c, Callable func, std::string label, Args &&... args) {
-        BindedData wrapped = BindedData::wrap(this, func, label, args...);
-        if (binded.find(wrapped) != binded.end()) {
-            (*binder).stop(wrapped);
-            //Do something with label
-        }
-        binded[wrapped] = c;
-
-        if (c == -1) {
-            (*binder).bind_no_charachter(wrapped);
-        } else { 
-            (*binder).bind(c, wrapped);
-        }
+        unbind(func, label, args...);
+        bind(c, func, this, label, args...);
     }
 
     template<typename Callable, typename... Args>
@@ -78,7 +68,6 @@ protected:
             throw std::invalid_argument("Function not binded");
         }
         BindedData wrapped = BindedData::wrap(this, func, label, args...);
-        //Do something with label
         binded.erase(wrapped);
         (*binder).stop(wrapped);
     }

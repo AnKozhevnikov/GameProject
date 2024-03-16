@@ -1,5 +1,5 @@
 #include "Field.h"
-#include "DungeonGraph.hpp"
+#include "DungeonGraph.h"
 
 #include <memory>
 #include <vector>
@@ -111,47 +111,6 @@ void Field::set_cells(const std::vector<std::vector<Cell>> &new_cells) {
 }
 
 std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
-    /*std::vector<std::vector<Cell>> v(50, std::vector<Cell>(50, Cell()));
-    v[25][25]=Cell(NewEventListenerInfo(), "room");
-    v[25][23]=Cell(NewEventListenerInfo(), "corridor");
-    v[25][22]=Cell(NewEventListenerInfo(), "corridor");
-    v[25][21]=Cell(NewEventListenerInfo(), "corridor");
-    v[25][19]=Cell(NewEventListenerInfo(), "room");
-    v[27][19]=Cell(NewEventListenerInfo(), "corridor");
-    v[28][19]=Cell(NewEventListenerInfo(), "corridor");
-    v[29][19]=Cell(NewEventListenerInfo(), "corridor");
-    v[31][19]=Cell(NewEventListenerInfo(), "room");
-    v[31][21]=Cell(NewEventListenerInfo(), "corridor");
-    v[31][22]=Cell(NewEventListenerInfo(), "corridor");
-    v[31][23]=Cell(NewEventListenerInfo(), "corridor");
-    v[31][25]=Cell(NewEventListenerInfo(), "room");
-    v[29][25]=Cell(NewEventListenerInfo(), "corridor");
-    v[28][25]=Cell(NewEventListenerInfo(), "corridor");
-    v[27][25]=Cell(NewEventListenerInfo(), "corridor");
-
-    for (int i=24; i<=26; ++i) {
-        for (int j=24; j<=26; ++j) {
-            if (i!=25 || j!=25) v[i][j]=Cell(NewEventListenerInfo(), "roomborder");
-        }
-    }
-    for (int i=24; i<=26; ++i) {
-        for (int j=18; j<=20; ++j) {
-            if (i!=25 || j!=19) v[i][j]=Cell(NewEventListenerInfo(), "roomborder");
-        }
-    }
-    for (int i=30; i<=32; ++i) {
-        for (int j=18; j<=20; ++j) {
-            if (i!=31 || j!=19) v[i][j]=Cell(NewEventListenerInfo(), "roomborder");
-        }
-    }
-    for (int i=30; i<=32; ++i) {
-        for (int j=24; j<=26; ++j) {
-            if (i!=31 || j!=25) v[i][j]=Cell(NewEventListenerInfo(), "roomborder");
-        }
-    }
-
-    return std::make_pair(v, std::make_pair(25, 25));*/
-
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> result = DungeonGenerator::generateDungeons(50, 50, 20);
     return result;
 }

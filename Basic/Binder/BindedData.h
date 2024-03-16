@@ -42,6 +42,6 @@ public:
             hashes.push_back(std::hash<typename std::decay<Args>::type>{}(args));
         } (), ...);
         std::function<Message()> wrapped = std::bind(func, listener, args...);
-        return BindedData(wrapped, reinterpret_cast<void*>(std::addressof(func)), listener, hashes, label);
+        return BindedData(wrapped, reinterpret_cast<void*>(func), listener, hashes, label);
     }
 };

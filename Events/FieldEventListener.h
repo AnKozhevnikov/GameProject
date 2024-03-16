@@ -8,7 +8,7 @@ public:
 private:
     void init();
     void redraw();
-    void draw_cell(int x, int y, std::string state);
     Message move(int direction);
-    Message quit();
+    Message finish();
+    Message gameOverChecker();
 };

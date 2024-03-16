@@ -7,8 +7,8 @@
 
 class Drawer {
 public:
-    static std::map<std::string, std::vector<std::vector<unsigned int>>> sprites;
+    static inline std::map<std::string, std::vector<std::vector<unsigned int>>> sprites;
 
     static void readSprite(std::string name);
-    static void readAll();
+    static std::vector<std::vector<unsigned int>> getSprite(std::string name);
 };

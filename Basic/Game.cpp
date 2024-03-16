@@ -10,8 +10,6 @@ Game::Game(const Display *newDisplay) {
     binder = Binder();
     status = RUNNING;
     lastId = 0;
-    //std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(1, 0, &data, &binder);
-    //eventListeners[1] = std::move(fieldEventListener);
     addEventListener(FieldEventListenerInfo(0, false));
 }
 
@@ -24,16 +22,17 @@ const Game::Status Game::get_status() const {
 }
 
 void Game::run() {
-    while (status == RUNNING) {
+    while (!data.get_is_game_over()) {
         char pressed = KeyboardListener::getKeyPressed(*display);
         Message message = binder.getFunc(pressed)();
         handle_message(message);
-        const std::set<BindedData>& noCharachter = binder.getNoCharachter();
-        for (auto it = noCharachter.begin(); it != noCharachter.end(); it++) {
-            Message message = it->func();
+        const std::set<BindedData> noCharachter = binder.getNoCharachter();
+        for (auto it : noCharachter) {
+            Message message = it.func();
             handle_message(message);
         }
     }
+    display->SendEvent(WindowEvent(WindowEvent::INFO, "Game over"));
 }
 
 void Game::handle_message(const Message &message) {
@@ -57,20 +56,30 @@ void Game::handle_message(const Message &message) {
 }
 
 void Game::kill(int id) {
+    display->ClearGraphixWindow();
+    if (eventListeners[id]->parent != 0) eventListeners[eventListeners[id]->parent]->unfreeze();
     std::map<BindedData, int> binded = eventListeners[id]->getBinded();
     for (auto it = binded.begin(); it != binded.end(); it++) {
         binder.stop(it->first);
     }
     eventListeners.erase(id);
+    std::set<int> toErase;
     for (auto it=eventListeners.begin(); it!=eventListeners.end(); it++) {
         if (it->second->parent == id) {
-            kill(it->first);
+            toErase.insert(it->first);
         }
     }
-    display->ClearGraphixWindow();
+
+    for (auto it=toErase.begin(); it!=toErase.end(); it++) {
+        kill(*it);
+    }
 }
 
 void Game::addEventListener(NewEventListenerInfo info) {
+    if (info.freeze) {
+        eventListeners[info.parent]->freeze();
+    }
+
     if (info.eventType == "field") {
         std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(++lastId, info.parent, &data, &binder);
         eventListeners[lastId] = std::move(fieldEventListener);
