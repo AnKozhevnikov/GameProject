@@ -16,8 +16,7 @@ namespace constants{
     const int ColumnsInBindsWindow = 30;
 
     //Нижнее окно для вывода событий
-    //const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
-    const int LinesInEventWindow = LinesInBindsWindow;
+    const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;
     const int ColumnsInEventWindow = ColumnsInBindsWindow;
 
     constexpr int LinesInScreen = LinesInGraphixWindow;

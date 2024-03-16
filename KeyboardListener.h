@@ -1,5 +1,5 @@
-#ifndef DISPLAY_KEYBOARD_H
-#define DISPLAY_KEYBOARD_H
+#ifndef DISPLAY_KEYBOARDLISTENER_H
+#define DISPLAY_KEYBOARDLISTENER_H
 #include "Display.h"
 #include <ncurses.h>
 #include <iostream>
@@ -12,4 +12,4 @@ namespace Keyboard {
 };
 
 
-#endif //DISPLAY_KEYBOARD_H
+#endif //DISPLAY_KEYBOARDLISTENER_H

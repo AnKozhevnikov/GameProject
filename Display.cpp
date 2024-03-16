@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include <iostream>
 #include <map>
-#include "Keyboard.h"
+#include "KeyboardListener.h"
 
 int Display::initialised_cnt = 0;
 std::vector<int> Display::BindsKeyList(constants::LinesInBindsWindow, -1);
@@ -47,7 +47,7 @@ Display::Display() {
         ++Display::initialised_cnt;
         start_color();
         use_default_colors();
-        //Initialise color pairs
+        //Initialise color pairss
         ColorManager x;
         ColorPairs::INFO_COLOR = x.CreateColorPair(COLOR_BLUE, -1); //-1 is default color
         ColorPairs::ACTION_COLOR = x.CreateColorPair(COLOR_RED, -1);
@@ -119,6 +119,9 @@ Display::~Display() {
         delwin(eventWindow);
         delwin(graphixWindow);
         delwin(bindsWindow);
+        delwin(eventWindowBox);
+        delwin(bindsWindowBox);
+        curs_set(1); //Back to normal mode
         endwin();
     }
 }
@@ -186,6 +189,11 @@ void Display::SendBind(const Bind &bind) const {
         //If we are here we didn't find anything
         throw std::runtime_error("Can't unbind something that wasn't binded. Key : " + std::to_string(bind.key));
     }
+}
+
+void Display::DrawText(const std::string &text, int x, int y) const {
+    mvwprintw(graphixWindow, y, x, text.c_str());
+    wrefresh(graphixWindow);
 }
 
 
