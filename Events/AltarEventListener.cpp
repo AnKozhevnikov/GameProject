@@ -4,6 +4,7 @@
 #include "Drawer.h"
 #include "Randomizer.h"
 
+
 AltarEventListener::AltarEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder){
     data.set_field(parentData->get_field());
     data.set_heroes(parentData->get_heroes());
@@ -14,8 +15,8 @@ AltarEventListener::AltarEventListener(const int newId, const int parent, const 
 
 void AltarEventListener::init() {
     Display display;
-    bind('e', &AltarEventListener::use, this, "pray to the God", 1);
-    bind('r', &AltarEventListener::destroy, this, "destroy the chansel", 1);
+    bind('e', &AltarEventListener::use, this, "pray to the God");
+    bind('r', &AltarEventListener::destroy, this, "destroy the chansel");
 }
 
 Message AltarEventListener::use() {
@@ -115,8 +116,8 @@ Message AltarEventListener::destroy() {
         }
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::INFO, "You were cursed for sacriledge")); 
-        data.set_heroes(heroes);
-        return Message(data, NewEventListenerInfo(), true, id);
     } 
+    data.set_heroes(heroes);
+    return Message(data, NewEventListenerInfo(), true, id);
 }
 

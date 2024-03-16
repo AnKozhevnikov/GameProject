@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -10,7 +11,7 @@
 using Coordinates = std::pair<int, int>;
 
 namespace Randomizer {
-int getRandom(int max) {
+static int getRandom(int max) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
 
@@ -19,7 +20,7 @@ int getRandom(int max) {
     return dist(gen);
 }
 
-void randomShuffle(std::vector<Coordinates>& vec) {
+static void randomShuffle(std::vector<Coordinates>& vec) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
 

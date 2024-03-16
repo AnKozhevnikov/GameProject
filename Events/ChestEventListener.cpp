@@ -14,7 +14,7 @@ ChestEventListener::ChestEventListener(const int newId, const int parent, const 
 
 void ChestEventListener::init() {
     Display display;
-    bind('e', &ChestEventListener::open, this, "open the chest", 1);
+    bind('e', &ChestEventListener::open, this, "open the chest");
 }
 
 Message ChestEventListener::open() {
