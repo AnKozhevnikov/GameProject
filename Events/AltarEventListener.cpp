@@ -20,12 +20,13 @@ void AltarEventListener::init() {
 
 Message AltarEventListener::use() {
     std::vector<Hero> heroes = data.get_heroes();
+    int level = data.get_field_ptr()->get_depth();
     int dice1 = Randomizer::getRandom(100);
     if (dice1 == 42) {
         int slave = Randomizer::getRandom(3);
         int master = (slave + 1) % 3;
-        heroes[slave].set_name(heroes[slave].get_name() + ", the Cursed");
-        heroes[master].set_name(heroes[slave].get_name() + ", the Blessed");
+        heroes[slave].set_name(heroes[slave].get_name() + ", the Slave");
+        heroes[master].set_name(heroes[slave].get_name() + ", the Dungeon Master");
         
         heroes[master].set_maxHp(heroes[master].get_maxHp() + heroes[slave].get_maxHp());
         heroes[master].set_hp(heroes[master].get_hp() + heroes[slave].get_hp());
@@ -40,25 +41,25 @@ Message AltarEventListener::use() {
         heroes[slave].set_attention(1);
 
         Display display;
-        display.SendEvent(WindowEvent(WindowEvent::INFO, "God is the judge"));
+        display.SendEvent(WindowEvent(WindowEvent::REPLY, "God, save their souls..."));
     
     } else {
         int dice2 = Randomizer::getRandom(4);
         if (dice2 == 0) {
             for (int i = 0; i < 3; i++) {
-                heroes[i].set_maxHp(heroes[i].get_maxHp() + (int) round(heroes[i].get_maxHp()/(Randomizer::getRandom(4) + 1)));
+                heroes[i].set_maxHp(heroes[i].get_maxHp() + (int) round(2*level + heroes[i].get_maxHp()/(Randomizer::getRandom(4) + 3)));
             }
         } else if (dice2 == 1) {
             for (int i = 0; i < 3; i++) {
-                heroes[i].set_dmg(heroes[i].get_dmg() + (int) round(heroes[i].get_dmg()/(Randomizer::getRandom(4) + 1)));
+                heroes[i].set_dmg(heroes[i].get_dmg() + (int) round(2*level + heroes[i].get_dmg()/(Randomizer::getRandom(4) + 3)));
             }
         } else if (dice2 == 2) {
             for (int i = 0; i < 3; i++) {
-                heroes[i].set_initiative(heroes[i].get_initiative() + (int) round(heroes[i].get_initiative()/(Randomizer::getRandom(4) + 1)));
+                heroes[i].set_initiative(heroes[i].get_initiative() + (int) round(2*level + heroes[i].get_initiative()/(Randomizer::getRandom(4) + 3)));
             }
         } else if (dice2 == 3) {
             for (int i = 0; i < 3; i++) {
-                heroes[i].set_attention(heroes[i].get_attention() + (int) round(heroes[i].get_attention()/(Randomizer::getRandom(4) + 1)));
+                heroes[i].set_attention(heroes[i].get_attention() + (int) round(2*level + heroes[i].get_attention()/(Randomizer::getRandom(4) + 3)));
             }
         }
         Display display;
@@ -70,8 +71,8 @@ Message AltarEventListener::use() {
 
 Message AltarEventListener::destroy() {
     std::vector<Hero> heroes = data.get_heroes();
-    
-    if (Randomizer::getRandom(4) == 2) {
+    int level = data.get_field_ptr()->get_depth();
+    if (Randomizer::getRandom(level) >= 4) {
         int dice2 = Randomizer::getRandom(4);
         if (dice2 == 0) {
             for (int i = 0; i < 3; i++) {
@@ -91,7 +92,7 @@ Message AltarEventListener::destroy() {
             }
         }
         Display display;
-        display.SendEvent(WindowEvent(WindowEvent::INFO, "You were blessed for destruction of heresy")); 
+        display.SendEvent(WindowEvent(WindowEvent::INFO, "You were blessed for exterminating the heresy")); 
     } else {
         int dice2 = Randomizer::getRandom(4);
         if (dice2 == 0) {
