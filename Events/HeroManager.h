@@ -36,5 +36,5 @@ public:
     void applyHeal(double heal);
     void applyStatusHeal();
 
-    void applyMove(int ability, std::vector<HeroManager*> toMoveAt);
+    void applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt);
 };

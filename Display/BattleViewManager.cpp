@@ -6,7 +6,7 @@ namespace BattleViewManager {
     std::array<std::shared_ptr<HeroDrawer>, 3> playerHeroes = {nullptr, nullptr, nullptr};
     std::array<std::shared_ptr<HeroDrawer>, 3> enemyHeroes = {nullptr, nullptr, nullptr};
     PHeroDrawer CreateHero(PHero phero, bool team, int pos) {
-        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? enemyHeroes : playerHeroes;
+        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? playerHeroes : enemyHeroes;
         if(pos != -1) {
             if(heroes[pos] != nullptr) {
                 throw std::runtime_error("Enemy hero already exists at this position");
@@ -33,14 +33,14 @@ namespace BattleViewManager {
         }
     }
     void RemoveHero(int id, bool team) {
-        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? enemyHeroes : playerHeroes;
+        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? playerHeroes : enemyHeroes;
         if(heroes[id] == nullptr) {
             throw std::runtime_error("No hero to remove");
         }
         heroes[id] = nullptr;
     }
     PHeroDrawer GetHeroDrawer(int id, bool team) {
-        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? enemyHeroes : playerHeroes;
+        std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? playerHeroes : enemyHeroes;
         if(heroes[id] == nullptr) {
             throw std::runtime_error("No hero to get");
         }
@@ -74,9 +74,6 @@ namespace BattleViewManager {
     }
 
     void RemoveAbility(int id) {
-        if(abilities[id] == nullptr) {
-            throw std::runtime_error("No ability to remove");
-        }
         abilities[id] = nullptr;
     }
 
@@ -89,7 +86,7 @@ namespace BattleViewManager {
 }
 
 static std::pair<int, int> get_pos(int idx, bool team) {
-    if(team) { //Enemy team
+    if(!team) { //Enemy team
         return std::make_pair(BattleViewManager::lengthBetweenHeroes * (idx + 1) +
                               BattleViewManager::HeroLength * idx, BattleViewManager::EnemyHeroesY);
     }

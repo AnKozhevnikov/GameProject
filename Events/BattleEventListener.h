@@ -12,8 +12,8 @@ public:
     BattleEventListener(const int newId, const int parent, const GameData *data, Binder *binder, std::vector<Hero> enemies);
 private:
     std::vector<Hero> enemies;
-    std::vector<HeroManager> we;
-    std::vector<HeroManager> they;
+    std::vector<std::shared_ptr<HeroManager>> we;
+    std::vector<std::shared_ptr<HeroManager>> they;
     int currentInOrder;
     std::vector<std::shared_ptr<HeroManager>> order;
     std::vector<std::shared_ptr<AbilityManager>> abilities;
