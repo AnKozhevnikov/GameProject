@@ -1,8 +1,13 @@
 #include "Ability.h"
+#include <vector>
 
-Ability::Ability(std::string name, std::string hint, bool team, bool multitarget, double damage, double heal, bool healStatus, int burn, int stun) {
+#include <string>
+#include <vector>
+
+Ability::Ability(std::string name, std::string hint, std::vector<std::vector<unsigned>> sprite, bool team, bool multitarget, double damage, double heal, bool healStatus, int burn, int stun) {
     this->name = name;
     this->hint = hint;
+    this->sprite = sprite;
     this->team = team;
     this->multitarget = multitarget;
     this->damage = damage;
@@ -15,6 +20,7 @@ Ability::Ability(std::string name, std::string hint, bool team, bool multitarget
 Ability::Ability(const Ability &other) {
     name = other.name;
     hint = other.hint;
+    sprite = other.sprite;
     team = other.team;
     multitarget = other.multitarget;
     damage = other.damage;
@@ -27,6 +33,7 @@ Ability::Ability(const Ability &other) {
 Ability& Ability::operator=(const Ability &other) {
     name = other.name;
     hint = other.hint;
+    sprite = other.sprite;
     team = other.team;
     multitarget = other.multitarget;
     damage = other.damage;
@@ -35,6 +42,18 @@ Ability& Ability::operator=(const Ability &other) {
     burn = other.burn;
     stun = other.stun;
     return *this;
+}
+
+std::string Ability::get_name() const {
+    return name;
+}
+
+std::string Ability::get_hint() const {
+    return hint;
+}
+
+std::vector<std::vector<unsigned int>> Ability::get_sprite() const {
+    return sprite;
 }
 
 bool Ability::get_team() const {

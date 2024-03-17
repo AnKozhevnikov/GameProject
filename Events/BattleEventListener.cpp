@@ -18,7 +18,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
             //also apply everything
         }
         else
-            we.push_back(HeroManager(std::make_shared<Hero>(data->get_heroes_ptr()->at(i)), std::make_shared<HeroDrawer>(std::make_shared<Hero>(), -1, -1), 0));
+            we.push_back(HeroManager(std::make_shared<Hero>(data->get_heroes_ptr()->at(i)), nullptr, 0));
     }
 
     for (int i=0; i<enemies.size(); i++) {
@@ -27,7 +27,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
             //also apply everything
         }
         else
-            they.push_back(HeroManager(std::make_shared<Hero>(enemies[i]), std::make_shared<HeroDrawer>(std::make_shared<Hero>(), -1, -1), 1));
+            they.push_back(HeroManager(std::make_shared<Hero>(enemies[i]), nullptr, 1));
     }
 
     currentInOrder = 0;
