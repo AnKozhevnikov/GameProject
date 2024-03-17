@@ -191,7 +191,14 @@ void Display::SendBind(const Bind &bind) const {
     }
 }
 
-void Display::DrawText(const std::string &text, int x, int y) const {
+void Display::DrawText(std::string text, int x, int y, int maxLineLength) const {
+    ++x;
+    ++y;
+    if(maxLineLength != -1) {
+        for (int i = maxLineLength; i < text.size(); ++i) {
+            text.insert(i, "\n");
+        }
+    }
     mvwprintw(graphixWindow, y, x, text.c_str());
     wrefresh(graphixWindow);
 }

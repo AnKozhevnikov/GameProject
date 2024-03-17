@@ -11,7 +11,8 @@ public:
 
     int burn;
     int stun;
-    bool selected;
+    bool selectedAsSource;
+    bool selectedAsTarget;
 
     HeroManager(std::shared_ptr<Hero> newHero, std::shared_ptr<HeroDrawer> newDrawer, bool newTeam);
     HeroManager(const HeroManager &other);
@@ -20,9 +21,14 @@ public:
     bool isStunned() const;
     bool isBurned() const;
 
+    bool isSelectedAsSource() const;
+    bool isSelectedAsTarget() const;
+
     void checkIfKilled();
 
-    void select(bool flag);
+    void selectAsSource(bool flag);
+    void selectAsTarget(bool flag);
+    
     void applyStatus();
     void setBurn(int cnt);
     void setStun(int cnt);

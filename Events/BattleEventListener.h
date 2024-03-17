@@ -3,6 +3,7 @@
 #include "EventListener.h"
 #include "HeroManager.h"
 #include "GameData.h"
+#include "AbilityManager.h"
 #include <vector>
 
 class BattleEventListener : public EventListener {
@@ -15,6 +16,7 @@ private:
     std::vector<HeroManager> they;
     int currentInOrder;
     std::vector<std::shared_ptr<HeroManager>> order;
+    std::vector<std::shared_ptr<AbilityManager>> abilities;
 
     int step; // 0 - select ability, 1 - select target
     bool moveFinished;

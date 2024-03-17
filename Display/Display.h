@@ -52,7 +52,7 @@ public:
     void SendEvent(const WindowEvent &event) const;
     void SendBind(const Bind &bind) const;
     void DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y) const;
-    void DrawText(const std::string &text, int x, int y) const;
+    void DrawText(std::string text, int x, int y, int maxLineLength = -1) const;
     [[nodiscard]] static WINDOW* getMainWindow();
     void ClearGraphixWindow() const;
 };
