@@ -41,7 +41,7 @@ bool HeroManager::isBurned() const {
 void HeroManager::select(bool flag) {
     if (hero->get_name() == "void") return;
     selected = flag;
-    drawer->SetChoice(flag);
+    drawer->ApplyEffect(VisualEffect::SELECT_AS_SOURCE, flag);
 }
 
 void HeroManager::applyStatus() {

@@ -20,11 +20,10 @@ HeroDrawer::HeroDrawer(PHero phero, int x_, int y_) {
     //TODO Apply Effects
 }
 
-void HeroDrawer::SetChoice(bool state) {
+void HeroDrawer::SetChoice(bool state, short clr) const {
     Display display;
     ColorManager manager;
     if(state) {
-        short clr = manager.getColor(255, 255, 0);
         display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (BattleViewManager::HeroLength, '=' | manager.CreateColorPair(clr, -1) | A_BLINK)), x, y + BattleViewManager::HeroHeight + 1);
     }
     else{
@@ -75,6 +74,7 @@ HeroDrawer::~HeroDrawer() {
 void HeroDrawer::ApplyEffect(VisualEffect effect, bool state) const {
     Display display;
     ColorManager manager;
+    short clr;
     switch(effect) {
         //Placeholders for now, will change later
         case VisualEffect::BURN:
@@ -89,8 +89,13 @@ void HeroDrawer::ApplyEffect(VisualEffect effect, bool state) const {
         case VisualEffect::DEAD:
             display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (' ' | manager.CreateColorPair(COLOR_BLACK, COLOR_RED))), x, y + BattleViewManager::HeroHeight + 5);
             break;
-        case VisualEffect::SELECT:
-            display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (' ' | manager.CreateColorPair(COLOR_YELLOW, -1))), x, y + BattleViewManager::HeroHeight + 5);
+        case VisualEffect::SELECT_AS_SOURCE:
+            clr = ColorManager::getColor(255, 255, 0);
+            SetChoice(state, clr);
+            break;
+        case VisualEffect::SELECT_AS_TARGET:
+            clr = COLOR_RED;
+            SetChoice(state, clr);
             break;
     }
 }

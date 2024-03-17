@@ -3,10 +3,14 @@
 #include "Ability.h"
 
 class AbilityDrawer {
+private:
+    int x, y;
+    Ability ability;
+public:
     AbilityDrawer(const Ability &ability, int x, int y);
     ~AbilityDrawer();
-
-    void SelectAbility();
+    [[nodiscard]] Ability GetAbility() const;
+    void SelectAbility(bool state);
 };
 
 
