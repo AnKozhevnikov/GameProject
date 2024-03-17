@@ -22,11 +22,12 @@ HeroDrawer::HeroDrawer(PHero phero, int x_, int y_) {
 
 void HeroDrawer::SetChoice(bool state) {
     Display display;
+    ColorManager manager;
     if(state) {
-        display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (BattleViewManager::HeroLength, ' ' | COLOR_YELLOW | A_BLINK)), x, y + BattleViewManager::HeroHeight + 1);
+        short clr = manager.getColor(255, 255, 0);
+        display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (BattleViewManager::HeroLength, '=' | manager.CreateColorPair(clr, -1) | A_BLINK)), x, y + BattleViewManager::HeroHeight + 1);
     }
     else{
-        ColorManager manager;
         display.DrawSprite(std::vector<std::vector<unsigned>> (1, std::vector<unsigned> (BattleViewManager::HeroLength, ' ' | manager.CreateColorPair(-1, -1))), x, y + BattleViewManager::HeroHeight + 1);
     }
 }

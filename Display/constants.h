@@ -13,7 +13,7 @@ namespace constants{
 
     //Окно для вывода подсказок/биндов
     const int LinesInBindsWindow = LinesInGraphixWindow / 3;
-    const int ColumnsInBindsWindow = 30;
+    const int ColumnsInBindsWindow = 40;
 
     //Нижнее окно для вывода событий
     const int LinesInEventWindow = LinesInGraphixWindow - LinesInBindsWindow;

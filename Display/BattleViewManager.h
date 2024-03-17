@@ -18,6 +18,7 @@ namespace BattleViewManager {
     const int HeroLength = 14;
     const int HeroHeight = 14;
     const int BoxHeight = 18;
+    const int PlayerHeroesX = 40;
     const int EnemyHeroesY = 5;
     const constexpr int PlayerHeroesY = constants::LinesInGraphixWindow - HeroLength - EnemyHeroesY;
 
@@ -70,7 +71,7 @@ static std::pair<int, int> get_pos(int idx, bool team) {
                               BattleViewManager::HeroLength * idx, BattleViewManager::EnemyHeroesY);
     }
     else{
-        return std::make_pair(BattleViewManager::lengthBetweenHeroes * (idx + 1) +
+        return std::make_pair(BattleViewManager::PlayerHeroesX + BattleViewManager::lengthBetweenHeroes * (idx + 1) +
                               BattleViewManager::HeroLength * idx, BattleViewManager::PlayerHeroesY);
     }
 }
