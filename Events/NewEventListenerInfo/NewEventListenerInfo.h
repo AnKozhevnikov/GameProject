@@ -13,6 +13,7 @@ public:
         this->parent = parent;
         this->freeze = freeze;
     };
+    virtual ~NewEventListenerInfo() {};
     std::string eventType;
     int parent;
     bool freeze;

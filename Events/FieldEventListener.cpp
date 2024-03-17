@@ -4,6 +4,7 @@
 #include "Drawer.h"
 
 FieldEventListener::FieldEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder){
+    data.set_is_game_over(parentData->get_is_game_over());
     data.set_field(parentData->get_field());
     data.set_heroes(parentData->get_heroes());
     data.set_inventory(parentData->get_inventory());
@@ -14,9 +15,6 @@ FieldEventListener::FieldEventListener(const int newId, const int parent, const 
 }
 
 void FieldEventListener::init() {
-    Display display;
-    //display.SendEvent(WindowEvent(WindowEvent::INFO, std::to_string((unsigned long long)(void*)&FieldEventListener::finish)));
-    //display.SendEvent(WindowEvent(WindowEvent::INFO, std::to_string((unsigned long long)(void*)&FieldEventListener::gameOverChecker)));
     bind('w', &FieldEventListener::move, this, "move up", 1);
     bind('a', &FieldEventListener::move, this, "move left", 2);
     bind('s', &FieldEventListener::move, this, "move right", 3);

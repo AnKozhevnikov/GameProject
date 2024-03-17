@@ -42,19 +42,19 @@ class Display {
 private:
     static WINDOW *bindsWindow, *bindsWindowBox, *graphixWindow, *eventWindow, *eventWindowBox;
     static int initialised_cnt;
+    static int lastBindLineIdx;
     static std::map<WINDOW*, std::pair<int, int>> pos;
     static std::vector<int> BindsKeyList;
     void mywprintw(WINDOW* win, const std::string &s, unsigned attr, bool endl) const;
 public:
-    static int lastBindLineIdx;
     Display();
     ~Display();
     void SendEvent(const WindowEvent &event) const;
     void SendBind(const Bind &bind) const;
     void DrawSprite(const std::vector<std::vector<unsigned>> &sprite, int x, int y) const;
+    void DrawText(const std::string &text, int x, int y) const;
     [[nodiscard]] static WINDOW* getMainWindow();
     void ClearGraphixWindow() const;
-    //void DrawField(const std::vector<std::vector<Cell>> &field) const;
 };
 
 #endif //DISPLAY_DISPLAY_H

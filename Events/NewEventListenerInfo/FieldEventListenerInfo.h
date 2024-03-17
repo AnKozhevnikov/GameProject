@@ -7,4 +7,5 @@ public:
     FieldEventListenerInfo(int parent, bool freeze) : NewEventListenerInfo(parent, freeze) {
         eventType = "field";
     };
+    ~FieldEventListenerInfo() {};
 };

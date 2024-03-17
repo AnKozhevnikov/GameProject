@@ -33,5 +33,5 @@ private:
 
     void handle_message(const Message &message);
     void kill(int id);
-    void addEventListener(NewEventListenerInfo info);
+    void addEventListener(std::shared_ptr<NewEventListenerInfo> info);
 };

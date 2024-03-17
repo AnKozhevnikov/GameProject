@@ -56,18 +56,18 @@ protected:
         }
     }
 
-    template<typename Callable, typename... Args>
+    /*template<typename Callable, typename... Args>
     void rebind(int c, Callable func, std::string label, Args &&... args) {
         unbind(func, label, args...);
         bind(c, func, this, label, args...);
-    }
+    }*/
 
-    template<typename Callable, typename... Args>
-    void unbind(Callable func, std::string label, Args &&... args) {
-        if (binded.find(func) == binded.end()) {
+    template<typename C, typename Callable, typename... Args>
+    void unbind(Callable func, C listener, std::string label, Args &&... args) {
+        BindedData wrapped = BindedData::wrap(listener, func, label, args...);
+        if (binded.find(wrapped) == binded.end()) {
             throw std::invalid_argument("Function not binded");
         }
-        BindedData wrapped = BindedData::wrap(this, func, label, args...);
         binded.erase(wrapped);
         (*binder).stop(wrapped);
     }

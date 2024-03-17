@@ -1,8 +1,11 @@
 #include <memory>
 #include "Game.h"
+#include "BattleSamples.h"
 #include "KeyboardListener.h"
 #include "FieldEventListener.h"
 #include "FieldEventListenerInfo.h"
+#include "BattleEventListener.h"
+#include "BattleEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
@@ -10,7 +13,8 @@ Game::Game(const Display *newDisplay) {
     binder = Binder();
     status = RUNNING;
     lastId = 0;
-    addEventListener(FieldEventListenerInfo(0, false));
+    //addEventListener(std::make_shared<FieldEventListenerInfo>(0, false));
+    addEventListener(std::make_shared<BattleEventListenerInfo>(0, false, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}));
 }
 
 const GameData& Game::get_data() const {
@@ -50,7 +54,7 @@ void Game::handle_message(const Message &message) {
         }
         kill(message.listenerId);
     }
-    if (message.newEventListenerInfo.eventType != "void") {
+    if (message.newEventListenerInfo->eventType != "void") {
         addEventListener(message.newEventListenerInfo);
     }
 }
@@ -75,17 +79,23 @@ void Game::kill(int id) {
     }
 }
 
-void Game::addEventListener(NewEventListenerInfo info) {
-    if (info.freeze) {
-        eventListeners[info.parent]->freeze();
+void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
+    if (info->freeze) {
+        eventListeners[info->parent]->freeze();
     }
 
-    if (info.eventType == "field") {
-        std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(++lastId, info.parent, &data, &binder);
+    if (info->eventType == "void") {
+        return;
+    }
+
+    if (info->eventType == "field") {
+        std::unique_ptr<EventListener> fieldEventListener = std::make_unique<FieldEventListener>(++lastId, info->parent, &data, &binder);
         eventListeners[lastId] = std::move(fieldEventListener);
     }
 
-    if (info.eventType == "void") {
-        return;
+    if (info->eventType == "battle") {
+        std::shared_ptr<BattleEventListenerInfo> battleInfo = std::dynamic_pointer_cast<BattleEventListenerInfo>(info);
+        std::unique_ptr<EventListener> battleEventListener = std::make_unique<BattleEventListener>(++lastId, info->parent, &data, &binder, battleInfo->enemies);
+        eventListeners[lastId] = std::move(battleEventListener);
     }
 }

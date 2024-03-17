@@ -12,6 +12,31 @@ Ability::Ability(std::string name, std::string hint, bool team, bool multitarget
     this->stun = stun;
 }
 
+Ability::Ability(const Ability &other) {
+    name = other.name;
+    hint = other.hint;
+    team = other.team;
+    multitarget = other.multitarget;
+    damage = other.damage;
+    heal = other.heal;
+    healStatus = other.healStatus;
+    burn = other.burn;
+    stun = other.stun;
+}
+
+Ability& Ability::operator=(const Ability &other) {
+    name = other.name;
+    hint = other.hint;
+    team = other.team;
+    multitarget = other.multitarget;
+    damage = other.damage;
+    heal = other.heal;
+    healStatus = other.healStatus;
+    burn = other.burn;
+    stun = other.stun;
+    return *this;
+}
+
 bool Ability::get_team() const {
     return team;
 }

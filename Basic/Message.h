@@ -9,7 +9,7 @@ public:
     Message();
     Message(GameData delta, NewEventListenerInfo newEventListenerInfo, bool kill, int listenerId);
     GameData delta;
-    NewEventListenerInfo newEventListenerInfo;
+    std::shared_ptr<NewEventListenerInfo> newEventListenerInfo;
     bool kill;
     int listenerId;
     bool empty;

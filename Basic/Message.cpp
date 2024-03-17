@@ -2,7 +2,7 @@
 
 Message::Message() {
     delta = GameData();
-    newEventListenerInfo = NewEventListenerInfo();
+    newEventListenerInfo = std::make_shared<NewEventListenerInfo>();
     kill=false;
     listenerId=0;
     empty=true;
@@ -10,7 +10,7 @@ Message::Message() {
 
 Message::Message(GameData newDelta, NewEventListenerInfo newNewEventListenerInfo, bool newKill, int newListenerId) {
     delta = newDelta;
-    newEventListenerInfo = newNewEventListenerInfo;
+    newEventListenerInfo = std::make_shared<NewEventListenerInfo>(newNewEventListenerInfo);
     kill=newKill;
     listenerId=newListenerId;
     empty=false;

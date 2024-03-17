@@ -6,6 +6,8 @@ class Ability {
 public:
     Ability() = default;
     Ability(std:: string name, std::string hint, bool team, bool multitarget, double damage, double heal, bool healStatus, int burn, int stun);
+    Ability(const Ability &other);
+    Ability& operator=(const Ability &other);
 
     bool get_team() const;
     bool get_multitarget() const;
