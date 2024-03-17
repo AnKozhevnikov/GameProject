@@ -195,11 +195,14 @@ void Display::DrawText(std::string text, int x, int y, int maxLineLength) const 
     ++x;
     ++y;
     if(maxLineLength != -1) {
-        for (int i = maxLineLength; i < text.size(); ++i) {
-            text.insert(i, "\n");
+        for(int i = 0; i < text.size(); i += maxLineLength) {
+            mvwprintw(graphixWindow, y, x, text.substr(i, maxLineLength).c_str());
+            y++;
         }
     }
-    mvwprintw(graphixWindow, y, x, text.c_str());
+    else {
+        mvwprintw(graphixWindow, y, x, text.c_str());
+    }
     wrefresh(graphixWindow);
 }
 

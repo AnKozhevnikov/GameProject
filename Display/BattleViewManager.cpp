@@ -1,4 +1,5 @@
 #include "BattleViewManager.h"
+#include "BattleViewConstants.h"
 
 static std::pair<int, int> get_pos(int idx, bool team);
 
@@ -53,13 +54,13 @@ namespace BattleViewManager {
             if(abilities[pos] != nullptr) {
                 throw std::runtime_error("Ability already exists at this position");
             }
-            int x = AbilityX, y = AbilityY + pos * AbilityBoxHeight;
+            int x = BattleViewConstants::AbilityX, y = BattleViewConstants::AbilityY + pos * BattleViewConstants::AbilityHeight;
             abilities[pos] = std::make_shared<AbilityDrawer>(*pability, x, y);
             return abilities[pos];
         }
         for(int idx = 0; idx < 3; ++idx) {
             if(abilities[idx] == nullptr) {
-                int x = AbilityX, y = AbilityY + pos * AbilityBoxHeight;
+                int x = BattleViewConstants::AbilityX, y = BattleViewConstants::AbilityY + pos * BattleViewConstants::AbilityHeight;
                 abilities[idx] = std::make_shared<AbilityDrawer>(*pability, x, y);
                 return abilities[idx];
             }
@@ -87,11 +88,11 @@ namespace BattleViewManager {
 
 static std::pair<int, int> get_pos(int idx, bool team) {
     if(!team) { //Enemy team
-        return std::make_pair(BattleViewManager::lengthBetweenHeroes * (idx + 1) +
-                              BattleViewManager::HeroLength * idx, BattleViewManager::EnemyHeroesY);
+        return std::make_pair(BattleViewConstants::lengthBetweenHeroes * (idx + 1) +
+                BattleViewConstants::HeroLength * idx, BattleViewConstants::EnemyHeroesY);
     }
     else{
-        return std::make_pair(BattleViewManager::PlayerHeroesX + BattleViewManager::lengthBetweenHeroes * (idx + 1) +
-                              BattleViewManager::HeroLength * idx, BattleViewManager::PlayerHeroesY);
+        return std::make_pair(BattleViewConstants::PlayerHeroesX + BattleViewConstants::lengthBetweenHeroes * (idx + 1) +
+                BattleViewConstants::HeroLength * idx, BattleViewConstants::PlayerHeroesY);
     }
 }

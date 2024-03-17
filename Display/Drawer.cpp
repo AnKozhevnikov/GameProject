@@ -11,7 +11,8 @@ void Drawer::readSprite(std::string name) {
         for (int j=0; j<m; ++j) {
             unsigned char red, green, blue;
             sprite.get_pixel(j, i, red, green, blue);
-            Drawer::sprites[name][i][j] = manager.CreateColorPair(-1, ColorManager::getColor(red, green, blue)) | ' ';
+            if (red != 0 || green != 29 || blue != 255) Drawer::sprites[name][i][j] = manager.CreateColorPair(-1, ColorManager::getColor(red, green, blue)) | ' ';
+            else Drawer::sprites[name][i][j] = 0;
         }
     }
 }
