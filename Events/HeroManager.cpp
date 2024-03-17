@@ -8,7 +8,8 @@ HeroManager::HeroManager(std::shared_ptr<Hero> newHero, std::shared_ptr<HeroDraw
     team = newTeam;
     burn = 0;
     stun = 0;
-    selected = false;
+    selectedAsSource = false;
+    selectedAsTarget = false;
 }
 
 HeroManager::HeroManager(const HeroManager &other) {
@@ -17,7 +18,8 @@ HeroManager::HeroManager(const HeroManager &other) {
     team = other.team;
     burn = other.burn;
     stun = other.stun;
-    selected = other.selected;
+    selectedAsSource = other.selectedAsSource;
+    selectedAsTarget = other.selectedAsTarget;
 }
 
 HeroManager& HeroManager::operator=(const HeroManager &other) {
@@ -26,7 +28,8 @@ HeroManager& HeroManager::operator=(const HeroManager &other) {
     team = other.team;
     burn = other.burn;
     stun = other.stun;
-    selected = other.selected;
+    selectedAsSource = other.selectedAsSource;
+    selectedAsTarget = other.selectedAsTarget;
     return *this;
 }
 
@@ -38,10 +41,22 @@ bool HeroManager::isBurned() const {
     return burn > 0;
 }
 
-void HeroManager::select(bool flag) {
-    if (hero->get_name() == "void") return;
-    selected = flag;
-    drawer->SetChoice(flag);
+bool HeroManager::isSelectedAsSource() const {
+    return selectedAsSource;
+}
+
+bool HeroManager::isSelectedAsTarget() const {
+    return selectedAsTarget;
+}
+
+void HeroManager::selectAsSource(bool flag) {
+    selectedAsSource = flag;
+    drawer->ApplyEffect(VisualEffect::SELECT_AS_SOURCE, flag);
+}
+
+void HeroManager::selectAsTarget(bool flag) {
+    selectedAsTarget = flag;
+    drawer->ApplyEffect(VisualEffect::SELECT_AS_TARGET, flag);
 }
 
 void HeroManager::applyStatus() {
@@ -95,6 +110,6 @@ void HeroManager::checkIfKilled() {
     }
 }
 
-void HeroManager::applyMove(int ability, std::vector<HeroManager*> toMoveAt) {
+void HeroManager::applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt) {
     
 }
