@@ -56,6 +56,18 @@ void Item::set_sprite(const std::vector<std::vector<unsigned>> &newSprite) {
     sprite = std::make_shared<std::vector<std::vector<unsigned>>>(newSprite);
 }
 
+std::string Item::get_description() const {
+    return *description;
+}
+
+std::shared_ptr<std::string> Item::get_description_ptr() const {
+    return description;
+}
+
+void Item::set_description(std::string newDescription) {
+    description = std::make_shared<std::string>(newDescription);
+}
+
 void Item::update(const Item &delta) {
     if (delta.name != nullptr) {
         name = delta.name;

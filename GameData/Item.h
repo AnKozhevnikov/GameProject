@@ -23,10 +23,15 @@ public:
     std::shared_ptr<std::vector<std::vector<unsigned>>> get_sprite_ptr() const;
     void set_sprite(const std::vector<std::vector<unsigned>> &newSprite);
 
+    std::string get_description() const;
+    std::shared_ptr<std::string> get_description_ptr() const;
+    void set_description(std::string newDescription);
+
     void update(const Item &delta);
 
 private:
     std::shared_ptr<std::string> name;
     std::shared_ptr<int> amount;
     std::shared_ptr<std::vector<std::vector<unsigned>>> sprite;
+    std::shared_ptr<std::string> description;
 };

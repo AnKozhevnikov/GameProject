@@ -11,11 +11,10 @@
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
-    data = GameData();
+    //data = GameData();
     binder = Binder();
     status = RUNNING;
     lastId = 0;
-    //addEventListener(std::make_shared<BattleEventListenerInfo>(0, false, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}));
     addEventListener(std::make_shared<MainMenuEventListenerInfo>(0, false));
 }
 
@@ -28,7 +27,7 @@ const Game::Status Game::get_status() const {
 }
 
 void Game::run() {
-    while (!data.get_is_game_over()) {
+    while (status == RUNNING) {
         char pressed = KeyboardListener::getKeyPressed(*display);
         Message message = binder.getFunc(pressed)();
         handle_message(message);
