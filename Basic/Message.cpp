@@ -8,9 +8,9 @@ Message::Message() {
     empty=true;
 }
 
-Message::Message(GameData newDelta, NewEventListenerInfo newNewEventListenerInfo, bool newKill, int newListenerId) {
+Message::Message(GameData newDelta, std::shared_ptr<NewEventListenerInfo> newNewEventListenerInfo, bool newKill, int newListenerId) {
     delta = newDelta;
-    newEventListenerInfo = std::make_shared<NewEventListenerInfo>(newNewEventListenerInfo);
+    newEventListenerInfo = newNewEventListenerInfo;
     kill=newKill;
     listenerId=newListenerId;
     empty=false;

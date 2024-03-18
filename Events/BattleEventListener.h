@@ -28,6 +28,7 @@ private:
     bool checkFailure();
     bool checkSuccess();
     Message checkEnd();
+    void clear();
 
     Message run();
 

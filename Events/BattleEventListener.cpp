@@ -2,6 +2,7 @@
 #include "NewEventListenerInfo.h"
 #include "BattleViewManager.h"
 #include "Display.h"
+#include "BattleSamples.h"
 #include <random>
 #include <ctime>
 
@@ -11,6 +12,10 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     this->data.set_is_game_over(parentData->get_is_game_over());
     this->data.set_heroes(parentData->get_heroes());
     this->data.set_inventory(parentData->get_inventory());
+
+    Display display;
+    display.ClearGraphixWindow();
+    display.SendEvent(WindowEvent(WindowEvent::INFO, "The battle has begun!"));
 
     for (int i=0; i<data->get_heroes_ptr()->size(); i++) {
         if (data->get_heroes_ptr()->at(i).get_name() != "void") {
@@ -27,11 +32,11 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     for (int i=0; i<enemies.size(); i++) {
         if (enemies[i].get_name() != "void") {
             they.push_back(std::make_shared<HeroManager>(std::make_shared<Hero>(enemies[i]), BattleViewManager::CreateHero(std::make_shared<Hero>(enemies[i]), 0, i), 0));
-            they[i]->drawer->SetName(data->get_heroes_ptr()->at(i).get_name());
-            they[i]->drawer->SetHp(data->get_heroes_ptr()->at(i).get_hp(), data->get_heroes_ptr()->at(i).get_maxHp());
-            they[i]->drawer->SetDmg(data->get_heroes_ptr()->at(i).get_dmg());
-            they[i]->drawer->SetAttention(data->get_heroes_ptr()->at(i).get_initiative());
-            they[i]->drawer->SetInitiative(data->get_heroes_ptr()->at(i).get_initiative());
+            they[i]->drawer->SetName(enemies[i].get_name());
+            they[i]->drawer->SetHp(enemies[i].get_hp(), enemies[i].get_maxHp());
+            they[i]->drawer->SetDmg(enemies[i].get_dmg());
+            they[i]->drawer->SetAttention(enemies[i].get_initiative());
+            they[i]->drawer->SetInitiative(enemies[i].get_initiative());
         }
         else they.push_back(std::make_shared<HeroManager>(std::make_shared<Hero>(enemies[i]), nullptr, 1));
     }
@@ -344,6 +349,11 @@ bool BattleEventListener::checkSuccess() {
     return true;
 }
 
+void BattleEventListener::clear() {
+    BattleViewManager::ClearAllHeroes();
+    BattleViewManager::ClearAllAbilities();
+}
+
 Message BattleEventListener::checkEnd() {
     bool fail = checkFailure();
     bool win = checkSuccess();
@@ -351,7 +361,8 @@ Message BattleEventListener::checkEnd() {
     std::vector<Hero> heroes;
     if (fail || win) {
         for (int i=0; i<we.size(); i++) {
-            heroes.push_back(*we[i]->hero);
+            if (!we[i]->dead) heroes.push_back(*we[i]->hero);
+            else heroes.push_back(SampleHeroes::voidHero);
         }
         data.set_heroes(heroes);
     }
@@ -360,12 +371,14 @@ Message BattleEventListener::checkEnd() {
         data.set_is_game_over(true);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::INFO, "You've lost"));
-        return Message(data, NewEventListenerInfo(), true, id);
+        clear();
+        return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
     }
     else if (win) {
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::INFO, "You've won"));
-        return Message(data, NewEventListenerInfo(), true, id);
+        clear();
+        return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
     }
     return Message();
 }

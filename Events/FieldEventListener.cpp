@@ -19,7 +19,7 @@ void FieldEventListener::init() {
     bind('a', &FieldEventListener::move, this, "move left", 2);
     bind('s', &FieldEventListener::move, this, "move right", 3);
     bind('d', &FieldEventListener::move, this, "move down", 4);
-    bind('f', &FieldEventListener::finish, this, "finish");
+    bind(27, &FieldEventListener::finish, this, "exit to main menu");
     bind(-1, &FieldEventListener::gameOverChecker, this, "game over checker");
 }
 
@@ -49,24 +49,23 @@ Message FieldEventListener::move(int direction) {
             display.SendEvent(WindowEvent(WindowEvent::DEBUG, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
             redraw();
             std::pair<int, int> newCurrent = data.get_field_ptr()->get_current();
-            NewEventListenerInfo info = (*data.get_field_ptr()->get_cells_ptr())[newCurrent.first][newCurrent.second].get_event();
+            std::shared_ptr<NewEventListenerInfo> info = (*data.get_field_ptr()->get_cells_ptr())[newCurrent.first][newCurrent.second].get_event_ptr();
             return Message(GameData(), info, false, id);
     } else {
         display.SendEvent(WindowEvent(WindowEvent::ACTION, "Invalid move"));
-        return Message(GameData(), NewEventListenerInfo(), false, id);
+        return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
     }
 }
 
 Message FieldEventListener::finish() {
-    data.set_is_game_over(true);
-    return Message(GameData(), NewEventListenerInfo(), false, id);
+    return Message(GameData(), std::make_shared<NewEventListenerInfo>(), true, id);
 }
 
 Message FieldEventListener::gameOverChecker() {
     if (data.get_is_game_over()) {
-        return Message(data, NewEventListenerInfo(), true, id);
+        return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
     }
-    return Message(GameData(), NewEventListenerInfo(), false, id);
+    return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
 }
 
 void FieldEventListener::redraw() {

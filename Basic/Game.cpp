@@ -6,6 +6,8 @@
 #include "FieldEventListenerInfo.h"
 #include "BattleEventListener.h"
 #include "BattleEventListenerInfo.h"
+#include "MainMenuEventListener.h"
+#include "MainMenuEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
@@ -13,8 +15,8 @@ Game::Game(const Display *newDisplay) {
     binder = Binder();
     status = RUNNING;
     lastId = 0;
-    //addEventListener(std::make_shared<FieldEventListenerInfo>(0, false));
-    addEventListener(std::make_shared<BattleEventListenerInfo>(0, false, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}));
+    //addEventListener(std::make_shared<BattleEventListenerInfo>(0, false, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}));
+    addEventListener(std::make_shared<MainMenuEventListenerInfo>(0, false));
 }
 
 const GameData& Game::get_data() const {
@@ -49,10 +51,9 @@ void Game::handle_message(const Message &message) {
         eventListeners[eventListeners[message.listenerId]->parent]->update(message.delta);
     }
     if (message.kill) {
-        if (eventListeners[message.listenerId]->parent != 0) {
-            eventListeners[eventListeners[message.listenerId]->parent]->unfreeze();
-        }
+        int parent = eventListeners[message.listenerId]->parent;
         kill(message.listenerId);
+        if (parent != 0) eventListeners[parent]->unfreeze();
     }
     if (message.newEventListenerInfo->eventType != "void") {
         addEventListener(message.newEventListenerInfo);
@@ -61,7 +62,6 @@ void Game::handle_message(const Message &message) {
 
 void Game::kill(int id) {
     display->ClearGraphixWindow();
-    if (eventListeners[id]->parent != 0) eventListeners[eventListeners[id]->parent]->unfreeze();
     std::map<BindedData, int> binded = eventListeners[id]->getBinded();
     for (auto it = binded.begin(); it != binded.end(); it++) {
         binder.stop(it->first);
@@ -86,6 +86,11 @@ void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
 
     if (info->eventType == "void") {
         return;
+    }
+
+    if (info->eventType == "MainMenu") {
+        std::unique_ptr<EventListener> mainMenuEventListener = std::make_unique<MainMenuEventListener>(++lastId, info->parent, &data, &binder);
+        eventListeners[lastId] = std::move(mainMenuEventListener);
     }
 
     if (info->eventType == "field") {

@@ -35,9 +35,6 @@ namespace BattleViewManager {
     }
     void RemoveHero(int id, bool team) {
         std::array<std::shared_ptr<HeroDrawer>, 3> &heroes = team ? playerHeroes : enemyHeroes;
-        if(heroes[id] == nullptr) {
-            throw std::runtime_error("No hero to remove");
-        }
         heroes[id] = nullptr;
     }
     PHeroDrawer GetHeroDrawer(int id, bool team) {

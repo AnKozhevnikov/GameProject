@@ -244,42 +244,42 @@ void HeroDrawer::ApplyStun(int state) {
         elapsed %= 1500;
         if(elapsed > 1350) {
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun10", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun10", '*'), x, y);
         } else if(elapsed > 1200) {
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun9", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun9", '*'), x, y);
         }
         else if (elapsed > 1050){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun8", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun8", '*'), x, y);
         }
         else if (elapsed > 900){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun7", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun7", '*'), x, y);
         }
         else if (elapsed > 750){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun6", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun6", '*'), x, y);
         }
         else if (elapsed > 600){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun5", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun5", '*'), x, y);
         }
         else if (elapsed > 450){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun4", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun4", '*'), x, y);
         }
         else if (elapsed > 300){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun3", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun3", '*'), x, y);
         }
         else if (elapsed > 150){
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun2", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun2", '*'), x, y);
         }
         else {
             display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun1", '*'), x - 3, y);
+            display.DrawSprite(Drawer::getSprite("stun1", '*'), x, y);
         }
     }
 }
