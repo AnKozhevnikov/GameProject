@@ -74,7 +74,7 @@ void HeroManager::applyStatus() {
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " gets damage from burning"));
         burn--;
         if (burn == 0) {
-            //drawer->ApplyEffect(VisualEffect::BURN, false);
+            drawer->ApplyEffect(VisualEffect::BURN, false);
             display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is no longer burning"));
         }
         else {
@@ -85,7 +85,7 @@ void HeroManager::applyStatus() {
         Display display;
         stun--;
         if (stun == 0) {
-            //drawer->ApplyEffect(VisualEffect::STUN, false);
+            drawer->ApplyEffect(VisualEffect::STUN, false);
             display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is no longer stunned"));
         }
         else {
@@ -100,12 +100,12 @@ void HeroManager::setBurn(int cnt) {
     if (hero->get_name() == "void") return;
     burn = cnt;
     if (burn > 0) { 
-        //drawer->ApplyEffect(VisualEffect::BURN, true);
+        drawer->ApplyEffect(VisualEffect::BURN, true);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will burn for " + std::to_string(burn) + " turns"));
     }
     else {
-        //drawer->ApplyEffect(VisualEffect::BURN, false);
+        drawer->ApplyEffect(VisualEffect::BURN, false);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is healed from burning"));
     }
@@ -115,12 +115,12 @@ void HeroManager::setStun(int cnt) {
     if (hero->get_name() == "void") return;
     stun = cnt;
     if (stun > 0) { 
-        //drawer->ApplyEffect(VisualEffect::STUN, true);
+        drawer->ApplyEffect(VisualEffect::STUN, true);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will be stunned for " + std::to_string(stun) + " turns"));
     }
     else {
-        //drawer->ApplyEffect(VisualEffect::BURN, false);
+        drawer->ApplyEffect(VisualEffect::STUN, false);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is healed from stunning"));
     }
@@ -130,7 +130,7 @@ void HeroManager::applyDamage(int dmg) {
     if (hero->get_name() == "void") return;
     if (dmg > hero->get_hp()) dmg = hero->get_hp();
     hero->set_hp(hero->get_hp() - dmg);
-    //drawer->ApplyEffect(VisualEffect::DAMAGE, true);
+    drawer->ApplyEffect(VisualEffect::DAMAGE, true);
     drawer->SetHp(hero->get_hp(), hero->get_maxHp());
     checkIfKilled();
 }
@@ -139,7 +139,7 @@ void HeroManager::applyHeal(double heal) {
     if (hero->get_name() == "void") return;
     if (heal * hero->get_maxHp() > hero->get_maxHp() - hero->get_hp()) heal = (double)(hero->get_maxHp() - hero->get_hp())/hero->get_maxHp();
     hero->set_hp(hero->get_hp() + hero->get_maxHp() * heal);
-    //drawer->ApplyEffect(VisualEffect::HEAL, true);
+    drawer->ApplyEffect(VisualEffect::HEAL, true);
     drawer->SetHp(hero->get_hp(), hero->get_maxHp());
 }
 
@@ -152,7 +152,7 @@ void HeroManager::applyStatusHeal() {
 void HeroManager::checkIfKilled() {
     if (hero->get_hp() <= 0) {
         dead = true;
-        //drawer->ApplyEffect(VisualEffect::DEAD, true);
+        drawer->ApplyEffect(VisualEffect::DEAD, true);
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is dead"));
     }
@@ -166,22 +166,18 @@ void HeroManager::applyMove(int ability, std::vector<std::shared_ptr<HeroManager
 
         if (curAbility.get_damage() > 0) {
             toMoveAt[i]->applyDamage(hero->get_dmg() * curAbility.get_damage());
-            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::DAMAGE, true);
         }
 
         if (curAbility.get_heal() > 0) {
             toMoveAt[i]->applyHeal(curAbility.get_heal());
-            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::HEAL, true);
         }
 
         if (curAbility.get_burn() > 0) {
             toMoveAt[i]->setBurn(curAbility.get_burn());
-            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::BURN, true);
         }
 
         if (curAbility.get_stun() > 0) {
             toMoveAt[i]->setStun(curAbility.get_stun());
-            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::STUN, true);
         }
     }
 }

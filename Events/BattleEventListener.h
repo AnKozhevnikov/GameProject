@@ -37,7 +37,7 @@ private:
     void initAbilityApply();
     Message selectHero(int id);
     Message selectAbility(int id);
-    Message updateAnimation();
+    bool updateAnimation();
 
     int CPUSelectAbility();
     int CPUSelectTarget();

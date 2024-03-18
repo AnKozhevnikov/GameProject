@@ -9,6 +9,6 @@ class Drawer {
 public:
     static inline std::map<std::string, std::vector<std::vector<unsigned int>>> sprites;
 
-    static void readSprite(std::string name);
-    static std::vector<std::vector<unsigned int>> getSprite(std::string name);
+    static void readSprite(std::string name, int c);
+    static std::vector<std::vector<unsigned int>> getSprite(std::string name, int c = -1);
 };

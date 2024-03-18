@@ -273,28 +273,20 @@ void BattleEventListener::initAbilityApply() {
     }
 
     order[currentInOrder]->applyMove(abilitySelected, toMoveAt);
-
-    bind(-1, &BattleEventListener::updateAnimation, this, "update animation");
+    step=3;
 }
 
-Message BattleEventListener::updateAnimation() {
+bool BattleEventListener::updateAnimation() {
     bool flag=true;
     for (int i=0; i<order.size(); i++) {
-        /*order[i]->drawer->update();
-        if (!order[i]->drawer->finished) {
-            flag = false;
-        }*/
+        flag &= order[i]->drawer->UpdateAnimations();
     }
-    if (flag) {
-        unbind(&BattleEventListener::updateAnimation, this, "update animation");
-        step = 3;
-    }
-
-    return Message();
+    return flag;
 }
 
 Message BattleEventListener::run() {
-    if (step == 3) {
+    bool flag = updateAnimation();
+    if (step == 3 && flag) {
         abilities = std::vector<std::shared_ptr<AbilityManager>>(3);
         BattleViewManager::ClearAllAbilities();
         order[currentInOrder]->selectAsSource(false);
@@ -367,12 +359,12 @@ Message BattleEventListener::checkEnd() {
     if (fail) {
         data.set_is_game_over(true);
         Display display;
-        display.SendEvent(WindowEvent(WindowEvent::ACTION, "You've lost"));
+        display.SendEvent(WindowEvent(WindowEvent::INFO, "You've lost"));
         return Message(data, NewEventListenerInfo(), true, id);
     }
     else if (win) {
         Display display;
-        display.SendEvent(WindowEvent(WindowEvent::ACTION, "You've won"));
+        display.SendEvent(WindowEvent(WindowEvent::INFO, "You've won"));
         return Message(data, NewEventListenerInfo(), true, id);
     }
     return Message();
