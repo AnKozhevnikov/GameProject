@@ -56,12 +56,6 @@ protected:
         }
     }
 
-    /*template<typename Callable, typename... Args>
-    void rebind(int c, Callable func, std::string label, Args &&... args) {
-        unbind(func, label, args...);
-        bind(c, func, this, label, args...);
-    }*/
-
     template<typename C, typename Callable, typename... Args>
     void unbind(Callable func, C listener, std::string label, Args &&... args) {
         BindedData wrapped = BindedData::wrap(listener, func, label, args...);

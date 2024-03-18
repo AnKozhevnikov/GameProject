@@ -52,6 +52,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     abilities.resize(3);
 
     initMove();
+    bind(-1, &BattleEventListener::checkEnd, this, "check end");
     bind(-1, &BattleEventListener::run, this, "run");
 }
 
@@ -73,7 +74,7 @@ void BattleEventListener::redraw() {
             we[i]->drawer->ApplyEffect(VisualEffect::BURN, we[i]->isBurned());
             we[i]->drawer->ApplyEffect(VisualEffect::SELECT_AS_SOURCE, we[i]->isSelectedAsSource());
             we[i]->drawer->ApplyEffect(VisualEffect::SELECT_AS_TARGET, we[i]->isSelectedAsTarget());
-            //also apply everything
+            we[i]->drawer->ApplyEffect(VisualEffect::DEAD, we[i]->isDead());
         }
     }
 
@@ -91,7 +92,7 @@ void BattleEventListener::redraw() {
             they[i]->drawer->ApplyEffect(VisualEffect::BURN, they[i]->isBurned());
             they[i]->drawer->ApplyEffect(VisualEffect::SELECT_AS_SOURCE, they[i]->isSelectedAsSource());
             they[i]->drawer->ApplyEffect(VisualEffect::SELECT_AS_TARGET, they[i]->isSelectedAsTarget());
-            //also apply everything
+            they[i]->drawer->ApplyEffect(VisualEffect::DEAD, they[i]->isDead());
         }
     }
 
@@ -105,7 +106,15 @@ void BattleEventListener::redraw() {
 }
 
 void BattleEventListener::initMove() {
-    moveFinished = false;
+    if (order[currentInOrder]->isDead()) {
+        currentInOrder++;
+        if (currentInOrder == order.size()) {
+            currentInOrder = 0;
+        }
+        initMove();
+        return;
+    }
+
     step = 0;
     teamSelect = false;
     heroSelected = -1;
@@ -116,7 +125,9 @@ void BattleEventListener::initMove() {
 
 void BattleEventListener::initSelectAbility() {
     if (order[currentInOrder]->isStunned()) {
-        moveFinished = true;
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, order[currentInOrder]->hero->get_name() + " is stunned and cannot move"));
+        step = 3;
         return;
     }
     if (order[currentInOrder]->team) {
@@ -133,6 +144,7 @@ void BattleEventListener::initSelectAbility() {
     }
     else {
         abilitySelected = CPUSelectAbility();
+        teamSelect = !(order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_team() ^ order[currentInOrder]->team);
         step=1;
         initSelectHero();
     }
@@ -163,12 +175,13 @@ Message BattleEventListener::selectAbility(int id) {
 void BattleEventListener::initSelectHero() {
     if (order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_multitarget() == 1) {
         heroSelected = 0;
-        moveFinished = true;
+        step = 2;
+        initAbilityApply();
     }
     else if (order[currentInOrder]->team) {
         if (teamSelect) {
             for (int i=0; i<we.size(); i++) {
-                if (we[i]->hero->get_name() != "void") {
+                if (we[i]->hero->get_name() != "void" && !we[i]->isDead()) {
                     heroSelected = i;
                     we[i]->selectAsTarget(true);
                     break;
@@ -177,7 +190,7 @@ void BattleEventListener::initSelectHero() {
         }
         else {
             for (int i=0; i<we.size(); i++) {
-                if (they[i]->hero->get_name() != "void") {
+                if (they[i]->hero->get_name() != "void" && !they[i]->isDead()) {
                     heroSelected = i;
                     they[i]->selectAsTarget(true);
                     break;
@@ -190,7 +203,8 @@ void BattleEventListener::initSelectHero() {
     }
     else {
         heroSelected = CPUSelectTarget();
-        moveFinished = true;
+        step = 2;
+        initAbilityApply();
     }
 }
 
@@ -207,7 +221,8 @@ Message BattleEventListener::selectHero(int id) {
         else {
             they[heroSelected]->selectAsTarget(false);
         }
-        moveFinished = true;
+        step = 2;
+        initAbilityApply();
     }
     else {
         if (teamSelect) {
@@ -216,7 +231,7 @@ Message BattleEventListener::selectHero(int id) {
 
             heroSelected += id;
             heroSelected = (heroSelected + we.size())%we.size();
-            while (we[heroSelected]->hero->get_name() == "void") {
+            while (we[heroSelected]->hero->get_name() == "void" || we[heroSelected]->isDead()) {
                 heroSelected += id;
                 heroSelected = (heroSelected + we.size())%we.size();
             }
@@ -228,7 +243,7 @@ Message BattleEventListener::selectHero(int id) {
 
             heroSelected += id;
             heroSelected = (heroSelected + they.size())%they.size();
-            while (they[heroSelected]->hero->get_name() == "void") {
+            while (they[heroSelected]->hero->get_name() == "void" || they[heroSelected]->isDead()) {
                 heroSelected += id;
                 heroSelected = (heroSelected + they.size())%they.size();
             }
@@ -238,36 +253,58 @@ Message BattleEventListener::selectHero(int id) {
     return Message();
 }   
 
-Message BattleEventListener::run() {
-    if (moveFinished) {
-        if (order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_multitarget() == 0) {
-            if (order[currentInOrder]->team) {
-                order[currentInOrder]->applyMove(abilitySelected, std::vector<std::shared_ptr<HeroManager>>{they[heroSelected]});
-            }
-            else {
-                order[currentInOrder]->applyMove(abilitySelected, std::vector<std::shared_ptr<HeroManager>>{we[heroSelected]});
-            }
+void BattleEventListener::initAbilityApply() {
+    std::vector<std::shared_ptr<HeroManager>> toMoveAt;
+    if (teamSelect) {
+        if (order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_multitarget() == 1) {
+            toMoveAt = std::vector<std::shared_ptr<HeroManager>>{we[0], we[1], we[2]};
         }
         else {
-            if (order[currentInOrder]->team) {
-                order[currentInOrder]->applyMove(abilitySelected, std::vector<std::shared_ptr<HeroManager>>{they[0], they[1], they[2]});
-            }
-            else {
-                order[currentInOrder]->applyMove(abilitySelected, std::vector<std::shared_ptr<HeroManager>>{we[0], we[1], we[2]});
-            }
+            toMoveAt = std::vector<std::shared_ptr<HeroManager>>{we[heroSelected]};
         }
+    }
+    else {
+        if (order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_multitarget() == 1) {
+            toMoveAt = std::vector<std::shared_ptr<HeroManager>>{they[0], they[1], they[2]};
+        }
+        else {
+            toMoveAt = std::vector<std::shared_ptr<HeroManager>>{they[heroSelected]};
+        }
+    }
+
+    order[currentInOrder]->applyMove(abilitySelected, toMoveAt);
+
+    bind(-1, &BattleEventListener::updateAnimation, this, "update animation");
+}
+
+Message BattleEventListener::updateAnimation() {
+    bool flag=true;
+    for (int i=0; i<order.size(); i++) {
+        /*order[i]->drawer->update();
+        if (!order[i]->drawer->finished) {
+            flag = false;
+        }*/
+    }
+    if (flag) {
+        unbind(&BattleEventListener::updateAnimation, this, "update animation");
+        step = 3;
+    }
+
+    return Message();
+}
+
+Message BattleEventListener::run() {
+    if (step == 3) {
         abilities = std::vector<std::shared_ptr<AbilityManager>>(3);
         BattleViewManager::ClearAllAbilities();
         order[currentInOrder]->selectAsSource(false);
         
+        order[currentInOrder]->applyStatus();
+
         currentInOrder++;
         if (currentInOrder == order.size()) {
-            for (int i=0; i<order.size(); i++) {
-                order[i]->applyStatus();
-            }
             currentInOrder = 0;
         }
-        moveFinished = false;
         initMove();
     }
     return Message();
@@ -284,34 +321,59 @@ int BattleEventListener::CPUSelectTarget() {
     while (true) {
         if (teamSelect) {
             ret = gen()%we.size();
-            if (we[ret]->hero->get_name() != "void") {
+            if (we[ret]->hero->get_name() != "void" && !we[ret]->isDead()) {
                 return ret;
             }
         }
         else {
             ret = gen()%they.size();
-            if (they[ret]->hero->get_name() != "void") {
+            if (they[ret]->hero->get_name() != "void" && !they[ret]->isDead()) {
                 return ret;
             }
         }
     }
 }
 
-Message BattleEventListener::checkFailure() {
+bool BattleEventListener::checkFailure() {
     for (int i=0; i<we.size(); i++) {
-        if (we[i]->hero->get_name() != "void") {
-            return Message();
+        if (we[i]->hero->get_name() != "void" && !we[i]->isDead()) {
+            return false;
         }
     }
-    data.set_is_game_over(true);
-    return Message(data, NewEventListenerInfo(), true, id);
+    return true;
 }
 
-Message BattleEventListener::checkSuccess() {
+bool BattleEventListener::checkSuccess() {
     for (int i=0; i<they.size(); i++) {
-        if (they[i]->hero->get_name() != "void") {
-            return Message();
+        if (they[i]->hero->get_name() != "void" && !they[i]->isDead()) {
+            return false;
         }
     }
-    return Message(data, NewEventListenerInfo(), true, id);
+    return true;
+}
+
+Message BattleEventListener::checkEnd() {
+    bool fail = checkFailure();
+    bool win = checkSuccess();
+
+    std::vector<Hero> heroes;
+    if (fail || win) {
+        for (int i=0; i<we.size(); i++) {
+            heroes.push_back(*we[i]->hero);
+        }
+        data.set_heroes(heroes);
+    }
+
+    if (fail) {
+        data.set_is_game_over(true);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, "You've lost"));
+        return Message(data, NewEventListenerInfo(), true, id);
+    }
+    else if (win) {
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, "You've won"));
+        return Message(data, NewEventListenerInfo(), true, id);
+    }
+    return Message();
 }

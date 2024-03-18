@@ -10,6 +10,7 @@ HeroManager::HeroManager(std::shared_ptr<Hero> newHero, std::shared_ptr<HeroDraw
     stun = 0;
     selectedAsSource = false;
     selectedAsTarget = false;
+    dead = false;
 }
 
 HeroManager::HeroManager(const HeroManager &other) {
@@ -20,6 +21,7 @@ HeroManager::HeroManager(const HeroManager &other) {
     stun = other.stun;
     selectedAsSource = other.selectedAsSource;
     selectedAsTarget = other.selectedAsTarget;
+    dead = other.dead;
 }
 
 HeroManager& HeroManager::operator=(const HeroManager &other) {
@@ -30,6 +32,7 @@ HeroManager& HeroManager::operator=(const HeroManager &other) {
     stun = other.stun;
     selectedAsSource = other.selectedAsSource;
     selectedAsTarget = other.selectedAsTarget;
+    dead = other.dead;
     return *this;
 }
 
@@ -39,6 +42,10 @@ bool HeroManager::isStunned() const {
 
 bool HeroManager::isBurned() const {
     return burn > 0;
+}
+
+bool HeroManager::isDead() const {
+    return dead;
 }
 
 bool HeroManager::isSelectedAsSource() const {
@@ -63,37 +70,77 @@ void HeroManager::applyStatus() {
     if (hero->get_name() == "void") return;
     if (burn > 0) {
         applyDamage(hero->get_maxHp() / 10);
-        checkIfKilled();
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " gets damage from burning"));
         burn--;
+        if (burn == 0) {
+            //drawer->ApplyEffect(VisualEffect::BURN, false);
+            display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is no longer burning"));
+        }
+        else {
+            display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will burn for " + std::to_string(burn) + " more turns"));
+        }
     }
     if (stun > 0) {
+        Display display;
         stun--;
+        if (stun == 0) {
+            //drawer->ApplyEffect(VisualEffect::STUN, false);
+            display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is no longer stunned"));
+        }
+        else {
+            display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will be stunned for " + std::to_string(stun) + " more turns"));
+        }
     }
+
+    checkIfKilled();
 }
 
 void HeroManager::setBurn(int cnt) {
     if (hero->get_name() == "void") return;
     burn = cnt;
-    //do something with drawer
+    if (burn > 0) { 
+        //drawer->ApplyEffect(VisualEffect::BURN, true);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will burn for " + std::to_string(burn) + " turns"));
+    }
+    else {
+        //drawer->ApplyEffect(VisualEffect::BURN, false);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is healed from burning"));
+    }
 }
 
 void HeroManager::setStun(int cnt) {
     if (hero->get_name() == "void") return;
     stun = cnt;
-    //do something with drawer
+    if (stun > 0) { 
+        //drawer->ApplyEffect(VisualEffect::STUN, true);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " will be stunned for " + std::to_string(stun) + " turns"));
+    }
+    else {
+        //drawer->ApplyEffect(VisualEffect::BURN, false);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is healed from stunning"));
+    }
 }
 
 void HeroManager::applyDamage(int dmg) {
     if (hero->get_name() == "void") return;
+    if (dmg > hero->get_hp()) dmg = hero->get_hp();
     hero->set_hp(hero->get_hp() - dmg);
-    //do something with drawer
+    //drawer->ApplyEffect(VisualEffect::DAMAGE, true);
+    drawer->SetHp(hero->get_hp(), hero->get_maxHp());
     checkIfKilled();
 }
 
 void HeroManager::applyHeal(double heal) {
     if (hero->get_name() == "void") return;
+    if (heal * hero->get_maxHp() > hero->get_maxHp() - hero->get_hp()) heal = (double)(hero->get_maxHp() - hero->get_hp())/hero->get_maxHp();
     hero->set_hp(hero->get_hp() + hero->get_maxHp() * heal);
-    //do something with drawer
+    //drawer->ApplyEffect(VisualEffect::HEAL, true);
+    drawer->SetHp(hero->get_hp(), hero->get_maxHp());
 }
 
 void HeroManager::applyStatusHeal() {
@@ -104,12 +151,37 @@ void HeroManager::applyStatusHeal() {
 
 void HeroManager::checkIfKilled() {
     if (hero->get_hp() <= 0) {
-        Hero deadHero = SampleHeroes::voidHero;
-        hero = std::make_shared<Hero>(deadHero);
-        //do something with drawer
+        dead = true;
+        //drawer->ApplyEffect(VisualEffect::DEAD, true);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, hero->get_name() + " is dead"));
     }
 }
 
 void HeroManager::applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt) {
-    
+    for (int i=0; i<toMoveAt.size(); i++) {
+        Ability curAbility = hero->get_abilities_ptr()->at(ability);
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::ACTION, "Ability " + curAbility.get_name() + " used on " + toMoveAt[i]->hero->get_name() + " by " + hero->get_name()));
+
+        if (curAbility.get_damage() > 0) {
+            toMoveAt[i]->applyDamage(hero->get_dmg() * curAbility.get_damage());
+            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::DAMAGE, true);
+        }
+
+        if (curAbility.get_heal() > 0) {
+            toMoveAt[i]->applyHeal(curAbility.get_heal());
+            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::HEAL, true);
+        }
+
+        if (curAbility.get_burn() > 0) {
+            toMoveAt[i]->setBurn(curAbility.get_burn());
+            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::BURN, true);
+        }
+
+        if (curAbility.get_stun() > 0) {
+            toMoveAt[i]->setStun(curAbility.get_stun());
+            //toMoveAt[i]->drawer->ApplyEffect(VisualEffect::STUN, true);
+        }
+    }
 }

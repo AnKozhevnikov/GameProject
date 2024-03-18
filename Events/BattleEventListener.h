@@ -18,24 +18,26 @@ private:
     std::vector<std::shared_ptr<HeroManager>> order;
     std::vector<std::shared_ptr<AbilityManager>> abilities;
 
-    int step; // 0 - select ability, 1 - select target
-    bool moveFinished;
+    int step; // 0 - select ability, 1 - select target, 2 - apply ability, 3 - finished
     bool teamSelect;
     int heroSelected;
     int abilitySelected;
 
     void redraw();
     
-    Message checkFailure();
-    Message checkSuccess();
+    bool checkFailure();
+    bool checkSuccess();
+    Message checkEnd();
 
     Message run();
 
     void initMove();
     void initSelectHero();
     void initSelectAbility();
+    void initAbilityApply();
     Message selectHero(int id);
     Message selectAbility(int id);
+    Message updateAnimation();
 
     int CPUSelectAbility();
     int CPUSelectTarget();

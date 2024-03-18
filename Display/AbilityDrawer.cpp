@@ -12,7 +12,7 @@ AbilityDrawer::AbilityDrawer(const Ability &ability_, int x_, int y_) {
     ability = ability_;
     Display display;
     display.DrawSprite(ability.get_sprite(), x + 1, y + 1);
-    display.DrawText(ability.get_hint(), x + BattleViewConstants::AbilityIconLength + 1, y + 1, BattleViewConstants::AbilityTextLength);
+    display.DrawText(ability.get_name() + ": " + ability.get_hint(), x + BattleViewConstants::AbilityIconLength + 1, y + 1, BattleViewConstants::AbilityTextLength);
 }
 
 AbilityDrawer::~AbilityDrawer() {

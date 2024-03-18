@@ -11,6 +11,7 @@ public:
 
     int burn;
     int stun;
+    bool dead;
     bool selectedAsSource;
     bool selectedAsTarget;
 
@@ -20,6 +21,7 @@ public:
 
     bool isStunned() const;
     bool isBurned() const;
+    bool isDead() const;
 
     bool isSelectedAsSource() const;
     bool isSelectedAsTarget() const;
