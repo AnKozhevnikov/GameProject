@@ -39,4 +39,6 @@ public:
     void applyStatusHeal();
 
     void applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt);
+
+    void applyPotion(std::shared_ptr<Ability> potion);
 };

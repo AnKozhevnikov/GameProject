@@ -122,18 +122,14 @@ bool HeroDrawer::ApplyHeal(bool state) {
         auto elapsed = std::chrono::duration_cast<milliseconds>(now - start[VisualEffect::HEAL]).count();
 
         if(elapsed > 1200) {
-            display.DrawSprite(my_sprite, x, y);
             is_running[VisualEffect::HEAL] = false;
             return false;
         } else if(elapsed > 900) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("heal3", '+'), x, y);
+            addLayer(Drawer::getSprite("heal3", '+'));
         } else if(elapsed > 600) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("heal2", '+'), x, y);
+            addLayer(Drawer::getSprite("heal2", '+'));
         } else if(elapsed > 300) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("heal1", '+'), x, y);
+            addLayer(Drawer::getSprite("heal1", '+'));
         }
         return true;
     }
@@ -152,18 +148,14 @@ bool HeroDrawer::ApplyDamage(bool state) {
         auto elapsed = std::chrono::duration_cast<milliseconds>(now - start[VisualEffect::DAMAGE]).count();
 
         if(elapsed > 1200) {
-            display.DrawSprite(my_sprite, x, y);
             is_running[VisualEffect::DAMAGE] = false;
             return false;
         } else if(elapsed > 900) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("damage3", '#'), x, y);
+            addLayer(Drawer::getSprite("damage3", '#'));
         } else if(elapsed > 600) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("damage2", '#'), x, y);
+            addLayer(Drawer::getSprite("damage2", '#'));
         } else if(elapsed > 300) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("damage1", '#'), x, y);
+            addLayer(Drawer::getSprite("damage1", '#'));
         }
         return true;
     }
@@ -179,22 +171,18 @@ void HeroDrawer::ApplyBurn(int state) {
     }
     if(state == 0) {
         is_running[VisualEffect::BURN] = false;
-        display.DrawSprite(my_sprite, x, y);
     }
     if(is_running[VisualEffect::BURN]) {
         auto now = std::chrono::system_clock::now();
         auto elapsed = std::chrono::duration_cast<milliseconds>(now - start[VisualEffect::BURN]).count();
         elapsed %= 900;
         if(elapsed > 600) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("fire3"), x, y);
+            addLayer(Drawer::getSprite("fire3"));
         } else if(elapsed > 300) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("fire2"), x, y);
+            addLayer(Drawer::getSprite("fire2"));
         }
-        else{
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("fire1"), x, y);
+        else {
+            addLayer(Drawer::getSprite("fire1"));
         }
     }
 }
@@ -208,21 +196,20 @@ void HeroDrawer::ApplyDead(int state) {
     }
     if(state == 0) {
         is_running[VisualEffect::DEAD] = false;
-        display.DrawSprite(my_sprite, x, y);
     }
     if(is_running[VisualEffect::DEAD]) {
         std::vector<std::vector<unsigned>> EmptyWindow(BattleViewConstants::HeroHeight, std::vector<unsigned> (BattleViewConstants::HeroLength, ' ' | manager.CreateColorPair(-1, -1)));
-        display.DrawSprite(EmptyWindow, x, y);
+        addLayer(EmptyWindow);
         auto now = std::chrono::system_clock::now();
         auto elapsed = std::chrono::duration_cast<milliseconds>(now - start[VisualEffect::DEAD]).count();
         elapsed %= 900;
         if(elapsed > 600) {
-            display.DrawSprite(Drawer::getSprite("dead3"), x, y);
+            addLayer(Drawer::getSprite("dead3"));
         } else if(elapsed > 300) {
-            display.DrawSprite(Drawer::getSprite("dead2"), x, y);
+            addLayer(Drawer::getSprite("dead2"));
         }
         else{
-            display.DrawSprite(Drawer::getSprite("dead1"), x, y);
+            addLayer(Drawer::getSprite("dead1"));
         }
     }
 }
@@ -243,43 +230,41 @@ void HeroDrawer::ApplyStun(int state) {
         auto elapsed = std::chrono::duration_cast<milliseconds>(now - start[VisualEffect::STUN]).count();
         elapsed %= 1500;
         if(elapsed > 1350) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun10", '*'), x, y);
+            addLayer(Drawer::getSprite("stun10", '*'));
         } else if(elapsed > 1200) {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun9", '*'), x, y);
+            addLayer(Drawer::getSprite("stun9", '*'));
         }
         else if (elapsed > 1050){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun8", '*'), x, y);
+            addLayer(Drawer::getSprite("stun8", '*'));
         }
         else if (elapsed > 900){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun7", '*'), x, y);
+            addLayer(Drawer::getSprite("stun7", '*'));
         }
         else if (elapsed > 750){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun6", '*'), x, y);
+            addLayer(Drawer::getSprite("stun6", '*'));
         }
         else if (elapsed > 600){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun5", '*'), x, y);
+            addLayer(Drawer::getSprite("stun5", '*'));
         }
         else if (elapsed > 450){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun4", '*'), x, y);
+            addLayer(Drawer::getSprite("stun4", '*'));
         }
         else if (elapsed > 300){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun3", '*'), x, y);
+            addLayer(Drawer::getSprite("stun3", '*'));
         }
         else if (elapsed > 150){
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun2", '*'), x, y);
+            addLayer(Drawer::getSprite("stun2", '*'));
         }
         else {
-            display.DrawSprite(my_sprite, x, y);
-            display.DrawSprite(Drawer::getSprite("stun1", '*'), x, y);
+            addLayer(Drawer::getSprite("stun1", '*'));
+        }
+    }
+}
+
+void HeroDrawer::addLayer(std::vector<std::vector<unsigned>> newLayer) {
+    for (int i=0; i<layers.size(); i++) {
+        for (int j=0; j<layers[i].size(); j++) {
+            if (newLayer[i][j] != 0) layers[i][j]=newLayer[i][j];
         }
     }
 }
@@ -288,12 +273,15 @@ bool HeroDrawer::UpdateAnimations() {
     Display display;
     ColorManager manager;
     std::vector<std::vector<unsigned>> EmptyWindow(BattleViewConstants::HeroHeight, std::vector<unsigned> (BattleViewConstants::HeroLength, ' ' | manager.CreateColorPair(-1, -1)));
-    display.DrawSprite(EmptyWindow, x, y);
-    display.DrawSprite(my_sprite, x, y);
+    layers = std::vector<std::vector<unsigned>>(BattleViewConstants::HeroHeight, std::vector<unsigned>(BattleViewConstants::HeroLength, 0));
+    addLayer(EmptyWindow);
+    addLayer(my_sprite);
     this->ApplyBurn(-1);
     this->ApplyStun(-1);
     int result = this->ApplyHeal(false) + this->ApplyDamage(false);
     this->ApplyDead(-1);
+
+    display.DrawSprite(layers, x, y);
 
     return result == 0;
 }

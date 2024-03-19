@@ -12,6 +12,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     this->data.set_is_game_over(parentData->get_is_game_over());
     this->data.set_heroes(parentData->get_heroes());
     this->data.set_inventory(parentData->get_inventory());
+    this->data.set_potion(parentData->get_potion());
 
     Display display;
     display.ClearGraphixWindow();
@@ -57,6 +58,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     abilities.resize(3);
 
     initMove();
+    bind(-1, &BattleEventListener::applyPotion, this, "apply potion");
     bind(-1, &BattleEventListener::checkEnd, this, "check end");
     bind(-1, &BattleEventListener::run, this, "run");
 }
@@ -146,6 +148,7 @@ void BattleEventListener::initSelectAbility() {
         bind('w', &BattleEventListener::selectAbility, this, "move selector to the up", -1);
         bind('s', &BattleEventListener::selectAbility, this, "move selector to the down", 1);
         bind(10, &BattleEventListener::selectAbility, this, "confirm selection", 0);
+        bind('i', &BattleEventListener::openInventory, this, "open inventory");
     }
     else {
         abilitySelected = CPUSelectAbility();
@@ -156,11 +159,15 @@ void BattleEventListener::initSelectAbility() {
 }
 
 Message BattleEventListener::selectAbility(int id) {
+    bool flag=updateAnimation();
+    if (!flag) return Message();
+
     if (id == 0) {
         if (order[currentInOrder]->team) {
             unbind(&BattleEventListener::selectAbility, this, "move selector to the up", -1);
             unbind(&BattleEventListener::selectAbility, this, "move selector to the down", 1);
             unbind(&BattleEventListener::selectAbility, this, "confirm selection", 0);
+            unbind(&BattleEventListener::openInventory, this, "open inventory");
         }
         step = 1;
         teamSelect = !(order[currentInOrder]->hero->get_abilities_ptr()->at(abilitySelected).get_team() ^ order[currentInOrder]->team);
@@ -214,6 +221,9 @@ void BattleEventListener::initSelectHero() {
 }
 
 Message BattleEventListener::selectHero(int id) {
+    bool flag=updateAnimation();
+    if (!flag) return Message();
+
     if (id == 0) {
         if (order[currentInOrder]->team) {
             unbind(&BattleEventListener::selectHero, this, "move selector to the left", -1);
@@ -256,7 +266,7 @@ Message BattleEventListener::selectHero(int id) {
         }
     }
     return Message();
-}   
+}
 
 void BattleEventListener::initAbilityApply() {
     std::vector<std::shared_ptr<HeroManager>> toMoveAt;
@@ -380,5 +390,36 @@ Message BattleEventListener::checkEnd() {
         clear();
         return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
     }
+    return Message();
+}
+
+Message BattleEventListener::applyPotion() {
+    bool flag=updateAnimation();
+    if (!flag) return Message();
+
+    if (data.get_potion_ptr()->get_name() == "void") return Message();
+
+    std::shared_ptr<Ability> potion = data.get_potion_ptr();
+    if (potion->get_team()) {
+        for (int i=0; i<we.size(); i++) {
+            if (we[i]->hero->get_name() != "void" && !we[i]->isDead()) {
+                we[i]->applyPotion(potion);
+            }
+        }
+    }
+    else {
+        for (int i=0; i<they.size(); i++) {
+            if (they[i]->hero->get_name() != "void" && !they[i]->isDead()) {
+                they[i]->applyPotion(potion);
+            }
+        }
+    }
+
+    data.set_potion(SampleAbilities::voidAbility);
+
+    return Message();
+}
+
+Message BattleEventListener::openInventory() {
     return Message();
 }

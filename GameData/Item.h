@@ -7,7 +7,7 @@
 class Item {
 public:
     Item() = default;
-    Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite);
+    Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description);
     Item(const Item &other);
     Item& operator=(const Item &other);
 

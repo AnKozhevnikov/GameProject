@@ -32,7 +32,8 @@ public:
     void unfreeze() {
         if (!frozen) return;
         for (auto it = binded.begin(); it != binded.end(); it++) {
-            (*binder).bind(it->second, it->first);
+            if (it->second!=-1) (*binder).bind(it->second, it->first);
+            else (*binder).bind_no_charachter(it->first);
         }
         redraw();
     }

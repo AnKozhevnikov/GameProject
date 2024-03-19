@@ -32,6 +32,7 @@ private:
     vector<vector<unsigned>> my_sprite;
     std::array<bool, VisualEffect::LAST> is_running;
     timevec start;
+    std::vector<std::vector<unsigned>> layers;
     void SetChoice(bool state, short clr) const;
     bool ApplyHeal(bool state);
     bool ApplyDamage(bool state);
@@ -48,5 +49,6 @@ public:
     void SetName(const std::string &name);
     void ApplyEffect(VisualEffect effect, bool state);
     bool UpdateAnimations(); //True if all animations are done
+    void addLayer(std::vector<std::vector<unsigned>> newLayer);
     ~HeroDrawer();
 };

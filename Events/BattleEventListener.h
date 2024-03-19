@@ -40,6 +40,10 @@ private:
     Message selectAbility(int id);
     bool updateAnimation();
 
+    Message applyPotion();
+
     int CPUSelectAbility();
     int CPUSelectTarget();
+
+    Message openInventory();
 };

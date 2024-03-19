@@ -1,23 +1,51 @@
 #include "GameData.h"
 #include "BattleSamples.h"
 
-GameData::GameData() {
-    isGameOver = std::make_shared<bool>(false);
-    field = std::make_shared<Field>(1);
-    heroes = std::make_shared<std::vector<Hero>>();
-    heroes->push_back(SampleHeroes::warrior);
-    heroes->push_back(SampleHeroes::mage);
-    heroes->push_back(SampleHeroes::archer);
-    dead = std::make_shared<Hero>(SampleHeroes::voidHero);
-    inventory = std::make_shared<Inventory>();
+GameData::GameData(bool flag) {
+    if (flag) {
+        isGameOver = std::make_shared<bool>(false);
+    
+        field = std::make_shared<Field>(1);
+
+        heroes = std::make_shared<std::vector<Hero>>();
+        heroes->push_back(SampleHeroes::warrior);
+        heroes->push_back(SampleHeroes::mage);
+        heroes->push_back(SampleHeroes::archer);
+
+        dead = std::make_shared<Hero>(SampleHeroes::voidHero);
+
+        inventory = std::make_shared<Inventory>();
+        inventory->set_gold(SampleItems::gold);
+        inventory->set_health_potions(SampleItems::healthPotions);
+        inventory->set_bombs(SampleItems::bombs);
+        inventory->set_fire_bombs(SampleItems::fireBombs);
+        inventory->set_stun_bombs(SampleItems::stunBombs);
+
+        potion = std::make_shared<Ability>(SampleAbilities::voidAbility);
+    }
+    else {
+        isGameOver = nullptr;
+        field = nullptr;
+        heroes = nullptr;
+        dead = nullptr;
+        inventory = nullptr;
+        potion = nullptr;
+    }
 }
 
 GameData::GameData(const GameData& other) {
-    isGameOver = std::make_shared<bool>(*other.isGameOver);
-    field = std::make_shared<Field>(*other.field);
-    heroes = std::make_shared<std::vector<Hero>>(*other.heroes);
-    dead = std::make_shared<Hero>(*other.dead);
-    inventory = std::make_shared<Inventory>(*other.inventory);
+    if (other.isGameOver != nullptr) isGameOver = std::make_shared<bool>(*other.isGameOver);
+    else isGameOver = nullptr;
+    if (other.field != nullptr) field = std::make_shared<Field>(*other.field);
+    else field = nullptr;
+    if (other.heroes != nullptr) heroes = std::make_shared<std::vector<Hero>>(*other.heroes);
+    else heroes = nullptr;
+    if (other.dead != nullptr) dead = std::make_shared<Hero>(*other.dead);
+    else dead = nullptr;
+    if (other.inventory != nullptr) inventory = std::make_shared<Inventory>(*other.inventory);
+    else inventory = nullptr;
+    if (other.potion != nullptr) potion = std::make_shared<Ability>(*other.potion);
+    else potion = nullptr;
 }
 
 GameData& GameData::operator=(const GameData& other) {
@@ -35,6 +63,9 @@ GameData& GameData::operator=(const GameData& other) {
 
     if (other.inventory != nullptr) inventory = std::make_shared<Inventory>(*other.inventory);
     else inventory = nullptr;
+
+    if (other.potion != nullptr) potion = std::make_shared<Ability>(*other.potion);
+    else potion = nullptr;
 
     return *this;
 }
@@ -99,16 +130,30 @@ void GameData::set_inventory(const Inventory& newInventory) {
     inventory = std::make_shared<Inventory>(newInventory);
 }
 
+Ability GameData::get_potion() const {
+    return *potion;
+}
+
+std::shared_ptr<Ability> GameData::get_potion_ptr() const {
+    return potion;
+}
+
+void GameData::set_potion(const Ability& newPotion) {
+    potion = std::make_shared<Ability>(newPotion);
+}
+
 void GameData::update(const GameData& delta) {
     if (delta.isGameOver != nullptr) {
         isGameOver = std::make_shared<bool>(*delta.isGameOver);
     }
 
     if (delta.field != nullptr) {
+        if (field == nullptr) field = std::make_shared<Field>();
         field->update(*delta.field);
     }
 
     if (delta.heroes != nullptr) {
+        if (heroes == nullptr) heroes = std::make_shared<std::vector<Hero>>();
         for (int i=0; i<delta.heroes->size(); i++) {
             if (i < heroes->size()) {
                 (*heroes)[i].update((*delta.heroes)[i]);
@@ -119,10 +164,17 @@ void GameData::update(const GameData& delta) {
     }
 
     if (delta.dead != nullptr) {
+        if (dead == nullptr) dead = std::make_shared<Hero>();
         dead->update(*delta.dead);
     }
 
     if (delta.inventory != nullptr) {
+        if (inventory == nullptr) inventory = std::make_shared<Inventory>();
         inventory->update(*delta.inventory);
+    }
+
+    if (delta.potion != nullptr) {
+        if (potion == nullptr) potion = std::make_shared<Ability>();
+        potion = std::make_shared<Ability>(*delta.potion);
     }
 }

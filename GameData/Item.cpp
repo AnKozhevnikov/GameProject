@@ -1,21 +1,24 @@
 #include "Item.h"
 
-Item::Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite) {
+Item::Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description) {
     this->name = std::make_shared<std::string>(name);
     this->amount = std::make_shared<int>(amount);
     this->sprite = std::make_shared<std::vector<std::vector<unsigned>>>(sprite);
+    this->description = std::make_shared<std::string>(description);
 }
 
 Item::Item(const Item &other) {
     name = std::make_shared<std::string>(*other.name);
     amount = std::make_shared<int>(*other.amount);
     sprite = std::make_shared<std::vector<std::vector<unsigned>>>(*other.sprite);
+    description = std::make_shared<std::string>(*other.description);
 }
 
 Item& Item::operator=(const Item &other) {
     name = std::make_shared<std::string>(*other.name);
     amount = std::make_shared<int>(*other.amount);
     sprite = std::make_shared<std::vector<std::vector<unsigned>>>(*other.sprite);
+    description = std::make_shared<std::string>(*other.description);
     
     return *this;
 }
@@ -70,13 +73,20 @@ void Item::set_description(std::string newDescription) {
 
 void Item::update(const Item &delta) {
     if (delta.name != nullptr) {
+        if (name == nullptr) name = std::make_shared<std::string>();
         name = delta.name;
     }
     if (delta.amount != nullptr) {
+        if (amount == nullptr) amount = std::make_shared<int>();
         amount = delta.amount;
     }
     if (delta.sprite != nullptr) {
+        if (sprite == nullptr) sprite = std::make_shared<std::vector<std::vector<unsigned>>>();
         sprite = delta.sprite;
+    }
+    if (delta.description != nullptr) {
+        if (description == nullptr) description = std::make_shared<std::string>();
+        description = delta.description;
     }
 }
 

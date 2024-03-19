@@ -148,27 +148,35 @@ void Hero::set_abilities(const std::vector<Ability> &new_abilities) {
 
 void Hero::update(const Hero &delta) {
     if (delta.name != nullptr) {
+        if (name == nullptr) name = std::make_shared<std::string>();
         name = std::make_shared<std::string>(*delta.name);
     }
     if (delta.maxHp != nullptr) {
+        if (maxHp == nullptr) maxHp = std::make_shared<int>();
         maxHp = std::make_shared<int>(*delta.maxHp);
     }
     if (delta.hp != nullptr) {
+        if (hp == nullptr) hp = std::make_shared<int>();
         hp = std::make_shared<int>(*delta.hp);
     }
     if (delta.dmg != nullptr) {
+        if (dmg == nullptr) dmg = std::make_shared<int>();
         dmg = std::make_shared<int>(*delta.dmg);
     }
     if (delta.initiative != nullptr) {
+        if (initiative == nullptr) initiative = std::make_shared<int>();
         initiative = std::make_shared<int>(*delta.initiative);
     }
     if (delta.attention != nullptr) {
+        if (attention == nullptr) attention = std::make_shared<int>();
         attention = std::make_shared<int>(*delta.attention);
     }
     if (delta.sprite != nullptr) {
+        if (sprite == nullptr) sprite = std::make_shared<std::vector<std::vector<unsigned>>>();
         sprite = std::make_shared<std::vector<std::vector<unsigned>>>(*delta.sprite);
     }
     if (delta.abilities != nullptr) {
+        if (abilities == nullptr) abilities = std::make_shared<std::vector<Ability>>();
         abilities = std::make_shared<std::vector<Ability>>(*delta.abilities);
     }
 }

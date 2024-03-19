@@ -181,3 +181,25 @@ void HeroManager::applyMove(int ability, std::vector<std::shared_ptr<HeroManager
         }
     }
 }
+
+void HeroManager::applyPotion(std::shared_ptr<Ability> potion) {
+    if (hero->get_name() == "void") return;
+    Display display;
+    display.SendEvent(WindowEvent(WindowEvent::ACTION, "Potion " + potion->get_name() + " used on " + hero->get_name()));
+
+    if (potion->get_damage() > 0) {
+        applyDamage(potion->get_damage() * hero->get_maxHp());
+    }
+
+    if (potion->get_heal() > 0) {
+        applyHeal(potion->get_heal());
+    }
+
+    if (potion->get_burn() > 0) {
+        setBurn(potion->get_burn());
+    }
+
+    if (potion->get_stun() > 0) {
+        setStun(potion->get_stun());
+    }
+}

@@ -11,4 +11,5 @@ private:
     Message move(int direction);
     Message finish();
     Message gameOverChecker();
+    Message openInventory();
 };

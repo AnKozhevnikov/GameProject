@@ -8,11 +8,13 @@
 #include "BattleEventListenerInfo.h"
 #include "MainMenuEventListener.h"
 #include "MainMenuEventListenerInfo.h"
+#include "InventoryEventListener.h"
+#include "InventoryEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
-    //data = GameData();
     binder = Binder();
+    data = GameData(true);
     status = RUNNING;
     lastId = 0;
     addEventListener(std::make_shared<MainMenuEventListenerInfo>(0, false));
@@ -33,8 +35,10 @@ void Game::run() {
         handle_message(message);
         const std::set<BindedData> noCharachter = binder.getNoCharachter();
         for (auto it : noCharachter) {
-            Message message = it.func();
-            handle_message(message);
+            if (binder.exists(it)) {
+                Message message = it.func();
+                handle_message(message);
+            }
         }
     }
     display->SendEvent(WindowEvent(WindowEvent::INFO, "Game over"));
@@ -60,7 +64,6 @@ void Game::handle_message(const Message &message) {
 }
 
 void Game::kill(int id) {
-    display->ClearGraphixWindow();
     std::map<BindedData, int> binded = eventListeners[id]->getBinded();
     for (auto it = binded.begin(); it != binded.end(); it++) {
         binder.stop(it->first);
@@ -76,6 +79,8 @@ void Game::kill(int id) {
     for (auto it=toErase.begin(); it!=toErase.end(); it++) {
         kill(*it);
     }
+
+    display->ClearGraphixWindow();
 }
 
 void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
@@ -101,5 +106,10 @@ void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
         std::shared_ptr<BattleEventListenerInfo> battleInfo = std::dynamic_pointer_cast<BattleEventListenerInfo>(info);
         std::unique_ptr<EventListener> battleEventListener = std::make_unique<BattleEventListener>(++lastId, info->parent, &data, &binder, battleInfo->enemies);
         eventListeners[lastId] = std::move(battleEventListener);
+    }
+
+    if (info->eventType == "inventory") {
+        std::unique_ptr<EventListener> inventoryEventListener = std::make_unique<InventoryEventListener>(++lastId, info->parent, &data, &binder);
+        eventListeners[lastId] = std::move(inventoryEventListener);
     }
 }

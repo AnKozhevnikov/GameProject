@@ -44,10 +44,12 @@ Field& Field::operator=(const Field &field) {
 
 void Field::update(const Field &delta) {
     if (delta.dimensions != nullptr) {
+        if (dimensions == nullptr) dimensions = std::make_shared<std::pair<int, int>>();
         dimensions = std::make_shared<std::pair<int, int>>(*delta.dimensions);
     }
 
     if (delta.cells != nullptr) {
+        if (cells == nullptr) cells = std::make_shared<std::vector<std::vector<Cell>>>(dimensions->first, std::vector<Cell>(dimensions->second));
         for (int i=0; i<(*delta.cells).size(); i++) {
             for (int j=0; j<(*delta.cells)[i].size(); j++) {
                 (*cells)[i][j].update((*delta.cells)[i][j]);
@@ -55,9 +57,11 @@ void Field::update(const Field &delta) {
         }
     }
     if (delta.current != nullptr) {
+        if (current == nullptr) current = std::make_shared<std::pair<int, int>>();
         current = std::make_shared<std::pair<int, int>>(*delta.current);
     }
     if (delta.depth != nullptr) {
+        if (depth == nullptr) depth = std::make_shared<int>();
         depth = std::make_shared<int>(*delta.depth);
     }
 }

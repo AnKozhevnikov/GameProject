@@ -88,18 +88,23 @@ void Inventory::set_stun_bombs(const Item &newStunBombs) {
 
 void Inventory::update(const Inventory &delta) {
     if (delta.gold != nullptr) {
+        if (gold == nullptr) gold = std::make_shared<Item>();
         gold = delta.gold;
     }
     if (delta.healthPotions != nullptr) {
+        if (healthPotions == nullptr) healthPotions = std::make_shared<Item>();
         healthPotions = delta.healthPotions;
     }
     if (delta.bombs != nullptr) {
+        if (bombs == nullptr) bombs = std::make_shared<Item>();
         bombs = delta.bombs;
     }
     if (delta.fireBombs != nullptr) {
+        if (fireBombs == nullptr) fireBombs = std::make_shared<Item>();
         fireBombs = delta.fireBombs;
     }
     if (delta.stunBombs != nullptr) {
+        if (stunBombs == nullptr) stunBombs = std::make_shared<Item>();
         stunBombs = delta.stunBombs;
     }
 }

@@ -27,9 +27,11 @@ Cell& Cell::operator=(const Cell &cell) {
 
 void Cell::update(const Cell &delta) {
     if (delta.event != nullptr) {
+        if (event == nullptr) event = std::make_shared<NewEventListenerInfo>();
         event = std::make_shared<NewEventListenerInfo>(*delta.event);
     }
     if (delta.roomType != nullptr) {
+        if (roomType == nullptr) roomType = std::make_shared<std::string>();
         roomType = std::make_shared<std::string>(*delta.roomType);
     }
 }

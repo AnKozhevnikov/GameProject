@@ -16,6 +16,8 @@ public:
     void unbind(int c);
     const std::set<BindedData>& getNoCharachter() const;
     void stop(BindedData wrapped);
+
+    bool exists(BindedData d);
 private:
     std::map<int, BindedData> binded;
     std::set<BindedData> noCharachter;

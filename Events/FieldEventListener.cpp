@@ -2,6 +2,7 @@
 #include "Display.h"
 #include "bitmap_image.hpp"
 #include "Drawer.h"
+#include "InventoryEventListenerInfo.h"
 
 FieldEventListener::FieldEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder){
     data.set_is_game_over(parentData->get_is_game_over());
@@ -19,6 +20,7 @@ void FieldEventListener::init() {
     bind('a', &FieldEventListener::move, this, "move left", 2);
     bind('s', &FieldEventListener::move, this, "move right", 3);
     bind('d', &FieldEventListener::move, this, "move down", 4);
+    bind('i', &FieldEventListener::openInventory, this, "open inventory");
     bind(27, &FieldEventListener::finish, this, "exit to main menu");
     bind(-1, &FieldEventListener::gameOverChecker, this, "game over checker");
 }
@@ -93,4 +95,8 @@ void FieldEventListener::redraw() {
     else if ((*cells)[current.first][current.second].get_room_type()=="room") {
         display.DrawSprite(Drawer::getSprite("CurrentRoom"), (current.first - 1)*2, current.second - 1);
     }
+}
+
+Message FieldEventListener::openInventory() {
+    return Message(data, std::make_shared<InventoryEventListenerInfo>(id, true), false, id);
 }

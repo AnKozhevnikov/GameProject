@@ -3,22 +3,25 @@
 #include "Drawer.h"
 #include "FieldEventListenerInfo.h"
 #include "BattleEventListenerInfo.h"
+#include "InventoryEventListenerInfo.h"
 #include "BattleSamples.h"
 
 MainMenuEventListener::MainMenuEventListener(const int newId, const int parent, const GameData *data, Binder *binder) : EventListener(newId, parent, data, binder) {
     bind(10, &MainMenuEventListener::startGame, this, "start game");
     bind(27, &MainMenuEventListener::exit, this, "exit");
     bind('b', &MainMenuEventListener::playbattleSample, this, "play battle sample");
+    bind('i', &MainMenuEventListener::openInventory, this, "open inventory");
     redraw();
 }
 
 void MainMenuEventListener::redraw() {
     Display display;
+    display.ClearGraphixWindow();
     display.DrawSprite(Drawer::getSprite("Logo"), 0, 0);
 }
 
 Message MainMenuEventListener::startGame() {
-    return Message(GameData(), std::make_shared<FieldEventListenerInfo>(id, true), false, id);
+    return Message(GameData(true), std::make_shared<FieldEventListenerInfo>(id, true), false, id);
 }
 
 Message MainMenuEventListener::exit() {
@@ -27,5 +30,9 @@ Message MainMenuEventListener::exit() {
 }
 
 Message MainMenuEventListener::playbattleSample() {
-    return Message(GameData(), std::make_shared<BattleEventListenerInfo>(id, true, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}), false, id);
+    return Message(GameData(true), std::make_shared<BattleEventListenerInfo>(id, true, std::vector<Hero>{SampleHeroes::warrior, SampleHeroes::mage, SampleHeroes::archer}), false, id);
+}
+
+Message MainMenuEventListener::openInventory() {
+    return Message(GameData(true), std::make_shared<InventoryEventListenerInfo>(id, true), false, id);
 }

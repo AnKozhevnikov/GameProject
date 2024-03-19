@@ -11,4 +11,5 @@ private:
     Message startGame();
     Message exit();
     Message playbattleSample();
+    Message openInventory();
 };

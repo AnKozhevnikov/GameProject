@@ -34,6 +34,10 @@ const std::set<BindedData>& Binder::getNoCharachter() const {
     return noCharachter;
 }
 
+bool Binder::exists(BindedData d) {
+    return noCharachter.find(d) != noCharachter.end();
+}
+
 void Binder::stop(BindedData wrapped) {
     std::set<char> toErase;
     for (auto it = binded.begin(); it != binded.end(); it++) {

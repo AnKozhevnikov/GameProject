@@ -3,11 +3,12 @@
 #include "Field.h"
 #include "Hero.h"
 #include "Inventory.h"
+#include "HeroManager.h"
 #include <memory>
 
 class GameData {
 public:
-    GameData();
+    GameData(bool flag = false);
     GameData(const GameData& other);
     GameData& operator=(const GameData& other);
     
@@ -32,10 +33,17 @@ public:
     Inventory get_inventory() const;
     std::shared_ptr<Inventory> get_inventory_ptr() const;
     void set_inventory(const Inventory& newInventory);
+
+    Ability get_potion() const;
+    std::shared_ptr<Ability> get_potion_ptr() const;
+    void set_potion(const Ability& newPotion);
 private:
     std::shared_ptr<bool> isGameOver;
     std::shared_ptr<Field> field;
     std::shared_ptr<std::vector<Hero>> heroes;
     std::shared_ptr<Hero> dead;
     std::shared_ptr<Inventory> inventory;
+
+    //onle for battle use
+    std::shared_ptr<Ability> potion;
 };
