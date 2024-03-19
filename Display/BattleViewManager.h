@@ -13,9 +13,6 @@ typedef std::shared_ptr<Hero> PHero;
 typedef std::shared_ptr<AbilityDrawer> PAbilityDrawer;
 typedef std::shared_ptr<Ability> PAbility;
 
-
-static std::pair<int, int> get_pos(int idx, bool team);
-
 namespace BattleViewManager {
     PHeroDrawer CreateHero(PHero phero, bool team, int pos = -1);
     void RemoveHero(int id, bool team);
