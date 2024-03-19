@@ -21,7 +21,7 @@ ItemDrawer::ItemDrawer(PItem pitem_, int x_, int y_) {
     Display display;
     display.DrawSprite(*sprite, x, y + 1);
     display.DrawText(pitem->get_name(), x, y);
-    display.DrawText(pitem->get_name() + ": " + pitem->get_description(), x + InventoryConstants::ItemWidth + 1, y + 1, InventoryConstants::ItemHintLength);
+    display.DrawText(pitem->get_description(), x, y + InventoryConstants::ItemHeight + 3, InventoryConstants::ItemHintLength);
     display.DrawText("Amount: " + std::to_string(pitem->get_amount()), x, y + InventoryConstants::ItemHeight + 1);
 
 }
@@ -41,10 +41,10 @@ void ItemDrawer::Select(bool state) {
     std::vector<std::vector<unsigned>> empty(1,
                                              std::vector<unsigned> (InventoryConstants::ItemWidth, ' ' | manager.CreateColorPair(-1, -1)));
     if(state) {
-        display.DrawSprite(underline, x, y + InventoryConstants::ItemHeight);
+        display.DrawSprite(underline, x, y + InventoryConstants::ItemHeight + 2);
     }
     else {
-        display.DrawSprite(empty, x, y + InventoryConstants::ItemHeight);
+        display.DrawSprite(empty, x, y + InventoryConstants::ItemHeight + 2);
     }
 }
 

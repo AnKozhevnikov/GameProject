@@ -4,17 +4,17 @@
 
 namespace InventoryConstants {
     //for items itself
-    const int ItemWidth = 8;
-    const int ItemHeight = 4;
-    const int ItemHintLength = 10;
-    const int ItemBoxHeight = ItemHeight + 3; //1 сверху и 2 снизу
-    const int ItemBoxWidth = ItemWidth + ItemHintLength; //1 слева и 1 справа
+    const int ItemWidth = 18;
+    const int ItemHeight = 9;
+    const int ItemHintLength = ItemWidth;
+    const int ItemBoxHeight = ItemHeight + 5; //5 снизу
+    const int ItemBoxWidth = ItemWidth;
 
     //for inventory manager
     const int ItemsInRow = 5;
     const int ItemsInColumn = 5;
     const int ColumnsBetweenItems = 2;
-    const int RowsBetweenItems = 2;
+    const int RowsBetweenItems = 1;
 }
 
 #endif //GAMEPROJECT_INVENTORYCONSTANTS_H

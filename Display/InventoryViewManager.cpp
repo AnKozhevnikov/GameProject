@@ -13,10 +13,8 @@ namespace InventoryViewManager {
         items[lastItemIdx] = std::move(pitem);
         int x = (lastItemIdx % InventoryConstants::ItemsInRow) * (InventoryConstants::ItemBoxWidth + InventoryConstants::ColumnsBetweenItems);
         int y = (lastItemIdx / InventoryConstants::ItemsInRow) * (InventoryConstants::ItemBoxHeight + InventoryConstants::RowsBetweenItems);
-        itemDrawers[lastItemIdx] = std::make_shared<ItemDrawer>(items[lastItemIdx],
-                                                                x, y);
-        ++lastItemIdx;
-        return itemDrawers[lastItemIdx];
+        itemDrawers[lastItemIdx] = std::make_shared<ItemDrawer>(items[lastItemIdx], x, y);
+        return itemDrawers[lastItemIdx++];
     }
     void ClearAllItems() {
         for(int i = 0; i < InventoryConstants::ItemsInRow * InventoryConstants::ItemsInColumn; ++i) {
