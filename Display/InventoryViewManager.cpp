@@ -15,18 +15,15 @@ namespace InventoryViewManager {
         int y = (lastItemIdx / InventoryConstants::ItemsInRow) * (InventoryConstants::ItemBoxHeight + InventoryConstants::RowsBetweenItems);
         itemDrawers[lastItemIdx] = std::make_shared<ItemDrawer>(items[lastItemIdx],
                                                                 x, y);
+        ++lastItemIdx;
         return itemDrawers[lastItemIdx];
-    }
-    void RemoveItem(int x, int y) {
-        int idx = (y / (InventoryConstants::ItemBoxHeight + InventoryConstants::RowsBetweenItems)) * InventoryConstants::ItemsInRow +
-                  (x / (InventoryConstants::ItemBoxWidth + InventoryConstants::ColumnsBetweenItems));
-        items[idx] = nullptr;
-        itemDrawers[idx] = nullptr;
     }
     void ClearAllItems() {
         for(int i = 0; i < InventoryConstants::ItemsInRow * InventoryConstants::ItemsInColumn; ++i) {
-            RemoveItem(i % InventoryConstants::ItemsInRow, i / InventoryConstants::ItemsInRow);
+            itemDrawers[i] = nullptr;
+            items[i] = nullptr;
         }
+        lastItemIdx = 0;
     }
     PItemDrawer GetItemDrawer(int x, int y) {
         int id = (y / (InventoryConstants::ItemBoxHeight + InventoryConstants::RowsBetweenItems)) * InventoryConstants::ItemsInRow +
