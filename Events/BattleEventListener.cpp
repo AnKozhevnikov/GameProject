@@ -3,6 +3,7 @@
 #include "BattleViewManager.h"
 #include "Display.h"
 #include "BattleSamples.h"
+#include "BattleInventoryEventListenerInfo.h"
 #include <random>
 #include <ctime>
 
@@ -106,8 +107,11 @@ void BattleEventListener::redraw() {
     for (int i=0; i<abilities.size(); i++) {
         if (abilities[i] != nullptr) {
             BattleViewManager::RemoveAbility(i);
-            abilities[i] = nullptr;
-            abilities[i] = std::make_shared<AbilityManager>(abilities[i]->ability, BattleViewManager::CreateAbility(abilities[i]->ability, i));
+            abilities[i]->drawer = nullptr;
+            abilities[i]->drawer = BattleViewManager::CreateAbility(abilities[i]->ability, i);
+            if (i == abilitySelected) {
+                abilities[i]->select(true);
+            }
         }
     }
 }
@@ -421,5 +425,5 @@ Message BattleEventListener::applyPotion() {
 }
 
 Message BattleEventListener::openInventory() {
-    return Message();
+    return Message(GameData(), std::make_shared<BattleInventoryEventListenerInfo>(id, true), false, id);
 }

@@ -1,10 +1,11 @@
 #include "Item.h"
 
-Item::Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description) {
+Item::Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description, Ability ability) {
     this->name = std::make_shared<std::string>(name);
     this->amount = std::make_shared<int>(amount);
     this->sprite = std::make_shared<std::vector<std::vector<unsigned>>>(sprite);
     this->description = std::make_shared<std::string>(description);
+    this->ability = std::make_shared<Ability>(ability);
 }
 
 Item::Item(const Item &other) {
@@ -12,6 +13,7 @@ Item::Item(const Item &other) {
     amount = std::make_shared<int>(*other.amount);
     sprite = std::make_shared<std::vector<std::vector<unsigned>>>(*other.sprite);
     description = std::make_shared<std::string>(*other.description);
+    ability = std::make_shared<Ability>(*other.ability);
 }
 
 Item& Item::operator=(const Item &other) {
@@ -19,6 +21,7 @@ Item& Item::operator=(const Item &other) {
     amount = std::make_shared<int>(*other.amount);
     sprite = std::make_shared<std::vector<std::vector<unsigned>>>(*other.sprite);
     description = std::make_shared<std::string>(*other.description);
+    ability = std::make_shared<Ability>(*other.ability);
     
     return *this;
 }
@@ -69,6 +72,18 @@ std::shared_ptr<std::string> Item::get_description_ptr() const {
 
 void Item::set_description(std::string newDescription) {
     description = std::make_shared<std::string>(newDescription);
+}
+
+Ability Item::get_ability() const {
+    return *ability;
+}
+
+std::shared_ptr<Ability> Item::get_ability_ptr() const {
+    return ability;
+}
+
+void Item::set_ability(Ability newAbility) {
+    ability = std::make_shared<Ability>(newAbility);
 }
 
 void Item::update(const Item &delta) {

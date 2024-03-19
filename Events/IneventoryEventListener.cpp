@@ -24,12 +24,7 @@ void drawAttributes(std::shared_ptr<HeroDrawer> heroDrawer, std::shared_ptr<Hero
 void InventoryEventListener::redraw() {
     Display display;
     display.ClearGraphixWindow();
-    InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_gold_ptr());
-    InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_health_potions_ptr());
-    InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_bombs_ptr());
-    InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_fire_bombs_ptr());
-    InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_stun_bombs_ptr());
-
+    InventoryViewManager::ClearAllItems();
     InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_gold_ptr());
     InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_health_potions_ptr());
     InventoryViewManager::CreateItem(data.get_inventory_ptr()->get_bombs_ptr());

@@ -10,6 +10,8 @@
 #include "MainMenuEventListenerInfo.h"
 #include "InventoryEventListener.h"
 #include "InventoryEventListenerInfo.h"
+#include "BattleInventoryEventListener.h"
+#include "BattleInventoryEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
@@ -86,6 +88,7 @@ void Game::kill(int id) {
 void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
     if (info->freeze) {
         eventListeners[info->parent]->freeze();
+        display->ClearGraphixWindow();
     }
 
     if (info->eventType == "void") {
@@ -111,5 +114,10 @@ void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
     if (info->eventType == "inventory") {
         std::unique_ptr<EventListener> inventoryEventListener = std::make_unique<InventoryEventListener>(++lastId, info->parent, &data, &binder);
         eventListeners[lastId] = std::move(inventoryEventListener);
+    }
+
+    if (info->eventType == "battle inventory") {
+        std::unique_ptr<EventListener> battleInventoryEventListener = std::make_unique<BattleInventoryEventListener>(++lastId, info->parent, &data, &binder);
+        eventListeners[lastId] = std::move(battleInventoryEventListener);
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Ability.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -7,7 +8,7 @@
 class Item {
 public:
     Item() = default;
-    Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description);
+    Item(std::string name, int amount, std::vector<std::vector<unsigned>> sprite, std::string description, Ability ability);
     Item(const Item &other);
     Item& operator=(const Item &other);
 
@@ -27,6 +28,10 @@ public:
     std::shared_ptr<std::string> get_description_ptr() const;
     void set_description(std::string newDescription);
 
+    Ability get_ability() const;
+    std::shared_ptr<Ability> get_ability_ptr() const;
+    void set_ability(Ability newAbility);
+
     void update(const Item &delta);
 
 private:
@@ -34,4 +39,5 @@ private:
     std::shared_ptr<int> amount;
     std::shared_ptr<std::vector<std::vector<unsigned>>> sprite;
     std::shared_ptr<std::string> description;
+    std::shared_ptr<Ability> ability;
 };
