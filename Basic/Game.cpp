@@ -12,6 +12,8 @@
 #include "InventoryEventListenerInfo.h"
 #include "BattleInventoryEventListener.h"
 #include "BattleInventoryEventListenerInfo.h"
+#include "NpcEncounterEventListener.h"
+#include "NpcEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
@@ -123,5 +125,11 @@ void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
     if (info->eventType == "battle inventory") {
         std::unique_ptr<EventListener> battleInventoryEventListener = std::make_unique<BattleInventoryEventListener>(++lastId, info->parent, &data, &binder);
         eventListeners[lastId] = std::move(battleInventoryEventListener);
+    }
+
+    if (info->eventType == "npc") {
+        std::shared_ptr<NpcEventListenerInfo> npcInfo = std::dynamic_pointer_cast<NpcEventListenerInfo>(info);
+        std::unique_ptr<EventListener> npcEncounterEventListener = std::make_unique<NpcEncounterEventListener>(++lastId, info->parent, &data, &binder, npcInfo->hero, npcInfo->price);
+        eventListeners[lastId] = std::move(npcEncounterEventListener);
     }
 }

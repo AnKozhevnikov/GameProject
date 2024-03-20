@@ -26,7 +26,7 @@ namespace SampleHeroes {
 }
 
 namespace SampleItems {
-    static Item gold = Item("Gold", 100, Drawer::getSprite("SampleItem"), "Gold is used to buy items and abilities", SampleAbilities::voidAbility);
+    static Item gold = Item("Gold", 100, Drawer::getSprite("coin"), "Gold is used to buy items and abilities", SampleAbilities::voidAbility);
     static Item healthPotions = Item("Health Potions", 10, Drawer::getSprite("potion"), "Health Potions are used to heal your heroes", SampleAbilities::healPotion);
     static Item bombs = Item("Bombs", 10, Drawer::getSprite("bomb"), "Bombs are used to deal damage to enemies", SampleAbilities::bomb);
     static Item fireBombs = Item("Fire Bombs", 10, Drawer::getSprite("molotov"), "Fire Bombs are used to put enemies on fire", SampleAbilities::fireBomb);

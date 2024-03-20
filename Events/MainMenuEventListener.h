@@ -12,4 +12,5 @@ private:
     Message exit();
     Message playbattleSample();
     Message openInventory();
+    Message NpcEncounter();
 };
