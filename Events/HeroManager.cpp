@@ -143,10 +143,13 @@ void HeroManager::applyHeal(double heal) {
     drawer->SetHp(hero->get_hp(), hero->get_maxHp());
 }
 
-void HeroManager::applyStatusHeal() {
+void HeroManager::applyStatusHeal(bool state) {
     if (hero->get_name() == "void") return;
-    setBurn(0);
-    setStun(0);
+    if (state) {
+        setBurn(0);
+        setStun(0);
+        drawer->ApplyEffect(VisualEffect::HEAL_STATUS_EFFECTS, true);
+    }
 }
 
 void HeroManager::checkIfKilled() {
@@ -172,6 +175,10 @@ void HeroManager::applyMove(int ability, std::vector<std::shared_ptr<HeroManager
             toMoveAt[i]->applyHeal(curAbility.get_heal());
         }
 
+        if (curAbility.get_heal_status() > 0) {
+            toMoveAt[i]->applyStatusHeal(true);
+        }
+
         if (curAbility.get_burn() > 0) {
             toMoveAt[i]->setBurn(curAbility.get_burn());
         }
@@ -193,6 +200,10 @@ void HeroManager::applyPotion(std::shared_ptr<Ability> potion) {
 
     if (potion->get_heal() > 0) {
         applyHeal(potion->get_heal());
+    }
+
+    if (potion->get_heal_status() > 0) {
+        applyStatusHeal(potion->get_heal_status());
     }
 
     if (potion->get_burn() > 0) {

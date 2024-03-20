@@ -17,6 +17,7 @@ enum VisualEffect {
     BURN,
     STUN,
     HEAL,
+    HEAL_STATUS_EFFECTS,
     DEAD,
     SELECT_AS_SOURCE,
     SELECT_AS_TARGET,
@@ -36,6 +37,7 @@ private:
     void SetChoice(bool state, short clr) const;
     bool ApplyHeal(bool state);
     bool ApplyDamage(bool state);
+    bool ApplyHealStatusEffects(bool state);
 
     void ApplyBurn(int state); //1 - enable 0 - disable -1 - do nothing
     void ApplyStun(int state);

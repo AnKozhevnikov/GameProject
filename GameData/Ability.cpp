@@ -80,3 +80,7 @@ int Ability::get_stun() const {
     return stun;
 }
 
+bool Ability::get_heal_status() const {
+    return healStatus;
+}
+

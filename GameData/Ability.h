@@ -17,6 +17,7 @@ public:
     bool get_multitarget() const;
     double get_damage() const;
     double get_heal() const;
+    bool get_heal_status() const;
     int get_burn() const;
     int get_stun() const;
 private:

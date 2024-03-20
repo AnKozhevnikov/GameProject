@@ -36,7 +36,7 @@ public:
     void setStun(int cnt);
     void applyDamage(int dmg);
     void applyHeal(double heal);
-    void applyStatusHeal();
+    void applyStatusHeal(bool state);
 
     void applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt);
 
