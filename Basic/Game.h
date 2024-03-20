@@ -13,7 +13,7 @@ class Game {
 public:
     enum Status {
         RUNNING,
-        FAILURE
+        FINISHED
     };
 
     Game(const Display *display);

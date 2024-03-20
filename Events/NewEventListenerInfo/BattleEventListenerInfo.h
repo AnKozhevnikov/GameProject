@@ -6,7 +6,9 @@
 class BattleEventListenerInfo : public NewEventListenerInfo
 {
 public:
-    BattleEventListenerInfo() : NewEventListenerInfo() {};
+    BattleEventListenerInfo() : NewEventListenerInfo() {
+        eventType = "battle";
+    };
     BattleEventListenerInfo(int parent, bool freeze, std::vector<Hero> enemies) : NewEventListenerInfo(parent, freeze) {
         eventType = "battle";
         this->enemies = enemies;

@@ -7,10 +7,12 @@
 
 InventoryEventListener::InventoryEventListener(const int newId, const int parent, const GameData *data, Binder *binder) : EventListener(newId, parent, data, binder) {
     this->data.set_heroes(data->get_heroes());
+    this->data.set_dead(data->get_dead());
     this->data.set_inventory(data->get_inventory());
     drawers.resize(3);
     redraw();
     bind(27, &InventoryEventListener::exit, this, "exit");
+    bind(-1, &InventoryEventListener::update, this, "update");
 }
 
 void drawAttributes(std::shared_ptr<HeroDrawer> heroDrawer, std::shared_ptr<Hero> hero) {
@@ -45,9 +47,20 @@ void InventoryEventListener::redraw() {
         drawers[2] = std::make_shared<HeroDrawer>(std::make_shared<Hero>(data.get_heroes_ptr()->at(2)), 85, 31);
         drawAttributes(drawers[2], std::make_shared<Hero>(data.get_heroes_ptr()->at(2)));
     }
+
+    if (data.get_dead_ptr()->get_name() != "void") {
+        deadDrawer = std::make_shared<HeroDrawer>(data.get_dead_ptr(), 15, 31);
+        drawAttributes(deadDrawer, data.get_dead_ptr());
+        deadDrawer->ApplyEffect(VisualEffect::DEAD, true);
+    }
 }
 
 Message InventoryEventListener::exit() {
     InventoryViewManager::ClearAllItems();
     return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
+}
+
+Message InventoryEventListener::update() {
+    if (deadDrawer != nullptr) deadDrawer->UpdateAnimations();
+    return Message();
 }

@@ -115,6 +115,6 @@ void Field::set_cells(const std::vector<std::vector<Cell>> &new_cells) {
 }
 
 std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> Field::generate(int depth) {
-    std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> result = DungeonGenerator::generateDungeons(50, 50, 20);
+    std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> result = DungeonGenerator::generateDungeons(depth, 50, 50, 20);
     return result;
 }

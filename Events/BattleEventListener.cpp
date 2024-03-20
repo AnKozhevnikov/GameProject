@@ -14,6 +14,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
     this->data.set_heroes(parentData->get_heroes());
     this->data.set_inventory(parentData->get_inventory());
     this->data.set_potion(parentData->get_potion());
+    this->data.set_dead(parentData->get_dead());
 
     Display display;
     display.ClearGraphixWindow();
@@ -292,6 +293,12 @@ void BattleEventListener::initAbilityApply() {
     }
 
     order[currentInOrder]->applyMove(abilitySelected, toMoveAt);
+    for (int i=0; i<we.size(); i++) {
+        if (we[i]->isDead()) {
+            data.set_dead(*we[i]->hero);
+            data.get_dead_ptr()->set_hp(data.get_dead_ptr()->get_maxHp());
+        }
+    }
     step=3;
 }
 

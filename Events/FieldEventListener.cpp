@@ -48,14 +48,18 @@ Message FieldEventListener::move(int direction) {
         0 <= oldCurrent.second+delta.second && oldCurrent.second+delta.second < data.get_field_ptr()->get_dimensions().second &&
         (*data.get_field_ptr()->get_cells_ptr())[oldCurrent.first+delta.first][oldCurrent.second+delta.second].get_room_type()!="void") {
             data.get_field_ptr()->set_current(std::make_pair(oldCurrent.first+delta.first, oldCurrent.second+delta.second));
-            display.SendEvent(WindowEvent(WindowEvent::DEBUG, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
-            redraw();
+            //display.SendEvent(WindowEvent(WindowEvent::DEBUG, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
             std::pair<int, int> newCurrent = data.get_field_ptr()->get_current();
             std::shared_ptr<NewEventListenerInfo> info = (*data.get_field_ptr()->get_cells_ptr())[newCurrent.first][newCurrent.second].get_event_ptr();
+            std::vector<std::vector<Cell>> cells = data.get_field_ptr()->get_cells();
+            cells[newCurrent.first][newCurrent.second].set_event(NewEventListenerInfo());
+            cells[newCurrent.first][newCurrent.second].set_event_type("void");
+            data.get_field_ptr()->set_cells(cells);
+            redraw();
             return Message(GameData(), info, false, id);
     } else {
         display.SendEvent(WindowEvent(WindowEvent::ACTION, "Invalid move"));
-        return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
+        return Message();
     }
 }
 
@@ -65,6 +69,8 @@ Message FieldEventListener::finish() {
 
 Message FieldEventListener::gameOverChecker() {
     if (data.get_is_game_over()) {
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::INFO, "Game over"));
         return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
     }
     return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
@@ -79,11 +85,33 @@ void FieldEventListener::redraw() {
     std::shared_ptr<std::vector<std::vector<Cell>>> cells = field->get_cells_ptr();
     for (int i=0; i<dimensions.first; ++i) {
         for (int j=0; j<dimensions.second; ++j) {
-            if ((*cells)[i][j].get_room_type()=="corridor") {
-                display.DrawSprite(Drawer::getSprite("EmptyCorridor"), i*2, j);
+            if ((*cells)[i][j].get_room_type()=="roomborder" || (*cells)[i][j].get_room_type()=="void") {
+                continue;
             }
-            else if ((*cells)[i][j].get_room_type()=="room") {
-                display.DrawSprite(Drawer::getSprite("EmptyRoom"), (i - 1)*2, j - 1);
+
+            if ((*cells)[i][j].get_room_type()=="room") {
+                if ((*cells)[i][j].get_event_type() == "void")
+                    display.DrawSprite(Drawer::getSprite("EmptyRoom"), (i - 1)*2, j - 1);
+                else if ((*cells)[i][j].get_event_type() == "battle")
+                    display.DrawSprite(Drawer::getSprite("BattleRoom"), (i - 1)*2, j - 1);
+                else if ((*cells)[i][j].get_event_type() == "boss battle")
+                    display.DrawSprite(Drawer::getSprite("BossRoom"), (i - 1)*2, j - 1);
+                else if ((*cells)[i][j].get_event_type() == "altar")
+                    display.DrawSprite(Drawer::getSprite("AltarRoom"), (i - 1)*2, j - 1);
+            }
+            else if ((*cells)[i][j].get_room_type()=="corridor") {
+                if ((*cells)[i][j].get_event_type() == "void")
+                    display.DrawSprite(Drawer::getSprite("EmptyCorridor"), i*2, j);
+                else if ((*cells)[i][j].get_event_type() == "battle")
+                    display.DrawSprite(Drawer::getSprite("BattleCorridor"), i*2, j);
+                else if ((*cells)[i][j].get_event_type() == "trap")
+                    display.DrawSprite(Drawer::getSprite("TrapCorridor"), i*2, j);
+                else if ((*cells)[i][j].get_event_type() == "npc")
+                    display.DrawSprite(Drawer::getSprite("NpcCorridor"), i*2, j);
+                else if ((*cells)[i][j].get_event_type() == "revive")
+                    display.DrawSprite(Drawer::getSprite("ReviveCorridor"), i*2, j);
+                else if ((*cells)[i][j].get_event_type() == "chest")
+                    display.DrawSprite(Drawer::getSprite("ChestCorridor"), i*2, j);
             }
         }
     }

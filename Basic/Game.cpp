@@ -32,6 +32,11 @@ const Game::Status Game::get_status() const {
 
 void Game::run() {
     while (status == RUNNING) {
+        if (data.get_is_game_over()) {
+            status = FINISHED;
+            break;
+        }
+
         char pressed = KeyboardListener::getKeyPressed(*display);
         Message message = binder.getFunc(pressed)();
         handle_message(message);
@@ -43,7 +48,6 @@ void Game::run() {
             }
         }
     }
-    display->SendEvent(WindowEvent(WindowEvent::INFO, "Game over"));
 }
 
 void Game::handle_message(const Message &message) {

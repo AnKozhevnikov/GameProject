@@ -4,7 +4,9 @@
 
 class BattleInventoryEventListenerInfo : public NewEventListenerInfo {
 public:
-    BattleInventoryEventListenerInfo() : NewEventListenerInfo() {};
+    BattleInventoryEventListenerInfo() : NewEventListenerInfo() {
+        eventType = "battle inventory";
+    };
     BattleInventoryEventListenerInfo(int parent, bool freeze) : NewEventListenerInfo(parent, freeze) {
         eventType = "battle inventory";
     };

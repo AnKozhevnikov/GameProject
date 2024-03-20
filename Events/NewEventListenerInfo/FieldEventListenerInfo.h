@@ -3,7 +3,9 @@
 class FieldEventListenerInfo : public NewEventListenerInfo
 {
 public:
-    FieldEventListenerInfo() : NewEventListenerInfo() {};
+    FieldEventListenerInfo() : NewEventListenerInfo() {
+        eventType = "field";
+    };
     FieldEventListenerInfo(int parent, bool freeze) : NewEventListenerInfo(parent, freeze) {
         eventType = "field";
     };

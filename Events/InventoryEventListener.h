@@ -9,6 +9,8 @@ public:
 
 private:
     std::vector<std::shared_ptr<HeroDrawer>> drawers;
+    std::shared_ptr<HeroDrawer> deadDrawer;
     void redraw();
     Message exit();
+    Message update();
 };
