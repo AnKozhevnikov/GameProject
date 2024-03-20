@@ -69,8 +69,8 @@ void NpcEncounterEventListener::redraw() {
 }
 
 Message NpcEncounterEventListener::addToTeam(int pos) {
-    if (id >= 0 || id < we.size()) {
-        we[id]->hero = std::make_shared<Hero>(NewHero);
+    if (pos >= 0 && pos < we.size()) {
+        we[pos]->hero = std::make_shared<Hero>(NewHero);
         std::vector<Hero> updatedHeroes;
         for (const auto& heroManager : we) {
             updatedHeroes.push_back(*(heroManager->hero));

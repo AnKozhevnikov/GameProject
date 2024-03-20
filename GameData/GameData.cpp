@@ -12,7 +12,7 @@ GameData::GameData(bool flag) {
         heroes->push_back(SampleHeroes::mage);
         heroes->push_back(SampleHeroes::archer);
 
-        dead = std::make_shared<Hero>(SampleHeroes::voidHero);
+        dead = std::make_shared<Hero>(SampleHeroes::warrior);
 
         inventory = std::make_shared<Inventory>();
         inventory->set_gold(SampleItems::gold);

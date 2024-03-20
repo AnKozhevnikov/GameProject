@@ -14,8 +14,6 @@
 #include "BattleInventoryEventListenerInfo.h"
 #include "NpcEncounterEventListener.h"
 #include "NpcEventListenerInfo.h"
-#include "ReviveEventListener.h"
-#include "ReviveEventListenerInfo.h"
 
 Game::Game(const Display *newDisplay) {
     display = newDisplay;
@@ -133,11 +131,5 @@ void Game::addEventListener(std::shared_ptr<NewEventListenerInfo> info) {
         std::shared_ptr<NpcEventListenerInfo> npcInfo = std::dynamic_pointer_cast<NpcEventListenerInfo>(info);
         std::unique_ptr<EventListener> npcEncounterEventListener = std::make_unique<NpcEncounterEventListener>(++lastId, info->parent, &data, &binder, npcInfo->hero, npcInfo->price);
         eventListeners[lastId] = std::move(npcEncounterEventListener);
-    }
-
-    if (info->eventType == "revive") {
-        std::shared_ptr<ReviveEventListenerInfo> reviveInfo = std::dynamic_pointer_cast<ReviveEventListenerInfo>(info);
-        std::unique_ptr<EventListener> reviveEventListener = std::make_unique<ReviveEventListener>(++lastId, info->parent, &data, &binder, reviveInfo->price);
-        eventListeners[lastId] = std::move(reviveEventListener);
     }
 }

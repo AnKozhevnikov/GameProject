@@ -1,5 +1,6 @@
 #include "Hero.h"
 #include "Drawer.h"
+#include "Item.h"
 
 namespace SampleAbilities {
     // order: name, hint, team, multitarget, damage, heal, healStatus, burn, stun
@@ -31,4 +32,15 @@ namespace SampleItems {
     static Item bombs = Item("Bombs", 10, Drawer::getSprite("bomb"), "Bombs are used to deal damage to enemies", SampleAbilities::bomb);
     static Item fireBombs = Item("Fire Bombs", 10, Drawer::getSprite("molotov"), "Fire Bombs are used to put enemies on fire", SampleAbilities::fireBomb);
     static Item stunBombs = Item("Stun Bombs", 10, Drawer::getSprite("flash"), "Stun Bombs are used to stun enemies", SampleAbilities::stunBomb);
+}
+
+namespace SampleSides {
+    static std::vector<Hero> good = std::vector<Hero>({
+        SampleHeroes::warrior, 
+        SampleHeroes::mage, 
+        SampleHeroes::archer});
+
+    static std::vector<Hero> bad = std::vector<Hero>({});
+
+    static std::vector<std::vector<Hero>> bossTeams = std::vector<std::vector<Hero>>({});
 }

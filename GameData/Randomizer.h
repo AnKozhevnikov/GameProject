@@ -7,12 +7,13 @@
 #include <tuple>
 #include <algorithm>
 
+#include "Hero.h"
+#include "BattleSamples.h"
+
 using namespace std;
 
-struct Coordinate;
-
 namespace Randomizer {
-int getRandom(int max) {
+static int getRandom(int max) {
     static random_device rd;
     static mt19937 gen(rd());
 
@@ -21,12 +22,17 @@ int getRandom(int max) {
     return dist(gen);
 }
 
-vector<Coordinate> randomShuffle(vector<Coordinate> vec) {
+template<typename T>
+static vector<T> randomShuffle(vector<T> vec) {
     static random_device rd;
     static mt19937 gen(rd());
 
     shuffle(vec.begin(), vec.end(), gen);
 
     return vec;
+}
+
+std::vector<Hero> getRandomSquad(int difficulty, int sz, bool side) {
+
 }
 }
