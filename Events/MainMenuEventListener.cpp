@@ -6,6 +6,8 @@
 #include "InventoryEventListenerInfo.h"
 #include "NpcEventListenerInfo.h"
 #include "BattleSamples.h"
+#include "ReviveEventListenerInfo.h"
+#include "ReviveEventListener.h"
 
 MainMenuEventListener::MainMenuEventListener(const int newId, const int parent, const GameData *data, Binder *binder) : EventListener(newId, parent, data, binder) {
     bind(10, &MainMenuEventListener::startGame, this, "start game");
@@ -13,6 +15,7 @@ MainMenuEventListener::MainMenuEventListener(const int newId, const int parent, 
     bind('b', &MainMenuEventListener::playbattleSample, this, "play battle sample");
     bind('i', &MainMenuEventListener::openInventory, this, "open inventory");
     bind('e', &MainMenuEventListener::NpcEncounter, this, "encounter NPC");
+    bind('r', &MainMenuEventListener::revive, this, "revive");
     redraw();
 }
 
@@ -41,4 +44,8 @@ Message MainMenuEventListener::openInventory() {
 
 Message MainMenuEventListener::NpcEncounter() {
     return Message(GameData(true), std::make_shared<NpcEventListenerInfo>(id, true, SampleHeroes::mage, 50), false, id);
+}
+
+Message MainMenuEventListener::revive() {
+    return Message(GameData(true), std::make_shared<ReviveEventListenerInfo>(id, true, 50), false, id);
 }

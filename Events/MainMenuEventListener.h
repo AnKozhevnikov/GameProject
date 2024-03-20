@@ -13,4 +13,5 @@ private:
     Message playbattleSample();
     Message openInventory();
     Message NpcEncounter();
+    Message revive();
 };
