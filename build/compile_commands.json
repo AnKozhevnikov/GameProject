@@ -1,0 +1,170 @@
+[
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/main.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/main.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/main.cpp",
+  "output": "CMakeFiles/game.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Manager.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Manager.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Manager.cpp",
+  "output": "CMakeFiles/game.dir/Manager.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Basic/Game.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Basic/Game.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Basic/Game.cpp",
+  "output": "CMakeFiles/game.dir/Basic/Game.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Basic/KeyboardListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Basic/KeyboardListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Basic/KeyboardListener.cpp",
+  "output": "CMakeFiles/game.dir/Basic/KeyboardListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Basic/Message.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Basic/Message.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Basic/Message.cpp",
+  "output": "CMakeFiles/game.dir/Basic/Message.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/AbilityManager.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/AbilityManager.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/AbilityManager.cpp",
+  "output": "CMakeFiles/game.dir/Events/AbilityManager.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/BattleEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/BattleEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/BattleEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/BattleEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/BattleInventoryEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/BattleInventoryEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/BattleInventoryEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/BattleInventoryEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/FieldEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/FieldEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/FieldEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/FieldEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/HeroManager.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/HeroManager.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/HeroManager.cpp",
+  "output": "CMakeFiles/game.dir/Events/HeroManager.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/IneventoryEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/IneventoryEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/IneventoryEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/IneventoryEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/MainMenuEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/MainMenuEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/MainMenuEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/MainMenuEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Events/NpcEncounterEventListener.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Events/NpcEncounterEventListener.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Events/NpcEncounterEventListener.cpp",
+  "output": "CMakeFiles/game.dir/Events/NpcEncounterEventListener.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Ability.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Ability.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Ability.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Ability.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Cell.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Cell.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Cell.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Cell.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Field.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Field.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Field.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Field.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/GameData.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/GameData.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/GameData.cpp",
+  "output": "CMakeFiles/game.dir/GameData/GameData.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Hero.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Hero.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Hero.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Hero.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Inventory.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Inventory.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Inventory.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Inventory.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/GameData/Item.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/GameData/Item.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/GameData/Item.cpp",
+  "output": "CMakeFiles/game.dir/GameData/Item.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/AbilityDrawer.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/AbilityDrawer.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/AbilityDrawer.cpp",
+  "output": "CMakeFiles/game.dir/Display/AbilityDrawer.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/BattleViewManager.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/BattleViewManager.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/BattleViewManager.cpp",
+  "output": "CMakeFiles/game.dir/Display/BattleViewManager.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/Display.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/Display.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/Display.cpp",
+  "output": "CMakeFiles/game.dir/Display/Display.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/Drawer.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/Drawer.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/Drawer.cpp",
+  "output": "CMakeFiles/game.dir/Display/Drawer.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/HeroDrawer.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/HeroDrawer.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/HeroDrawer.cpp",
+  "output": "CMakeFiles/game.dir/Display/HeroDrawer.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/InventoryViewManager.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/InventoryViewManager.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/InventoryViewManager.cpp",
+  "output": "CMakeFiles/game.dir/Display/InventoryViewManager.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Display/ItemDrawer.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Display/ItemDrawer.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Display/ItemDrawer.cpp",
+  "output": "CMakeFiles/game.dir/Display/ItemDrawer.cpp.o"
+},
+{
+  "directory": "/Users/evgenijbojko/hse_project_game/GameProject/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin21-g++-13  -I/Users/evgenijbojko/hse_project_game/GameProject/Basic -I/Users/evgenijbojko/hse_project_game/GameProject/Display -I/Users/evgenijbojko/hse_project_game/GameProject/Events -I/Users/evgenijbojko/hse_project_game/GameProject/GameData -I/Users/evgenijbojko/hse_project_game/GameProject/Events/NewEventListenerInfo -I/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.6 -o CMakeFiles/game.dir/Basic/Binder/Binder.cpp.o -c /Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder/Binder.cpp",
+  "file": "/Users/evgenijbojko/hse_project_game/GameProject/Basic/Binder/Binder.cpp",
+  "output": "CMakeFiles/game.dir/Basic/Binder/Binder.cpp.o"
+}
+]

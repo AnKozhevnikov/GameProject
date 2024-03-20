@@ -40,7 +40,7 @@ namespace SampleSides {
         SampleHeroes::mage, 
         SampleHeroes::archer});
 
-    static std::vector<Hero> bad = std::vector<Hero>({});
+    static std::vector<std::vector<Hero>> evil = std::vector<std::vector<Hero>>({});
 
     static std::vector<std::vector<Hero>> bossTeams = std::vector<std::vector<Hero>>({});
 }
