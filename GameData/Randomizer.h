@@ -41,16 +41,16 @@ static vector<T> randomShuffle(vector<T> vec) {
 namespace StatsGenerator {
     static int calculateHealth(shared_ptr<int> baseHealth, int depth, int maxTeamHealth, bool side, int difficulty, bool& isBoss) {
         const double alpha = side ? 1.0 : 1.2;
-        const double beta = side ? 1.5 : 2.0;
+        const double beta = side ? 1.5 : 14.0 - getRandom(3);
         int health = (*baseHealth * pow(depth, alpha) + maxTeamHealth / beta) * (difficulty + isBoss + 1);
         isBoss = false;
         return health;
     }
 
     static int calculateDamage(shared_ptr<int> baseDamage, int depth, int maxTeamDamage, bool side, int difficulty, bool& isBoss) {
-        const double gamma = side ? 12.0 : 10.0;
+        const double gamma = side ? 12.0 : 15.0;
         const double delta = side ? 1.5 : 1.0;
-        const double epsilon = side ? 6.0 : 4.0;
+        const double epsilon = side ? 1.5 : 9.0 - getRandom(3);
         int damage = (*baseDamage * log(depth + delta) / log(gamma) + maxTeamDamage / epsilon) * (difficulty + isBoss +1);
         isBoss = false;
         return damage;

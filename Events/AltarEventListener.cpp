@@ -28,7 +28,7 @@ void AltarEventListener::init() {
 Message AltarEventListener::use() {
     altarStatus = "active";
     redraw();
-    int level = parentData->get_field_ptr()->get_depth();
+    int level = 1;
     int dice2 = Randomizer::getRandom(2);
     if (dice2 == 0) {
         for (int i = 0; i < 3; i++) {
@@ -54,14 +54,14 @@ Message AltarEventListener::use() {
     unbind(&AltarEventListener::destroy, this, "destroy the sanctuary");
     bind('e', &AltarEventListener::exit, this, "continue");    
 
-    return Message(data, std::make_shared<NewEventListenerInfo>(), false, id);
+    return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
 }
 
 Message AltarEventListener::destroy() {
     altarStatus = "destroyed";
     redraw();
-    int level = data.get_field_ptr()->get_depth();
-    if (Randomizer::getRandom(level) * Randomizer::getRandom(level) >= 2*level) {
+    int level = 1;
+    if (Randomizer::getRandom(level=1) * Randomizer::getRandom(level+1) >= 2*level) {
         int dice2 = Randomizer::getRandom(2);
         if (dice2 == 0) {
             for (int i = 0; i < 3; i++) {
@@ -110,7 +110,7 @@ Message AltarEventListener::destroy() {
     unbind(&AltarEventListener::destroy, this, "destroy the sanctuary");
     bind('e', &AltarEventListener::exit, this, "continue");
 
-    return Message(data, std::make_shared<NewEventListenerInfo>(), false, id);
+    return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
 }
 
 Message AltarEventListener::exit() {
