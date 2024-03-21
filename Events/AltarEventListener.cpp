@@ -61,7 +61,7 @@ Message AltarEventListener::destroy() {
     altarStatus = "destroyed";
     redraw();
     int level = 1;
-    if (Randomizer::getRandom(level=1) * Randomizer::getRandom(level+1) >= 2*level) {
+    if ((Randomizer::getRandom(level+1) + 1)* (Randomizer::getRandom(level+1) + 1) >= 2*level) {
         int dice2 = Randomizer::getRandom(2);
         if (dice2 == 0) {
             for (int i = 0; i < 3; i++) {
