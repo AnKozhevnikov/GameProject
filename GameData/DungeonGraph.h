@@ -375,34 +375,6 @@ void drawSimplePath(vector<vector<int> >& field,  Coordinate startDungeon, Coord
     }
 }
 
-std::shared_ptr<NewEventListenerInfo> generateEasyBattle(int depth) {
-    return std::make_shared<NewEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateMediumBattle(int depth) {
-    return std::make_shared<NewEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateBossBattle(int depth) {
-    return std::make_shared<NewEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateTrap(int depth) {
-    return std::make_shared<TrapEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateChest(int depth) {
-    return std::make_shared<ChestEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateAltar(int depth) {
-    return std::make_shared<AltarEventListenerInfo>();
-}
-
-std::shared_ptr<NewEventListenerInfo> generateRevive(int depth) {
-    return std::make_shared<ReviveEventListenerInfo>();
-}
-
 pair<vector<vector<Cell>>, pair<int, int>> generateDungeons(int depth, int height, int width, int count,  int shift_distance=8) {
     vector<vector<int> > field(height, vector<int>(width, 0));
 
@@ -529,21 +501,21 @@ pair<vector<vector<Cell>>, pair<int, int>> generateDungeons(int depth, int heigh
             } else if (field[i][j] == 3){
                 cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "roomborder", "void");
             } else if (field[i][j] == 4){
-                cells[i][j] = Cell(generateChest(depth), "corridor", "chest");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "corridor", "chest");
             } else if (field[i][j] == 5){
-                cells[i][j] = Cell(generateBossBattle(depth), "room", "boss battle");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "room", "boss battle");
             } else if (field[i][j] == 6){
-                cells[i][j] = Cell(generateTrap(depth), "corridor", "trap");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "corridor", "trap");
             } else if (field[i][j] == 7){
-                cells[i][j] = Cell(generateAltar(depth), "room", "altar");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "room", "altar");
             } else if (field[i][j] == 8){
-                cells[i][j] = Cell(generateMediumBattle(depth), "corridor", "battle");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "corridor", "battle");
             } else if (field[i][j] == 9){
-                cells[i][j] = Cell(generateEasyBattle(depth), "room", "battle");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "room", "battle");
             } else if (field[i][j] == 10){
-                cells[i][j] = Cell(generateRevive(depth), "corridor", "revive");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "corridor", "revive");
             } else if (field[i][j] == 11){
-                cells[i][j] = Cell(generateRevive(depth), "corridor", "npc");
+                cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "corridor", "npc");
             } else {
                 cells[i][j] = Cell(std::make_shared<NewEventListenerInfo>(), "void", "void");
             }

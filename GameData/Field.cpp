@@ -11,7 +11,7 @@ Field::Field() {
     cells=nullptr;
 }
 
-Field::Field(int current_depth) {
+Field::Field(int current_depth, std::shared_ptr<std::vector<Hero>> heroes) {
     dimensions = std::make_shared<std::pair<int, int>>(std::make_pair(50, 50));
     depth = std::make_shared<int>(current_depth);
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> new_field = generate(current_depth);

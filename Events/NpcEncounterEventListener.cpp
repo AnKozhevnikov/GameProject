@@ -45,21 +45,20 @@ NpcEncounterEventListener::NpcEncounterEventListener(const int newId, const int 
 void NpcEncounterEventListener::redraw() {
     Display display;
     display.ClearGraphixWindow();
-    int x = 48, y = 28;
+    std::vector<std::pair<int, int>> positions = {{25, 28}, {45, 28}, {65, 28}};
     for (int i=0; i<we.size(); i++) {
         if (we[i]->hero->get_name() != "void") {
             we[i]->drawer = nullptr;
-            we[i]->drawer = std::make_shared<HeroDrawer>(we[i]->hero, x, y);
+            we[i]->drawer = std::make_shared<HeroDrawer>(we[i]->hero, positions[i].first, positions[i].second);
             we[i]->drawer->SetName(we[i]->hero->get_name());
             we[i]->drawer->SetHp(we[i]->hero->get_hp(), we[i]->hero->get_maxHp());
             we[i]->drawer->SetDmg(we[i]->hero->get_dmg());
             we[i]->drawer->SetAttention(we[i]->hero->get_initiative());
             we[i]->drawer->SetInitiative(we[i]->hero->get_initiative());
-            x = x + 19;
         }
     }
     they->drawer = nullptr;
-    they->drawer = std::make_shared<HeroDrawer>(they->hero, 67, 5);
+    they->drawer = std::make_shared<HeroDrawer>(they->hero, 45, 5);
     they->drawer->SetName(NewHero.get_name());
     they->drawer->SetHp(NewHero.get_hp(), NewHero.get_maxHp());
     they->drawer->SetDmg(NewHero.get_dmg());
@@ -158,5 +157,5 @@ Message NpcEncounterEventListener::selectorCase(int id) {
 }
 
 Message NpcEncounterEventListener::Kill() {
-    return Message(GameData(), std::make_shared<NewEventListenerInfo>(), true, id);
+    return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
 }

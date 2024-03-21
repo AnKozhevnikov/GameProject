@@ -37,6 +37,7 @@ public:
     void applyDamage(int dmg);
     void applyHeal(double heal);
     void applyStatusHeal(bool state);
+    void applyIllumination(bool state);
 
     void applyMove(int ability, std::vector<std::shared_ptr<HeroManager>> toMoveAt);
 

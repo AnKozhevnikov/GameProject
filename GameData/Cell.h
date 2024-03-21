@@ -16,7 +16,7 @@ public:
 
     NewEventListenerInfo get_event() const;
     std::shared_ptr<NewEventListenerInfo> get_event_ptr() const;
-    void set_event(const NewEventListenerInfo &new_event_type);
+    void set_event(const std::shared_ptr<NewEventListenerInfo> &new_event_type);
 
     std::string get_room_type() const;
     std::shared_ptr<std::string> get_room_type_ptr() const;

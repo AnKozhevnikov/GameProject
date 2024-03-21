@@ -17,6 +17,7 @@ public:
 
     int getId() const { return id; }
     std::map<BindedData, int> getBinded() const { return binded; }
+    GameData* get_data_ptr() { return &data; }
 
     void update(const GameData &delta) {
         data.update(delta);

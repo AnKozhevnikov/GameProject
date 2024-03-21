@@ -46,8 +46,8 @@ void Cell::update(const Cell &delta) {
     }
 }
 
-void Cell::set_event(const NewEventListenerInfo& newEventType) {
-    event = std::make_shared<NewEventListenerInfo>(newEventType);
+void Cell::set_event(const std::shared_ptr<NewEventListenerInfo> &newEventType) {
+    event = newEventType;
 }
 
 NewEventListenerInfo Cell::get_event() const {

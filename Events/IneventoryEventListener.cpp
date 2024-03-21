@@ -5,10 +5,10 @@
 
 #include <memory>
 
-InventoryEventListener::InventoryEventListener(const int newId, const int parent, const GameData *data, Binder *binder) : EventListener(newId, parent, data, binder) {
-    this->data.set_heroes(data->get_heroes());
-    this->data.set_dead(data->get_dead());
-    this->data.set_inventory(data->get_inventory());
+InventoryEventListener::InventoryEventListener(const int newId, const int parent, const GameData *parentData, Binder *binder) : EventListener(newId, parent, parentData, binder) {
+    this->data.set_heroes(parentData->get_heroes());
+    this->data.set_dead(parentData->get_dead());
+    this->data.set_inventory(parentData->get_inventory());
     drawers.resize(3);
     redraw();
     bind(27, &InventoryEventListener::exit, this, "exit");

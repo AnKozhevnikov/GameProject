@@ -10,8 +10,4 @@ private:
     void redraw();
     Message startGame();
     Message exit();
-    Message playbattleSample();
-    Message openInventory();
-    Message NpcEncounter();
-    Message revive();
 };

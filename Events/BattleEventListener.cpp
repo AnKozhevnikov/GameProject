@@ -38,7 +38,7 @@ BattleEventListener::BattleEventListener(const int newId, const int parent, cons
             they[i]->drawer->SetName(enemies[i].get_name());
             they[i]->drawer->SetHp(enemies[i].get_hp(), enemies[i].get_maxHp());
             they[i]->drawer->SetDmg(enemies[i].get_dmg());
-            they[i]->drawer->SetAttention(enemies[i].get_initiative());
+            they[i]->drawer->SetAttention(enemies[i].get_attention());
             they[i]->drawer->SetInitiative(enemies[i].get_initiative());
         }
         else they.push_back(std::make_shared<HeroManager>(std::make_shared<Hero>(enemies[i]), nullptr, 1));
@@ -77,7 +77,7 @@ void BattleEventListener::redraw() {
             we[i]->drawer->SetName(we[i]->hero->get_name());
             we[i]->drawer->SetHp(we[i]->hero->get_hp(), we[i]->hero->get_maxHp());
             we[i]->drawer->SetDmg(we[i]->hero->get_dmg());
-            we[i]->drawer->SetAttention(we[i]->hero->get_initiative());
+            we[i]->drawer->SetAttention(we[i]->hero->get_attention());
             we[i]->drawer->SetInitiative(we[i]->hero->get_initiative());
             we[i]->drawer->ApplyEffect(VisualEffect::STUN, we[i]->isStunned());
             we[i]->drawer->ApplyEffect(VisualEffect::BURN, we[i]->isBurned());

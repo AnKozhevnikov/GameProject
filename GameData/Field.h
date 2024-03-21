@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Cell.h"
-
+#include "Hero.h"
 #include <vector>
 
 class Field {
 public:
     Field();
-    Field(int current_depth);
+    Field(int current_depth, std::shared_ptr<std::vector<Hero>> heroes);
     Field(const Field &other);
     Field& operator=(const Field &field);
 
@@ -28,8 +28,9 @@ public:
     std::vector<std::vector<Cell>> get_cells() const;
     std::shared_ptr<std::vector<std::vector<Cell>>> get_cells_ptr() const;
     void set_cells(const std::vector<std::vector<Cell>> &new_cells);
-private:
+
     std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> generate(int depth);
+private:
 
     std::shared_ptr<std::pair<int, int>> dimensions;
     std::shared_ptr<std::vector<std::vector<Cell>>> cells;

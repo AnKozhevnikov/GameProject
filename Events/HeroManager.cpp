@@ -152,6 +152,13 @@ void HeroManager::applyStatusHeal(bool state) {
     }
 }
 
+void HeroManager::applyIllumination(bool state) {
+    if (hero->get_name() == "void") return;
+    if (state) {
+        drawer->ApplyEffect(VisualEffect::HEAL_STATUS_EFFECTS, true);
+    }
+}
+
 void HeroManager::checkIfKilled() {
     if (hero->get_hp() <= 0) {
         dead = true;

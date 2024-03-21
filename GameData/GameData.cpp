@@ -1,18 +1,16 @@
 #include "GameData.h"
 #include "BattleSamples.h"
+#include "Randomizer.h"
 
 GameData::GameData(bool flag) {
     if (flag) {
         isGameOver = std::make_shared<bool>(false);
-    
-        field = std::make_shared<Field>(1);
 
-        heroes = std::make_shared<std::vector<Hero>>();
-        heroes->push_back(SampleHeroes::warrior);
-        heroes->push_back(SampleHeroes::mage);
-        heroes->push_back(SampleHeroes::archer);
+        heroes = std::make_shared<std::vector<Hero>>(Randomizer::getRandomSquad(1, 15, 5, 3, true, 0));
 
-        dead = std::make_shared<Hero>(SampleHeroes::warrior);
+        field = std::make_shared<Field>(1, heroes);
+
+        dead = std::make_shared<Hero>(SampleHeroes::voidHero);
 
         inventory = std::make_shared<Inventory>();
         inventory->set_gold(SampleItems::gold);
@@ -156,7 +154,7 @@ void GameData::update(const GameData& delta) {
         if (heroes == nullptr) heroes = std::make_shared<std::vector<Hero>>();
         for (int i=0; i<delta.heroes->size(); i++) {
             if (i < heroes->size()) {
-                (*heroes)[i].update((*delta.heroes)[i]);
+                heroes->at(i).update((*delta.heroes)[i]);
             } else {
                 heroes->push_back((*delta.heroes)[i]);
             }

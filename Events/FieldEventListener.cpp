@@ -3,26 +3,69 @@
 #include "bitmap_image.hpp"
 #include "Drawer.h"
 #include "InventoryEventListenerInfo.h"
+#include "EventGenerator.h"
 
-FieldEventListener::FieldEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder){
+FieldEventListener::FieldEventListener(const int newId, const int parent, const GameData *newData, Binder *binder) : EventListener(newId, parent, newData, binder) {
     data.set_is_game_over(parentData->get_is_game_over());
     data.set_field(parentData->get_field());
     data.set_heroes(parentData->get_heroes());
     data.set_inventory(parentData->get_inventory());
-    Display display;
-    display.SendEvent(WindowEvent(WindowEvent::INFO, "You are on the floor number " + std::to_string(data.get_field_ptr()->get_depth())));
-    init();
-    redraw();
-}
+    data.set_dead(parentData->get_dead());
+    data.set_potion(parentData->get_potion());
 
-void FieldEventListener::init() {
+    init();
+
     bind('w', &FieldEventListener::move, this, "move up", 1);
     bind('a', &FieldEventListener::move, this, "move left", 2);
     bind('s', &FieldEventListener::move, this, "move right", 3);
     bind('d', &FieldEventListener::move, this, "move down", 4);
     bind('i', &FieldEventListener::openInventory, this, "open inventory");
     bind(27, &FieldEventListener::finish, this, "exit to main menu");
-    bind(-1, &FieldEventListener::gameOverChecker, this, "game over checker");
+    bind(-1, &FieldEventListener::overChecker, this, "game over checker");
+}
+
+void FieldEventListener::init() {
+    bossAlive = true;
+
+    int maxHp = 0;
+    int maxDmg = 0;
+    for (int i=0; i<3; i++) {
+        if (data.get_heroes()[i].get_name() != "void") {
+            maxHp = max(maxHp, data.get_heroes()[i].get_maxHp());
+            maxDmg = max(maxDmg, data.get_heroes()[i].get_dmg());
+        }
+    }
+
+    for (int i=0; i<this->data.get_field_ptr()->get_dimensions().first; i++) {
+        for (int j=0; j<this->data.get_field_ptr()->get_dimensions().second; j++) {
+            if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_room_type() == "room") {
+                if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "battle") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateMediumBattle(id, this->data.get_field_ptr()->get_depth(), maxHp, maxDmg));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "boss battle") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateBossBattle(id, this->data.get_field_ptr()->get_depth(), maxHp, maxDmg));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "altar") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateAltar(id, this->data.get_field_ptr()->get_depth()));
+                }
+            }
+            else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_room_type() == "corridor") {
+                if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "battle") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateEasyBattle(id, this->data.get_field_ptr()->get_depth(), maxHp, maxDmg));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "trap") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateTrap(id, this->data.get_field_ptr()->get_depth()));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "npc") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateNpc(id, this->data.get_field_ptr()->get_depth()));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "revive") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateRevive(id, this->data.get_field_ptr()->get_depth()));
+                } else if (this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).get_event_type() == "chest") {
+                    this->data.get_field_ptr()->get_cells_ptr()->at(i).at(j).set_event(EventGenerator::generateChest(id, this->data.get_field_ptr()->get_depth()));
+                }
+            }
+        }
+    }
+
+    Display display;
+    display.SendEvent(WindowEvent(WindowEvent::INFO, "You are on the floor number " + std::to_string(data.get_field_ptr()->get_depth())));
+    redraw();
 }
 
 Message FieldEventListener::move(int direction) {
@@ -50,11 +93,12 @@ Message FieldEventListener::move(int direction) {
             data.get_field_ptr()->set_current(std::make_pair(oldCurrent.first+delta.first, oldCurrent.second+delta.second));
             //display.SendEvent(WindowEvent(WindowEvent::DEBUG, "Moved to " + std::to_string(data.get_field_ptr()->get_current().first) + " " + std::to_string(data.get_field_ptr()->get_current().second)));
             std::pair<int, int> newCurrent = data.get_field_ptr()->get_current();
-            std::shared_ptr<NewEventListenerInfo> info = (*data.get_field_ptr()->get_cells_ptr())[newCurrent.first][newCurrent.second].get_event_ptr();
-            std::vector<std::vector<Cell>> cells = data.get_field_ptr()->get_cells();
-            cells[newCurrent.first][newCurrent.second].set_event(NewEventListenerInfo());
-            cells[newCurrent.first][newCurrent.second].set_event_type("void");
-            data.get_field_ptr()->set_cells(cells);
+            std::shared_ptr<NewEventListenerInfo> info = data.get_field_ptr()->get_cells_ptr()->at(newCurrent.first).at(newCurrent.second).get_event_ptr();
+            if (data.get_field_ptr()->get_cells_ptr()->at(newCurrent.first).at(newCurrent.second).get_event_type() == "boss battle") {
+                bossAlive = false;
+            }
+            data.get_field_ptr()->get_cells_ptr()->at(newCurrent.first).at(newCurrent.second).set_event(std::make_shared<NewEventListenerInfo>());
+            data.get_field_ptr()->get_cells_ptr()->at(newCurrent.first).at(newCurrent.second).set_event_type("void");
             redraw();
             return Message(GameData(), info, false, id);
     } else {
@@ -67,11 +111,23 @@ Message FieldEventListener::finish() {
     return Message(GameData(), std::make_shared<NewEventListenerInfo>(), true, id);
 }
 
-Message FieldEventListener::gameOverChecker() {
+Message FieldEventListener::overChecker() {
     if (data.get_is_game_over()) {
         Display display;
         display.SendEvent(WindowEvent(WindowEvent::INFO, "Game over"));
         return Message(data, std::make_shared<NewEventListenerInfo>(), true, id);
+    }
+    if (!bossAlive) {
+        Display display;
+        display.SendEvent(WindowEvent(WindowEvent::INFO, "You have defeated the boss, entering the next level"));
+        int depth = data.get_field_ptr()->get_depth();
+        depth++;
+        data.get_field_ptr()->set_depth(depth);
+        std::pair<std::vector<std::vector<Cell>>, std::pair<int, int>> newField = data.get_field_ptr()->generate(depth);
+        data.get_field_ptr()->set_cells(newField.first);
+        data.get_field_ptr()->set_current(newField.second);
+        init();
+        return Message();
     }
     return Message(GameData(), std::make_shared<NewEventListenerInfo>(), false, id);
 }
@@ -126,5 +182,5 @@ void FieldEventListener::redraw() {
 }
 
 Message FieldEventListener::openInventory() {
-    return Message(data, std::make_shared<InventoryEventListenerInfo>(id, true), false, id);
+    return Message(GameData(), std::make_shared<InventoryEventListenerInfo>(id, true), false, id);
 }

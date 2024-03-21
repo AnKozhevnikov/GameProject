@@ -10,6 +10,8 @@ private:
     void redraw();
     Message move(int direction);
     Message finish();
-    Message gameOverChecker();
+    Message overChecker();
     Message openInventory();
+
+    bool bossAlive;
 };
