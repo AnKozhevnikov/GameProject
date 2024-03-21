@@ -25,7 +25,8 @@ void MainMenuEventListener::redraw() {
 }
 
 Message MainMenuEventListener::startGame() {
-    return Message(GameData(id), std::make_shared<FieldEventListenerInfo>(id, true), false, id);
+    data = GameData(id);
+    return Message(GameData(), std::make_shared<FieldEventListenerInfo>(id, true), false, id);
 }
 
 Message MainMenuEventListener::exit() {
